@@ -13,7 +13,7 @@ export default function Entry() {
         className="street-animation h-screen object-cover"
       />
 
-      <div className="container text-white flex items-center justify-between absolute w-full bottom-10 sm:bottom-20 underline flex-col sm:flex-row gap-5">
+      <div className="right-0 left-0 container text-white flex items-center justify-between absolute w-full bottom-10 sm:bottom-20 underline flex-col sm:flex-row gap-5">
         <Social />
       </div>
     </section>

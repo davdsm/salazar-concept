@@ -12,7 +12,7 @@ const clients = [
 export default function Clients() {
   return (
     <AnimationOnScroll animateIn="animate__fadeInUp">
-      <section className="container mt-16 pt-10 relative">
+      <section className="container mt-16 pt-10 relative max-w-none">
         <div id="clients" className="absolute -top-[104px]"></div>
 
         <h1 className="font-bold text-4xl sm:text-8xl uppercase">Clients</h1>
