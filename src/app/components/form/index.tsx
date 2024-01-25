@@ -86,15 +86,16 @@ export const services = [
   },
 ];
 
-export default function Form() {
-  const [servicesSelected, setServicesSelected] = useState(
-    services.map(({ name, details }) => ({
-      service: name,
-      selected: [details[details.length - 1]],
-    }))
-  );
+const initialValues = services.map(({ name, details }) => ({
+  service: name,
+  selected: [details[details.length - 1]],
+}));
 
-  const handleSubmit = (event: any) => {
+export default function Form() {
+  const [servicesSelected, setServicesSelected] = useState(initialValues);
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
 
     let serviceDetailsHtml = `${servicesSelected.map(
@@ -108,7 +109,7 @@ export default function Form() {
     `
     )}`;
 
-    fetch("http://api.davdsm.pt:8030/sendMail", {
+    const response = await fetch("http://api.davdsm.pt:8030/sendMail", {
       method: "POST",
       body: JSON.stringify({
         sender: "geral@davdsm.pt",
@@ -138,14 +139,13 @@ export default function Form() {
       },
     });
 
-    // console.log({
-    //   servicesSelected,
-    //   firstName: event.target[0].value,
-    //   lastName: event.target[1].value,
-    //   email: event.target[2].value,
-    //   interested: event.target[3].value,
-    //   message: event.target[4].value,
-    // });
+    if (response.status === 200) {
+      setServicesSelected(initialValues);
+      setMessage("Submetido com sucesso!");
+      event.target.reset();
+    } else {
+      setMessage("Algo correu mal!");
+    }
   };
 
   return (
@@ -157,7 +157,7 @@ export default function Form() {
         }
       />
 
-      <Talk handleSubmit={handleSubmit} />
+      <Talk handleSubmit={handleSubmit} message={message} />
     </>
   );
 }

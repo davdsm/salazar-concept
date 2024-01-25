@@ -25,20 +25,22 @@ const steps = [
 
 export default function Talk({
   handleSubmit,
+  message,
 }: {
   handleSubmit: (event: any) => void;
+  message: string;
 }) {
   return (
     <section className="container mt-10 pt-10 sm:mt-30 relative">
       <div id="talk" className="absolute -top-[104px]"></div>
 
-      <AnimationOnScroll  animateIn="animate__fadeIn">
+      <AnimationOnScroll animateIn="animate__fadeIn">
         <h1 className="font-bold text-4xl sm:text-8xl uppercase text-center">
           Work with us
         </h1>
       </AnimationOnScroll>
 
-      <AnimationOnScroll  animateIn="animate__fadeIn">
+      <AnimationOnScroll animateIn="animate__fadeIn">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-16 mt-14 sm:mt-20">
           <div>
             {steps.map(({ id, step, question, answer }) => (
@@ -62,7 +64,7 @@ export default function Talk({
             ))}
           </div>
 
-          <Form handleSubmit={handleSubmit} />
+          <Form handleSubmit={handleSubmit} message={message} />
         </div>
       </AnimationOnScroll>
     </section>

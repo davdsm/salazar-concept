@@ -31,8 +31,10 @@ const inputs = [
 
 export default function Form({
   handleSubmit,
+  message,
 }: {
   handleSubmit: (event: any) => void;
+  message: string;
 }) {
   return (
     <form onSubmit={handleSubmit}>
@@ -57,6 +59,8 @@ export default function Form({
       <button type="submit" className="uppercase font-bold">
         Send
       </button>
+
+      {message && <h3 className="mt-6 font-bold uppercase">{message}</h3>}
     </form>
   );
 }

@@ -84,10 +84,7 @@ export default function Header() {
 
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
-              <div
-                className="space-y-2 py-12 flex flex-col gap-8 animate__animated animate__fadeIn"
-                style={{ animationDelay: "4200ms !important" }}
-              >
+              <div className="space-y-2 py-12 flex flex-col gap-8">
                 <Links handleClick={toggleMenu} />
               </div>
             </div>

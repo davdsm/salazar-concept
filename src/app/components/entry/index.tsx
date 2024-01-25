@@ -14,7 +14,7 @@ export default function Entry() {
       />
 
       <Image
-        src="/logo.png"
+        src="/logo.gif"
         alt="Salazar Concept"
         fill
         className="object-contain animate__animated animate__fadeIn"
