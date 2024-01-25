@@ -1,17 +1,20 @@
 import { AnimationOnScroll } from "react-animation-on-scroll";
+import { Parallax } from "react-scroll-parallax";
 
 export default function Concept() {
   return (
     <div className="container pt-10 relative">
       <div id="concept" className="absolute -top-[104px]"></div>
 
-      <AnimationOnScroll   animateIn="animate__fadeIn">
-        <a className="underline" href="#">
-          Discover our work
-        </a>
-      </AnimationOnScroll>
+      <Parallax speed={-5}>
+        <AnimationOnScroll animateIn="animate__fadeInUp">
+          <a className="underline" href="#">
+            Discover our work
+          </a>
+        </AnimationOnScroll>
+      </Parallax>
 
-      <AnimationOnScroll   animateIn="animate__fadeIn">
+      <AnimationOnScroll animateIn="animate__fadeInUp">
         <div className="text-center mt-14 sm:mt-20">
           <h1 className="font-bold text-4xl sm:text-8xl uppercase">
             Find more <br />

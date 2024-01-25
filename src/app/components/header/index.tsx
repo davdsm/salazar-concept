@@ -13,7 +13,7 @@ export default function Header() {
   const toggleMenu = () => setIsOpen((prev) => !prev);
 
   return (
-    <header className="text-white z-10 w-full bg-black fixed">
+    <header className="text-white z-10 w-full bg-black fixed z-0">
       <nav
         className="container flex items-end justify-end relative py-10"
         aria-label="Global"
@@ -21,8 +21,8 @@ export default function Header() {
         <div className="absolute left-8 -bottom-2">
           <a
             href="#"
-            className="m-8 animate__animated animate__fadeIn"
-            style={{ animationDelay: "4200ms !important" }}
+            className="m-8 animate__animated animate__fadeInDown"
+            style={{ animationDelay: "4800ms !important" }}
           >
             <span className="sr-only">Salazar Concept</span>
             <Image
@@ -43,8 +43,8 @@ export default function Header() {
           </button>
         </div>
         <div
-          style={{ animationDelay: "4200ms !important" }}
-          className="hidden lg:flex lg:gap-x-12 animate__animated animate__fadeIn"
+          style={{ animationDelay: "4800ms !important" }}
+          className="hidden lg:flex lg:gap-x-12 animate__animated animate__fadeInDown"
         >
           <Links handleClick={toggleMenu} />
         </div>
@@ -60,8 +60,8 @@ export default function Header() {
           <div className="flex items-start justify-between">
             <a
               href="#"
-              className="ml-0.5 -mt-3 p-1.5 animate__animated animate__fadeIn"
-              style={{ animationDelay: "4200ms !important" }}
+              className="ml-0.5 -mt-3 p-1.5 animate__animated animate__fadeInDown"
+              style={{ animationDelay: "4800ms !important" }}
             >
               <span className="sr-only">Salazar Concept</span>
               <Image

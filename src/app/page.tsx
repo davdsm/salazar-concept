@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-
+import { ParallaxProvider } from "react-scroll-parallax";
 import Header from "@/app/components/header";
 import Entry from "@/app/components/entry";
 import Concept from "@/app/components/concept";
@@ -14,26 +13,28 @@ import Form from "@/app/components/form";
 
 export default function Home() {
   return (
-    <main className="main-animation">
-      <div className="bg-black">
-        <Loading />
+    <ParallaxProvider>
+      <main className="main-animation">
+        <div className="bg-black">
+          <Loading />
 
-        <Header />
+          <Header />
 
-        <Entry />
-      </div>
+          <Entry />
+        </div>
 
-      <Concept />
+        <Concept />
 
-      <Work />
+        <Work />
 
-      <Clients />
+        <Clients />
 
-      <Form />
+        <Form />
 
-      <Culture />
+        <Culture />
 
-      <Footer />
-    </main>
+        <Footer />
+      </main>
+    </ParallaxProvider>
   );
 }
