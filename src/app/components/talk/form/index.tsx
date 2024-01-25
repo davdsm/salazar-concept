@@ -29,9 +29,13 @@ const inputs = [
   },
 ];
 
-export default function Form() {
+export default function Form({
+  handleSubmit,
+}: {
+  handleSubmit: (event: any) => void;
+}) {
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       {inputs.map(({ id, ...rest }) => (
         <input
           key={id}
@@ -50,7 +54,9 @@ export default function Form() {
         required
       />
 
-      <button type="submit" className="uppercase font-bold">Send</button>
+      <button type="submit" className="uppercase font-bold">
+        Send
+      </button>
     </form>
   );
 }

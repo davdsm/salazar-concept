@@ -1,106 +1,61 @@
+import { AnimationOnScroll } from "react-animation-on-scroll";
+
 import Image from "next/image";
 
-const services = [
-  {
-    id: 1,
-    name: "Photography",
-    img: "/logo.svg",
-    details: [
-      "Fotografia editorial",
-      "Fotografia editorial",
-      "Fotografia editorial",
-      "Fotografia editorial",
-      "Fotografia editorial",
-      "Fotografia editorial",
-    ],
-  },
-  {
-    id: 2,
-    name: "Design",
-    img: "/logo.svg",
-    details: [
-      "Fotografia editorial",
-      "Fotografia editorial",
-      "Fotografia editorial",
-      "Fotografia editorial",
-      "Fotografia editorial",
-      "Fotografia editorial",
-    ],
-  },
-  {
-    id: 3,
-    name: "Video",
-    img: "/logo.svg",
-    details: [
-      "Fotografia editorial",
-      "Fotografia editorial",
-      "Fotografia editorial",
-      "Fotografia editorial",
-      "Fotografia editorial",
-      "Fotografia editorial",
-    ],
-  },
-  {
-    id: 4,
-    name: "Communication",
-    img: "/logo.svg",
-    details: [
-      "Fotografia editorial",
-      "Fotografia editorial",
-      "Fotografia editorial",
-      "Fotografia editorial",
-      "Fotografia editorial",
-      "Fotografia editorial",
-    ],
-  },
-  {
-    id: 5,
-    name: "Website",
-    img: "/logo.svg",
-    details: [
-      "Fotografia editorial",
-      "Fotografia editorial",
-      "Fotografia editorial",
-      "Fotografia editorial",
-      "Fotografia editorial",
-      "Fotografia editorial",
-    ],
-  },
-  {
-    id: 6,
-    name: "Marketing",
-    img: "/logo.svg",
-    details: [
-      "Fotografia editorial",
-      "Fotografia editorial",
-      "Fotografia editorial",
-      "Fotografia editorial",
-      "Fotografia editorial",
-      "Fotografia editorial",
-    ],
-  },
-];
+import { services } from "../form";
 
-export default function Services() {
+type servicesSelected = { service: string; selected: string[] }[];
+
+export default function Services({
+  servicesSelected,
+  changeSelectedServices,
+}: {
+  servicesSelected: servicesSelected;
+  changeSelectedServices: (newServices: servicesSelected) => void;
+}) {
+  const toggleService = (
+    isSelected: boolean,
+    serviceIndex: number,
+    serviceDetail: string
+  ) => {
+    const newServices = [...servicesSelected];
+
+    if (isSelected) {
+      newServices[serviceIndex].selected.splice(
+        newServices[serviceIndex].selected.indexOf(serviceDetail),
+        1
+      );
+      changeSelectedServices(newServices);
+      return;
+    }
+
+    newServices[serviceIndex].selected.push(serviceDetail);
+    changeSelectedServices(newServices);
+  };
+
   return (
     <section className="container pt-10 mt-20 sm:pt-20 relative">
       <div id="services" className="absolute -top-[104px]"></div>
 
-      <h1 className="font-bold text-4xl sm:text-8xl uppercase">Services</h1>
+      <AnimationOnScroll  animateIn="animate__fadeIn">
+        <h1 className="font-bold text-4xl sm:text-8xl uppercase">Services</h1>
 
-      <h3 className="font-bold mt-6 text-2xl">What are you searching?</h3>
+        <h3 className="font-bold mt-6 text-2xl">What are you searching?</h3>
 
-      <Image
-        src="/logo.gif"
-        alt="Salazar Concept"
-        width={350}
-        height={350}
-        className="absolute right-32 -top-24 hidden lg:inline"
-      />
+        <Image
+          src="/logo.gif"
+          alt="Salazar Concept"
+          width={350}
+          height={350}
+          className="absolute right-32 -top-24 hidden lg:inline"
+        />
+      </AnimationOnScroll>
 
       <div className="mt-6 sm:mt-10">
-        {services.map(({ id, img, name, details }) => (
-          <div
+        {services.map(({ id, img, name, details }, servicesIndex) => (
+          <AnimationOnScroll
+            
+            animateIn="animate__fadeIn"
             key={id}
             className="flex mb-8 flex-col md:flex-row items-center text-center md:text-left"
           >
@@ -111,19 +66,27 @@ export default function Services() {
               </h2>
 
               <div className="flex gap-3 mt-2 flex-wrap justify-center md:justify-start">
-                {details.map((detail, index) => (
-                  <p
-                    key={`${detail}-${index}`}
-                    className={`border border-black rounded-full px-1 py-1.5 text-xs uppercase ${
-                      index === details.length - 1 ? "bg-black text-white" : ""
-                    }`}
-                  >
-                    {detail}
-                  </p>
-                ))}
+                {details.map((detail, index) => {
+                  const isSelected =
+                    servicesSelected[servicesIndex].selected.includes(detail);
+
+                  return (
+                    <p
+                      key={`${detail}-${index}`}
+                      className={`border border-black rounded-full px-1 py-1.5 text-xs uppercase cursor-pointer hover:bg-black hover:text-white ${
+                        isSelected ? "bg-black text-white" : ""
+                      }`}
+                      onClick={() =>
+                        toggleService(isSelected, servicesIndex, detail)
+                      }
+                    >
+                      {detail}
+                    </p>
+                  );
+                })}
               </div>
             </div>
-          </div>
+          </AnimationOnScroll>
         ))}
       </div>
     </section>
