@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "./globals.css";
 import "animate.css/animate.min.css";
+import "./globals.css";
 
 const n27 = localFont({
   src: [

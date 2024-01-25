@@ -97,14 +97,55 @@ export default function Form() {
   const handleSubmit = (event: any) => {
     event.preventDefault();
 
-    console.log({
-      servicesSelected,
-      firstName: event.target[0].value,
-      lastName: event.target[1].value,
-      email: event.target[2].value,
-      interested: event.target[3].value,
-      message: event.target[4].value,
+    let serviceDetailsHtml = `${servicesSelected.map(
+      (service) => `
+      <li>
+        ${service.service}
+        <ul>
+          ${service.selected.map((detail) => `<li>${detail}</li>`)}
+        </ul>
+      </li>
+    `
+    )}`;
+
+    fetch("http://api.davdsm.pt:8030/sendMail", {
+      method: "POST",
+      body: JSON.stringify({
+        sender: "geral@davdsm.pt",
+        receiver: {
+          email: "nunoazevedo295@gmail.com",
+          name: "name",
+        },
+        subject: "Assunto",
+        message: `<ul>
+          <li>First Name: ${event.target[0].value}</li>
+          <li>Last Name: ${event.target[1].value}</li>
+          <li>Email: ${event.target[2].value}</li>
+          <li>Interested: ${event.target[3].value}</li>
+          <li>Message: ${event.target[4].value}</li>
+          <li>
+            Serviços selecionados:
+            <ul>
+                ${serviceDetailsHtml.replaceAll(",", "")}
+            </ul>
+          </li> 
+         
+        </ul>`,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        davdsmKey: "d41d8cd98f00b204e9800998ecf8427e",
+      },
     });
+
+    // console.log({
+    //   servicesSelected,
+    //   firstName: event.target[0].value,
+    //   lastName: event.target[1].value,
+    //   email: event.target[2].value,
+    //   interested: event.target[3].value,
+    //   message: event.target[4].value,
+    // });
   };
 
   return (

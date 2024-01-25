@@ -19,7 +19,11 @@ export default function Header() {
         aria-label="Global"
       >
         <div className="absolute left-8 -bottom-2">
-          <a href="#" className="m-8">
+          <a
+            href="#"
+            className="m-8 animate__animated animate__fadeIn"
+            style={{ animationDelay: "4200ms !important" }}
+          >
             <span className="sr-only">Salazar Concept</span>
             <Image
               src="/logo.svg"
@@ -38,7 +42,10 @@ export default function Header() {
             Menu
           </button>
         </div>
-        <div className="hidden lg:flex lg:gap-x-12">
+        <div
+          style={{ animationDelay: "4200ms !important" }}
+          className="hidden lg:flex lg:gap-x-12 animate__animated animate__fadeIn"
+        >
           <Links handleClick={toggleMenu} />
         </div>
       </nav>
@@ -51,7 +58,11 @@ export default function Header() {
         <div className="fixed inset-0 z-10"></div>
         <div className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-black px-6 py-6">
           <div className="flex items-start justify-between">
-            <a href="#" className="ml-0.5 -mt-3 p-1.5">
+            <a
+              href="#"
+              className="ml-0.5 -mt-3 p-1.5 animate__animated animate__fadeIn"
+              style={{ animationDelay: "4200ms !important" }}
+            >
               <span className="sr-only">Salazar Concept</span>
               <Image
                 src="/logo.svg"
@@ -73,7 +84,10 @@ export default function Header() {
 
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
-              <div className="space-y-2 py-12 flex flex-col gap-8">
+              <div
+                className="space-y-2 py-12 flex flex-col gap-8 animate__animated animate__fadeIn"
+                style={{ animationDelay: "4200ms !important" }}
+              >
                 <Links handleClick={toggleMenu} />
               </div>
             </div>

@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-.loading-animation::after {
+.text-animation::after {
   content: " concept";
   animation: spin 4s ease-in-out infinite;
 }
@@ -13,6 +13,37 @@
   }
   100% {
     content: " ideology";
+  }
+}
+
+.main-animation {
+  animation: block-hide 4s ease-out forwards;
+}
+
+@keyframes block-hide {
+  0%,
+  99% {
+    height: 100vh;
+    overflow: hidden;
+  }
+  100% {
+    height: unset;
+    overflow: unset;
+  }
+}
+
+.loader-animation {
+  animation: loader 4s ease-out forwards;
+}
+
+@keyframes loader {
+  0%,
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    display: none;
   }
 }
 

@@ -13,20 +13,15 @@ import Loading from "@/app/components/loader";
 import Form from "@/app/components/form";
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    setTimeout(() => setIsLoading(false), 4000);
-  }, []);
-
   return (
-    <main className={isLoading ? "h-screen overflow-hidden" : ""}>
-      {isLoading && <Loading />}
+    <main className="main-animation">
+      <div className="bg-black">
+        <Loading />
 
-      <Header />
+        <Header />
 
-      <Entry />
+        <Entry />
+      </div>
 
       <Concept />
 
