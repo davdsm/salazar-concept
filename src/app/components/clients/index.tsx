@@ -24,7 +24,7 @@ export default function Clients() {
               animateIn="animate__fadeIn"
               style={{ animationDelay: `${100 * index}ms !important` }}
             >
-              <div className="bg-black rounded-full w-32 h-32 mx-auto"></div>
+              <div className="client bg-black rounded-full w-32 h-32 mx-auto hover:drop-shadow-2xl"></div>
             </AnimationOnScroll>
           ))}
         </div>

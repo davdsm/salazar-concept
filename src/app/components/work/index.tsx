@@ -53,13 +53,15 @@ export default function Work() {
             animateIn="animate__fadeInUp"
             key={id}
           >
-            <div className="h-96 relative">
-              <Image src={img} fill alt={name} sizes="50vw" />
-            </div>
+            <div className="project">
+              <div className="h-96 relative">
+                <Image src={img} fill alt={name} sizes="50vw" />
+              </div>
 
-            <p className="tracking-wider font-medium mt-2 text-base sm:text-xl uppercase">
-              {name}
-            </p>
+              <p className="tracking-wider font-medium mt-2 text-base sm:text-xl uppercase">
+                {name}
+              </p>
+            </div>
           </AnimationOnScroll>
         ))}
       </div>
