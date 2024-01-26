@@ -114,7 +114,7 @@ export default function Form() {
       body: JSON.stringify({
         sender: "geral@davdsm.pt",
         receiver: {
-          email: "nunoazevedo295@gmail.com",
+          email: "samuel_david_8@hotmail.com",
           name: "name",
         },
         subject: "Assunto",
@@ -141,10 +141,10 @@ export default function Form() {
 
     if (response.status === 200) {
       setServicesSelected(initialValues);
-      setMessage("Submetido com sucesso!");
+      setMessage("A sua mensagem foi enviada!");
       event.target.reset();
     } else {
-      setMessage("Algo correu mal!");
+      setMessage("Algo correu mal! Tente novamente dentro de alguns minutos.");
     }
   };
 
