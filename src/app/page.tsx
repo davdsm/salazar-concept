@@ -31,7 +31,7 @@ export default function Home() {
 
         <Form />
 
-        <Culture />
+        {/* <Culture /> */}
 
         <Footer />
       </main>

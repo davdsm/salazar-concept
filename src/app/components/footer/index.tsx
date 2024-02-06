@@ -5,7 +5,7 @@ import { AnimationOnScroll } from "react-animation-on-scroll";
 
 export default function Footer() {
   return (
-    <footer className="bg-black text-white pt-10 pb-10">
+    <footer className="bg-black text-white pt-10 pb-10 mt-40">
       <div className="container">
         <AnimationOnScroll animateIn="animate__fadeIn">
           <Image
@@ -27,8 +27,8 @@ export default function Footer() {
             style={{ animationDelay: `100ms !important` }}
           >
             <div className="flex flex-col gap-6">
-              <a href="mailto:email@salazar.com">email@salazar.com</a>
-              <a href="tel:+351000000000">+351 000 000 000</a>
+              <a href="mailto:email@salazar.com">geral@salazarconcept.com</a>
+              {/* <a href="tel:+351000000000">+351 000 000 000</a> */}
             </div>
           </AnimationOnScroll>
           <AnimationOnScroll
@@ -40,7 +40,7 @@ export default function Footer() {
                 href="https://maps.app.goo.gl/UnisBiDkkTTtd26E9"
                 target="_blank"
               >
-                Morada Morada <br /> 8765-0987 Guimarães
+                 Rua D. Afonso Henriques Nº 884 , <br /> 4805-549 Guimarães 
               </a>
             </div>
           </AnimationOnScroll>
