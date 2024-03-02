@@ -2,26 +2,6 @@ import { AnimationOnScroll } from "react-animation-on-scroll";
 
 import Form from "./form";
 
-const steps = [
-  {
-    id: 1,
-    step: "01",
-    question: "Salazar Concept is Lorem ipsum?",
-    answer: "Salazar Concept is Lorem ipsum?",
-  },
-  {
-    id: 2,
-    step: "02",
-    question: "Salazar Concept is Lorem ipsum?",
-    answer: "Salazar Concept is Lorem ipsum?",
-  },
-  {
-    id: 3,
-    step: "03",
-    question: "Salazar Concept is Lorem ipsum?",
-    answer: "Salazar Concept is Lorem ipsum?",
-  },
-];
 
 export default function Talk({
   handleSubmit,
@@ -41,7 +21,7 @@ export default function Talk({
       </AnimationOnScroll>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-16 mt-14 sm:mt-20">
-       {/*  <div>
+        {/* <div>
           {steps.map(({ id, step, question, answer }, index) => (
             <AnimationOnScroll
               key={id}

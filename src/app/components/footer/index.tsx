@@ -27,22 +27,21 @@ export default function Footer() {
             style={{ animationDelay: `100ms !important` }}
           >
             <div className="flex flex-col gap-6">
-              <a href="mailto:email@salazar.com">geral@salazarconcept.com</a>
-              {/* <a href="tel:+351000000000">+351 000 000 000</a> */}
+              <a href="mailto:geral@salazarconcept.com">geral@salazarconcept.com</a>
             </div>
           </AnimationOnScroll>
           <AnimationOnScroll
             animateIn="animate__fadeIn"
             style={{ animationDelay: `200ms !important` }}
           >
-            <div>
-              <a
-                href="https://maps.app.goo.gl/UnisBiDkkTTtd26E9"
-                target="_blank"
-              >
-                 Rua D. Afonso Henriques Nº 884 , <br /> 4805-549 Guimarães 
-              </a>
-            </div>
+
+            <a
+              href="https://maps.app.goo.gl/UnisBiDkkTTtd26E9"
+              target="_blank"
+            >
+              Rua D. Afonso Henriques Nº 884 , <br /> 4805-549 Guimarães
+            </a>
+
           </AnimationOnScroll>
           <AnimationOnScroll
             animateIn="animate__fadeIn"
