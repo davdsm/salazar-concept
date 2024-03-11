@@ -37,7 +37,7 @@ export default function Form({
   message: string;
 }) {
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="w-96">
       {inputs.map(({ id, ...rest }) => (
         <input
           key={id}

@@ -17,9 +17,9 @@ export default function Links({ handleClick }: { handleClick: () => void }) {
       <a href="#services" className="text-base leading-6" onClick={handleClick}>
         Services
       </a>
-      <a href="#culture" className="text-base leading-6" onClick={handleClick}>
+      {/* <a href="#culture" className="text-base leading-6" onClick={handleClick}>
         Culture
-      </a>
+      </a> */}
       <a
         href="#talk"
         className="text-base leading-6 underline"

@@ -128,13 +128,13 @@ export default function Form() {
           email: "samuel_david_8@hotmail.com",
           name: "name",
         },
-        subject: "Assunto",
+        subject: "🔔 Email do website!",
         message: `<ul>
-          <li>First Name: ${event.target[0].value}</li>
-          <li>Last Name: ${event.target[1].value}</li>
+          <li>Nome: ${event.target[0].value}</li>
+          <li>Apelido: ${event.target[1].value}</li>
           <li>Email: ${event.target[2].value}</li>
-          <li>Interested: ${event.target[3].value}</li>
-          <li>Message: ${event.target[4].value}</li>
+          <li>Interesses: ${event.target[3].value}</li>
+          <li>Mensagem: ${event.target[4].value}</li>
           <li>
             Serviços selecionados:
             <ul>

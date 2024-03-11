@@ -20,7 +20,7 @@ export default function Talk({
         </h1>
       </AnimationOnScroll>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-16 mt-14 sm:mt-20">
+      <div className="gap-8 sm:gap-16 mt-14 sm:mt-20  flex items-center justify-center">
         {/* <div>
           {steps.map(({ id, step, question, answer }, index) => (
             <AnimationOnScroll
