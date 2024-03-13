@@ -10,19 +10,30 @@ export default function Social() {
           </h1>
 
           <div className="flex justify-between mt-16 flex-col sm:flex-row gap-10">
-            <video controls className="sm:w-1/3 h-[70vh] object-cover">
-              <source
-                src="/work/circuito-internacional-de-vila-real/redes.mp4"
-                type="video/mp4"
-              />
-            </video>
+            <AnimationOnScroll
+              animateIn="animate__fadeInUp"
+              className="sm:w-1/3"
+            >
+              <video controls className="w-full h-[70vh] object-cover">
+                <source
+                  src="/work/circuito-internacional-de-vila-real/redes.mp4"
+                  type="video/mp4"
+                />
+              </video>
+            </AnimationOnScroll>
 
-            <video controls className="sm:w-1/3 h-[70vh] object-cover">
-              <source
-                src="/work/circuito-internacional-de-vila-real/redes-2.mp4"
-                type="video/mp4"
-              />
-            </video>
+            <AnimationOnScroll
+              animateIn="animate__fadeInUp"
+              className="sm:w-1/3"
+              style={{ animationDelay: `200ms !important` }}
+            >
+              <video controls className="w-full h-[70vh] object-cover">
+                <source
+                  src="/work/circuito-internacional-de-vila-real/redes-2.mp4"
+                  type="video/mp4"
+                />
+              </video>
+            </AnimationOnScroll>
           </div>
         </div>
       </AnimationOnScroll>

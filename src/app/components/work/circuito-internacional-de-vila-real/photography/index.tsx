@@ -13,12 +13,17 @@ const settings = {
 export default function Photography() {
   return (
     <div className="container pt-16">
-      <AnimationOnScroll animateIn="animate__fadeInUp">
-        <div>
+      <div>
+        <AnimationOnScroll animateIn="animate__fadeInUp">
           <h1 className="font-bold text-3xl md:text-5xl uppercase text-center">
             Photography
           </h1>
+        </AnimationOnScroll>
 
+        <AnimationOnScroll
+          animateIn="animate__fadeInUp"
+          style={{ animationDelay: `200ms !important` }}
+        >
           <Slider {...settings} className="mt-6">
             {Array(36)
               .fill(0)
@@ -32,8 +37,8 @@ export default function Photography() {
                 />
               ))}
           </Slider>
-        </div>
-      </AnimationOnScroll>
+        </AnimationOnScroll>
+      </div>
     </div>
   );
 }
