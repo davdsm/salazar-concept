@@ -12,10 +12,24 @@ export default function Final() {
           />
 
           <p className="font-bold text-base sm:text-2xl uppercase">
-            WE DEVELOP THE CUSTOMIZATION OF THE PARTNERSHIP SPOT . WE
-            CONSOLIDATE THE IDENTITY AND THE POSITIONING IN THE CIRCUIT FROM A
-            STRATEGIC PRESPECTIVE.
+            WE DEVELOP THE CUSTOMIZATION OF THE PARTNERSHIP SPOT. WE CONSOLIDATE
+            THE IDENTITY AND THE POSITIONING IN THE CIRCUIT FROM A STRATEGIC
+            PRESPECTIVE.
           </p>
+        </div>
+
+        <div className="flex justify-center sm:justify-between mt-10 flex-wrap gap-10">
+          <img
+            src="/work/circuito-internacional-de-vila-real/capacete.png"
+            alt="Cruzamos a meta juntos!"
+            className="w-40 h-40 sm:w-60 sm:h-60"
+          />
+
+          <img
+            src="/work/circuito-internacional-de-vila-real/carro.png"
+            alt="Cruzamos a meta juntos!"
+            className="w-72 sm:w-80"
+          />
         </div>
       </AnimationOnScroll>
     </div>
