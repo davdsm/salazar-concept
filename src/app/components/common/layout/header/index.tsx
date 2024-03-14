@@ -7,10 +7,12 @@ import Close from "@/app/components/icons/close";
 
 import Links from "./links";
 import Link from "next/link";
-import { openLink } from "../../core";
+import { useOpenLinkAnimation } from "../../core";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+
+  const { openLink } = useOpenLinkAnimation();
 
   const toggleMenu = () => setIsOpen((prev) => !prev);
 

@@ -1,41 +1,44 @@
-import { redirect  } from 'next/navigation'
-/*
-* Before opening a link, turn the page black with a fade-out for 2 seconds 
-*/
-let isRunning = false;
+import { useRouter, usePathname } from "next/navigation";
 
-export const openLink = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, link: string) => {
-    if (!isRunning) {
-        isRunning = true;
-        /*
-           * prevent Link to go
-           */
-        e.preventDefault();
+export const useOpenLinkAnimation = () => {
+  const router = useRouter();
+  const pathname = usePathname();
 
-        /*
-        * get the cortin up
-        */
-        const cortin: HTMLElement = document.getElementById("cortin")!;
-        cortin.className = "up";
+  const openLink = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+    link: string
+  ) => {
+    if (pathname !== link.split("?")[0]) {
+      /*
+       * prevent Link to go
+       */
+      e.preventDefault();
 
+      /*
+       * get the cortin up
+       */
+      const cortin: HTMLElement = document.getElementById("cortin")!;
+      cortin.className = "up";
+
+      /*
+       * get the cortin down
+       */
+      setTimeout(() => {
+        cortin.className = "down";
+      }, 1000);
+
+      /*
+       * normalize
+       */
+      setTimeout(() => {
+        cortin.className = "";
         /*
-         * get the cortin down
+         * go to the link
          */
-        setTimeout(() => {
-            cortin.className = "down";
-        }, 1000);
-
-        /*
-        * normalize
-        */
-        setTimeout(() => {
-            cortin.className = "";
-        }, 2000);
-
-        /*
-        * go to the link
-        */
-        redirect(link)
+        router.push(link);
+      }, 2000);
     }
+  };
 
-}
+  return { openLink };
+};

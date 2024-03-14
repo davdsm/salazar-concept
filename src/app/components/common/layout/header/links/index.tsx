@@ -1,12 +1,18 @@
 import Link from "next/link";
+import { useOpenLinkAnimation } from "../../../core";
 
 export default function Links({ handleClick }: { handleClick: () => void }) {
+  const { openLink } = useOpenLinkAnimation();
+
   return (
     <>
       <Link
         href="/?section=concept"
         className="text-base leading-6 underline"
-        onClick={handleClick}
+        onClick={(e) => {
+          handleClick();
+          openLink(e, "/?section=concept");
+        }}
         scroll={false}
       >
         Find more about our <b>Concept</b>
@@ -14,7 +20,10 @@ export default function Links({ handleClick }: { handleClick: () => void }) {
       <Link
         href="/?section=work"
         className="text-base leading-6"
-        onClick={handleClick}
+        onClick={(e) => {
+          handleClick();
+          openLink(e, "/?section=work");
+        }}
         scroll={false}
       >
         Discover our work
@@ -22,7 +31,10 @@ export default function Links({ handleClick }: { handleClick: () => void }) {
       <Link
         href="/?section=clients"
         className="text-base leading-6"
-        onClick={handleClick}
+        onClick={(e) => {
+          handleClick();
+          openLink(e, "/?section=clients");
+        }}
         scroll={false}
       >
         Clients
@@ -30,7 +42,10 @@ export default function Links({ handleClick }: { handleClick: () => void }) {
       <Link
         href="/?section=services"
         className="text-base leading-6"
-        onClick={handleClick}
+        onClick={(e) => {
+          handleClick();
+          openLink(e, "/?section=services");
+        }}
         scroll={false}
       >
         Services
@@ -46,7 +61,10 @@ export default function Links({ handleClick }: { handleClick: () => void }) {
       <Link
         href="/?section=talk"
         className="text-base leading-6 underline"
-        onClick={handleClick}
+        onClick={(e) => {
+          handleClick();
+          openLink(e, "/?section=talk");
+        }}
         scroll={false}
       >
         Let&apos;s <b>Talk</b>
