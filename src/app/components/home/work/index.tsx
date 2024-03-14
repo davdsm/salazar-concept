@@ -1,13 +1,17 @@
+import React from "react";
 import { AnimationOnScroll } from "react-animation-on-scroll";
 
 import Image from "next/image";
 import Link from "next/link";
 
+import { openLink } from "../../common/core";
+
+
 const projects = [
   {
     id: 1,
     img: "/home/street.jpg",
-    name: "Salazar concept is lorem ipsum?",
+    name: "Circuito Internacional de Vila Real",
     link: "/work/circuito-internacional-de-vila-real",
   },
   {
@@ -43,6 +47,7 @@ const projects = [
 ];
 
 export default function Work() {
+
   return (
     <section className="container pt-10 mt-10 sm:mt-30 relative">
       <div id="work" className="absolute -top-[104px]"></div>
@@ -55,7 +60,7 @@ export default function Work() {
 
       <div className="mt-6 mb-16 grid grid-cols-1 sm:grid-cols-2 gap-x-1 gap-y-10">
         {projects.map(({ id, name, img, link }, index) => (
-          <Link href={link} key={`${id}-${name}-projects`}>
+          <Link onClick={(e) => openLink(e, link)} href={link} key={`${id}-${name}-projects`}>
             <AnimationOnScroll
               style={{ animationDelay: `${100 * index}ms !important` }}
               animateIn="animate__fadeInUp"

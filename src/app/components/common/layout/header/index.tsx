@@ -7,6 +7,7 @@ import Close from "@/app/components/icons/close";
 
 import Links from "./links";
 import Link from "next/link";
+import { openLink } from "../../core";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,6 +22,7 @@ export default function Header() {
       >
         <div className="absolute left-8 -bottom-2">
           <Link
+            onClick={(e) => openLink(e, "/")}
             href="/"
             className="m-8 animate__animated animate__fadeInDown"
             style={{ animationDelay: "4800ms !important" }}
