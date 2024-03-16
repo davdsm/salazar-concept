@@ -10,7 +10,7 @@ import Form from "@/app/components/home/form";
 
 export default function Home() {
   return (
-    <Layout entryComponent={<Entry />}>
+    <Layout entryComponent={<Entry />} keepLogo>
       <div className="pb-40">
         <Concept />
 

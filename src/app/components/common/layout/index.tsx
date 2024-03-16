@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useContext, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { ParallaxProvider } from "react-scroll-parallax";
@@ -6,15 +6,19 @@ import Header from "@/app/components/common/layout/header";
 import Footer from "@/app/components/common/layout/footer";
 import Loading from "@/app/components/common/layout/loader";
 
+import { AppContext } from "@/app/layout";
+
 export default function Layout({
   entryComponent,
   children,
-  hideLogo,
+  keepLogo,
 }: {
   entryComponent: ReactNode;
   children: ReactNode;
-  hideLogo?: boolean;
+  keepLogo?: boolean;
 }) {
+  const { firstLoad } = useContext(AppContext);
+
   const router = useRouter();
   const searchParams = useSearchParams();
   const section = searchParams.get("section");
@@ -29,9 +33,9 @@ export default function Layout({
 
   return (
     <ParallaxProvider>
-      <main className={!section ? "main-animation" : ""}>
+      <main className={!firstLoad ? "main-animation" : ""}>
         <div className="bg-black">
-          <Loading hideLogo={hideLogo} />
+          {(!firstLoad || keepLogo) && <Loading hideLogo={!keepLogo} />}
 
           <Header />
 

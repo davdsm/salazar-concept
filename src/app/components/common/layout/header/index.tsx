@@ -1,20 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Image from "next/image";
 
 import Close from "@/app/components/icons/close";
 
 import Links from "./links";
 import Link from "next/link";
-import { useOpenLinkAnimation } from "../../core";
+import { AppContext } from "@/app/layout";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { openLink } = useOpenLinkAnimation();
-
   const toggleMenu = () => setIsOpen((prev) => !prev);
+
+  const { pageTransition } = useContext(AppContext);
 
   return (
     <header className="text-white z-20 w-full bg-black fixed">
@@ -24,10 +24,10 @@ export default function Header() {
       >
         <div className="absolute left-8 -bottom-2">
           <Link
-            onClick={(e) => openLink(e, "/")}
             href="/"
             className="m-8 animate__animated animate__fadeInDown"
             style={{ animationDelay: "4800ms !important" }}
+            onClick={(e) => pageTransition(e, "/")}
           >
             <span className="sr-only">Salazar Concept</span>
             <Image
@@ -64,9 +64,10 @@ export default function Header() {
         <div className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-black px-6 py-6">
           <div className="flex items-start justify-between">
             <Link
-              href="#"
+              href="/"
               className="ml-0.5 -mt-3 p-1.5 animate__animated animate__fadeInDown"
               style={{ animationDelay: "4800ms !important" }}
+              onClick={(e) => pageTransition(e, "/")}
             >
               <span className="sr-only">Salazar Concept</span>
               <Image

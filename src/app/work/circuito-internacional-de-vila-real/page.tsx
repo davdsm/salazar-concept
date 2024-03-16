@@ -13,7 +13,7 @@ import Video from "@/app/components/work/circuito-internacional-de-vila-real/vid
 
 export default function CircuitoInternacionalDeVilaReal() {
   return (
-    <Layout entryComponent={<Entry />} hideLogo>
+    <Layout entryComponent={<Entry />}>
       <div className="bg-neutral-100 pb-40">
         <Concept />
 

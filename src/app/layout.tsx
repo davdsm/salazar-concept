@@ -1,4 +1,8 @@
-import type { Metadata } from "next";
+"use client";
+
+import { createContext, useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+
 import localFont from "next/font/local";
 import "animate.css/animate.min.css";
 import "slick-carousel/slick/slick.css";
@@ -70,23 +74,63 @@ const n27 = localFont({
     },
   ],
 });
-export const metadata: Metadata = {
-  title: "Salazar Concept - EMBRACE THE CONCEPT",
-  description:
-    "TRUE CONCEPTS ARE THOSE THAT EXPRESS A VERY STRONG DEFINITION AND ARE WELL CONSOLIDATED BY EVERYONE AROUND THE WORLD. THE SALAZAR CONCEPT IS A UNIVERSAL CONCEPT THAT WAS INSPIRED BY AN ICON CAPABLE OF LOOKING AT A MARKET FROM A 360o ANGLE AND CAPABLE OF CAMOUFLAGING ITSELF AND ADAPTING TO DIFFERENT ECOSYSTEMS OR BUSINESS HABITATS.",
-};
+
+export const AppContext = createContext({
+  firstLoad: false,
+  pageTransition: (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+    link: string
+  ) => {},
+});
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const [firstLoad, setFirstLoad] = useState(false);
+
+  useEffect(() => {
+    if (!firstLoad)
+      setTimeout(() => {
+        setFirstLoad(true);
+      }, 2000);
+  }, [firstLoad]);
+
+  const pageTransition = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+    link: string
+  ) => {
+    if (pathname !== link.split("?")[0]) {
+      e.preventDefault();
+
+      const cortin: HTMLElement = document.getElementById("cortin")!;
+      cortin.className = "up";
+
+      setTimeout(() => {
+        cortin.className = "down";
+      }, 1000);
+
+      setTimeout(() => {
+        router.push(link);
+      }, 900);
+
+      setTimeout(() => {
+        cortin.className = "";
+      }, 2000);
+    }
+  };
+
   return (
     <html lang="en" className="scroll-smooth">
-
       <body className={n27.className}>
         <div id="cortin"></div>
-        {children}
+        <AppContext.Provider value={{ firstLoad, pageTransition }}>
+          {children}
+        </AppContext.Provider>
       </body>
     </html>
   );

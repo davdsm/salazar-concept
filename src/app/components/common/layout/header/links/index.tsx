@@ -1,8 +1,9 @@
+import { AppContext } from "@/app/layout";
 import Link from "next/link";
-import { useOpenLinkAnimation } from "../../../core";
+import { useContext } from "react";
 
 export default function Links({ handleClick }: { handleClick: () => void }) {
-  const { openLink } = useOpenLinkAnimation();
+  const { pageTransition } = useContext(AppContext);
 
   return (
     <>
@@ -11,7 +12,7 @@ export default function Links({ handleClick }: { handleClick: () => void }) {
         className="text-base leading-6 underline"
         onClick={(e) => {
           handleClick();
-          openLink(e, "/?section=concept");
+          pageTransition(e, "/?section=concept");
         }}
         scroll={false}
       >
@@ -22,7 +23,7 @@ export default function Links({ handleClick }: { handleClick: () => void }) {
         className="text-base leading-6"
         onClick={(e) => {
           handleClick();
-          openLink(e, "/?section=work");
+          pageTransition(e, "/?section=work");
         }}
         scroll={false}
       >
@@ -33,7 +34,7 @@ export default function Links({ handleClick }: { handleClick: () => void }) {
         className="text-base leading-6"
         onClick={(e) => {
           handleClick();
-          openLink(e, "/?section=clients");
+          pageTransition(e, "/?section=clients");
         }}
         scroll={false}
       >
@@ -44,7 +45,7 @@ export default function Links({ handleClick }: { handleClick: () => void }) {
         className="text-base leading-6"
         onClick={(e) => {
           handleClick();
-          openLink(e, "/?section=services");
+          pageTransition(e, "/?section=services");
         }}
         scroll={false}
       >
@@ -53,7 +54,10 @@ export default function Links({ handleClick }: { handleClick: () => void }) {
       {/* <Link
         href="/?section=culture"
         className="text-base leading-6"
-        onClick={handleClick}
+        onClick={(e) => {
+          handleClick();
+          pageTransition(e, "/?section=culture");
+        }}
         scroll={false}
       >
         Culture
@@ -63,7 +67,7 @@ export default function Links({ handleClick }: { handleClick: () => void }) {
         className="text-base leading-6 underline"
         onClick={(e) => {
           handleClick();
-          openLink(e, "/?section=talk");
+          pageTransition(e, "/?section=talk");
         }}
         scroll={false}
       >
