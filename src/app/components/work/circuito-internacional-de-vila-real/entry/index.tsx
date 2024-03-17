@@ -28,7 +28,7 @@ export default function Entry() {
       <video
         muted
         loop
-        className="entry-animation h-screen object-cover"
+        className="h-screen object-cover w-full"
         ref={setRefs}
       >
         <source

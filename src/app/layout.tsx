@@ -116,7 +116,7 @@ export default function RootLayout({
 
       setTimeout(() => {
         router.push(link);
-      }, 900);
+      }, 700);
 
       setTimeout(() => {
         cortin.className = "";

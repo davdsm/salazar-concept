@@ -8,39 +8,9 @@ import { AppContext } from "@/app/layout";
 const projects = [
   {
     id: 1,
-    img: "/home/street.jpg",
+    img: "/home/portfolio/rali.jpg",
     name: "Circuito Internacional de Vila Real",
     link: "/work/circuito-internacional-de-vila-real",
-  },
-  {
-    id: 2,
-    img: "/home/street.jpg",
-    name: "Salazar concept is lorem ipsum?",
-    link: "",
-  },
-  {
-    id: 3,
-    img: "/home/street.jpg",
-    name: "Salazar concept is lorem ipsum?",
-    link: "",
-  },
-  {
-    id: 4,
-    img: "/home/street.jpg",
-    name: "Salazar concept is lorem ipsum?",
-    link: "",
-  },
-  {
-    id: 5,
-    img: "/home/street.jpg",
-    name: "Salazar concept is lorem ipsum?",
-    link: "",
-  },
-  {
-    id: 6,
-    img: "/home/street.jpg",
-    name: "Salazar concept is lorem ipsum?",
-    link: "",
   },
 ];
 
@@ -70,7 +40,7 @@ export default function Work() {
             >
               <div className="project">
                 <div className="h-96 relative">
-                  <Image src={img} fill alt={name} sizes="50vw" />
+                  <Image src={img} fill alt={name} sizes="50vw" objectFit="cover" />
                 </div>
 
                 <p className="tracking-wider font-medium mt-2 text-base sm:text-xl uppercase">
