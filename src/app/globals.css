@@ -55,7 +55,6 @@ html {
   animation: spin 4s ease-in-out infinite;
 }
 
-
 .main-animation {
   animation: block-hide 4s ease-out forwards;
 }
@@ -97,11 +96,11 @@ html {
   cursor: pointer;
 }
 
-.project:hover>div>img {
+.project:hover > div > img {
   filter: brightness(2);
 }
 
-.project:hover>p {
+.project:hover > p {
   transform: translateX(10px);
 }
 
@@ -110,7 +109,6 @@ html {
 }
 
 @keyframes block-hide {
-
   0%,
   99% {
     height: 100vh;
@@ -134,7 +132,6 @@ html {
 }
 
 @keyframes loaderBackground {
-
   0%,
   80% {
     background: black;
@@ -146,7 +143,6 @@ html {
 }
 
 @keyframes animalAnimation {
-
   0% {
     transform: scale(1);
   }
@@ -157,7 +153,6 @@ html {
 }
 
 @keyframes entryAnimation {
-
   0% {
     transform: scale(1);
     background: black;
@@ -170,7 +165,6 @@ html {
 }
 
 @keyframes loader {
-
   0%,
   80% {
     opacity: 1;
@@ -184,7 +178,7 @@ html {
 
 @keyframes cortinUp {
   from {
-    right: 100%
+    right: 100%;
   }
 
   to {
@@ -194,10 +188,74 @@ html {
 
 @keyframes cortinDown {
   from {
-    left: 0%
+    left: 0%;
   }
 
   to {
     left: 100%;
   }
+}
+
+.animationDelay100 {
+  animation-delay: 100ms !important;
+}
+
+.animationDelay200 {
+  animation-delay: 200ms !important;
+}
+
+.animationDelay300 {
+  animation-delay: 300ms !important;
+}
+
+.animationDelay400 {
+  animation-delay: 400ms !important;
+}
+
+.animationDelay500 {
+  animation-delay: 500ms !important;
+}
+
+.animationDelay600 {
+  animation-delay: 600ms !important;
+}
+
+.animationDelay700 {
+  animation-delay: 700ms !important;
+}
+
+.animationDelay800 {
+  animation-delay: 800ms !important;
+}
+
+.animationDelay900 {
+  animation-delay: 900ms !important;
+}
+
+.animationDelay1000 {
+  animation-delay: 1000ms !important;
+}
+
+.animationDelay1100 {
+  animation-delay: 1100ms !important;
+}
+
+.animationDelay1200 {
+  animation-delay: 1200ms !important;
+}
+
+.animationDelay4800 {
+  animation-delay: 4800ms !important;
+}
+
+.animationDelay5100 {
+  animation-delay: 5100ms !important;
+}
+
+.animationDelay5500 {
+  animation-delay: 5500ms !important;
+}
+
+.animationDelay5900 {
+  animation-delay: 5900ms !important;
 }

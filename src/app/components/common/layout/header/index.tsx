@@ -25,8 +25,7 @@ export default function Header() {
         <div className="absolute left-8 -bottom-2">
           <Link
             href="/"
-            className="m-8 animate__animated animate__fadeInDown"
-            style={{ animationDelay: "4800ms !important" }}
+            className="animationDelay4800 m-8 animate__animated animate__fadeInDown"
             onClick={(e) => pageTransition(e, "/")}
           >
             <span className="sr-only">Salazar Concept</span>
@@ -47,10 +46,7 @@ export default function Header() {
             Menu
           </button>
         </div>
-        <div
-          style={{ animationDelay: "4800ms !important" }}
-          className="hidden lg:flex lg:gap-x-12 animate__animated animate__fadeInDown"
-        >
+        <div className="animationDelay4800 hidden lg:flex lg:gap-x-12 animate__animated animate__fadeInDown">
           <Links handleClick={toggleMenu} />
         </div>
       </nav>
@@ -65,8 +61,7 @@ export default function Header() {
           <div className="flex items-start justify-between">
             <Link
               href="/"
-              className="ml-0.5 -mt-3 p-1.5 animate__animated animate__fadeInDown"
-              style={{ animationDelay: "4800ms !important" }}
+              className="animationDelay4800 ml-0.5 -mt-3 p-1.5 animate__animated animate__fadeInDown"
               onClick={(e) => pageTransition(e, "/")}
             >
               <span className="sr-only">Salazar Concept</span>

@@ -24,8 +24,7 @@ export default function Concept() {
 
           <AnimationOnScroll
             animateIn="animate__fadeInUp"
-            className="w-3/4 sm:w-2/6 m-auto"
-            style={{ animationDelay: `200ms !important` }}
+            className="w-3/4 sm:w-2/6 m-auto animationDelay200"
           >
             <img
               src="/work/circuito-internacional-de-vila-real/Ativo_3.png"

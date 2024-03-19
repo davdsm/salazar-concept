@@ -24,8 +24,7 @@ export default function Social() {
 
             <AnimationOnScroll
               animateIn="animate__fadeInUp"
-              className="sm:w-1/3"
-              style={{ animationDelay: `200ms !important` }}
+              className="sm:w-1/3 animationDelay200"
             >
               <video controls className="w-full h-[70vh] object-cover">
                 <source

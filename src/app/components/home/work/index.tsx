@@ -35,12 +35,18 @@ export default function Work() {
             onClick={(e) => pageTransition(e, link)}
           >
             <AnimationOnScroll
-              style={{ animationDelay: `${100 * index}ms !important` }}
+              className={`animationDelay${100 * index}`}
               animateIn="animate__fadeInUp"
             >
               <div className="project">
                 <div className="h-96 relative">
-                  <Image src={img} fill alt={name} sizes="50vw" objectFit="cover" />
+                  <Image
+                    src={img}
+                    fill
+                    alt={name}
+                    sizes="50vw"
+                    className="object-cover"
+                  />
                 </div>
 
                 <p className="tracking-wider font-medium mt-2 text-base sm:text-xl uppercase">

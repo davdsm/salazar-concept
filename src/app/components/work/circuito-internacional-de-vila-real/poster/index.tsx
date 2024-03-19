@@ -14,7 +14,7 @@ export default function Poster() {
 
         <AnimationOnScroll
           animateIn="animate__fadeInUp"
-          style={{ animationDelay: `200ms !important` }}
+          className="animationDelay200"
         >
           <h1 className="font-bold text-3xl md:text-5xl uppercase m-auto">
             EVENT POSTER ON SOCIAL MEDIA

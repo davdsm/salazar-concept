@@ -14,8 +14,7 @@ export default function Final() {
 
         <AnimationOnScroll
           animateIn="animate__fadeInUp"
-          className="sm:w-1/3"
-          style={{ animationDelay: `200ms !important` }}
+          className="sm:w-1/3 animationDelay200"
         >
           <p className="font-bold text-base sm:text-2xl uppercase">
             WE DEVELOP THE CUSTOMIZATION OF THE PARTNERSHIP SPOT. WE CONSOLIDATE
@@ -39,8 +38,7 @@ export default function Final() {
 
         <AnimationOnScroll
           animateIn="animate__fadeInUp"
-          className="w-72 sm:w-80"
-          style={{ animationDelay: `200ms !important` }}
+          className="w-72 sm:w-80 animationDelay200"
         >
           <img
             src="/work/circuito-internacional-de-vila-real/carro.png"

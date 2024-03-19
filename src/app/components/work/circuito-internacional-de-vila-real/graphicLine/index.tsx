@@ -12,9 +12,8 @@ export default function GraphicLine() {
 
         <div className="grid gap-x-3.5 gap-y-16 mt-12 grid-cols-1 sm:grid-cols-3">
           <AnimationOnScroll
-            className="relative"
+            className="relative animationDelay200"
             animateIn="animate__fadeInUp"
-            style={{ animationDelay: `200ms !important` }}
           >
             <img
               src="/work/circuito-internacional-de-vila-real/IMG_6232.PNG"
@@ -29,9 +28,8 @@ export default function GraphicLine() {
           </AnimationOnScroll>
 
           <AnimationOnScroll
-            className="relative"
+            className="relative animationDelay300"
             animateIn="animate__fadeInUp"
-            style={{ animationDelay: `300ms !important` }}
           >
             <img
               src="/work/circuito-internacional-de-vila-real/IMG_6236.PNG"
@@ -46,9 +44,8 @@ export default function GraphicLine() {
           </AnimationOnScroll>
 
           <AnimationOnScroll
-            className="relative"
+            className="relative animationDelay400"
             animateIn="animate__fadeInUp"
-            style={{ animationDelay: `400ms !important` }}
           >
             <img
               src="/work/circuito-internacional-de-vila-real/IMG_6240.PNG"

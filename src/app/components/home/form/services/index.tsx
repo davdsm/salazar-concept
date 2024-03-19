@@ -76,8 +76,9 @@ export default function Services({
                     <AnimationOnScroll
                       animateIn="animate__fadeInUp"
                       key={`${detail}-${index}`}
-                      className="flex mb-8 flex-col md:flex-row items-center text-center md:text-left"
-                      style={{ animationDelay: `${100 * index}ms !important` }}
+                      className={`flex mb-8 flex-col md:flex-row items-center text-center md:text-left animationDelay${
+                        100 * index
+                      }`}
                     >
                       <p
                         className={`border border-black rounded-full px-1 py-1.5 text-xs uppercase cursor-pointer hover:bg-black hover:text-white ${

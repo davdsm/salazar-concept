@@ -25,7 +25,6 @@ export default function Talk({
             <AnimationOnScroll
               key={id}
               animateIn="animate__fadeInUp"
-              style={{ animationDelay: `${100 * index}ms !important` }}
             >
               <div className="flex gap-10 mb-8 pb-8 border-b border-black">
                 <h4 className="font-medium uppercase text-xl whitespace-nowrap">

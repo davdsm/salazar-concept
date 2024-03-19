@@ -22,7 +22,7 @@ export default function Photography() {
 
         <AnimationOnScroll
           animateIn="animate__fadeInUp"
-          style={{ animationDelay: `200ms !important` }}
+          className="animationDelay200"
         >
           <Slider {...settings} className="mt-6">
             {Array(36)

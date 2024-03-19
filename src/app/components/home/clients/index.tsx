@@ -56,16 +56,11 @@ export default function Clients() {
             <AnimationOnScroll
               key={`${id}-clients`}
               animateIn="animate__fadeInUp"
-              style={{ animationDelay: `${100 * index}ms !important` }}
             >
-              <div
-                style={{ backgroundColor: "#f1f1f1" }}
-                className="client rounded-full w-32 h-32 mx-auto"
-              >
+              <div className="bg-[#f1f1f1] client rounded-full w-32 h-32 mx-auto">
                 <img
                   src={`/home/clients/${index + 1}.png`}
-                  style={{ scale: "0.7" }}
-                  className="mx-auto rounded-full w-32 h-32 object-contain"
+                  className="scale-[0.7] mx-auto rounded-full w-32 h-32 object-contain"
                 />
               </div>
             </AnimationOnScroll>

@@ -24,7 +24,7 @@ export default function Footer() {
         <div className="flex sm:justify-between mt-20 underline flex-col sm:flex-row sm:items-start items-center justify-center gap-20 text-center sm:text-left">
           <AnimationOnScroll
             animateIn="animate__fadeIn"
-            style={{ animationDelay: `100ms !important` }}
+            className="animationDelay100"
           >
             <div className="flex flex-col gap-6">
               <a href="mailto:geral@salazarconcept.com">
@@ -34,7 +34,7 @@ export default function Footer() {
           </AnimationOnScroll>
           <AnimationOnScroll
             animateIn="animate__fadeIn"
-            style={{ animationDelay: `200ms !important` }}
+            className="animationDelay200"
           >
             <a href="https://maps.app.goo.gl/UnisBiDkkTTtd26E9" target="_blank">
               Rua D. Afonso Henriques Nº 884 , <br /> 4805-549 Guimarães
@@ -42,7 +42,7 @@ export default function Footer() {
           </AnimationOnScroll>
           <AnimationOnScroll
             animateIn="animate__fadeIn"
-            style={{ animationDelay: `300ms !important` }}
+            className="animationDelay300"
           >
             <div className="flex flex-col gap-6">
               <Social />

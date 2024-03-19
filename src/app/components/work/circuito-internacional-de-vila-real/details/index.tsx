@@ -25,8 +25,7 @@ export default function Details() {
 
         <AnimationOnScroll
           className="flex-1"
-          animateIn="animate__fadeInUp"
-          style={{ animationDelay: `200ms !important` }}
+          animateIn="animate__fadeInUp animationDelay200"
         >
           <Image
             src="/logo/logo.gif"
