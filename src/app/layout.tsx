@@ -80,7 +80,7 @@ export const AppContext = createContext({
   pageTransition: (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
     link: string
-  ) => {},
+  ) => { },
 });
 
 export default function RootLayout({
@@ -126,6 +126,25 @@ export default function RootLayout({
 
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+
+        <title>Salazar Concept - EMBRACE THE CONCEPT</title>
+        <meta name="title" content="Salazar Concept - EMBRACE THE CONCEPT" />
+        <meta name="description" content="True concepts are those that express a very strong definition and             are well consolidated by everyone around the world. the salazar             concept is a universal concept that was inspired by an icon capable             of looking at a market from a 360o angle and capable of camouflaging             itself and adapting to different ecosystems or business habitats." />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://salazarconcept.com/" />
+        <meta property="og:title" content="Salazar Concept - EMBRACE THE CONCEPT" />
+        <meta property="og:description" content="True concepts are those that express a very strong definition and             are well consolidated by everyone around the world. the salazar             concept is a universal concept that was inspired by an icon capable             of looking at a market from a 360o angle and capable of camouflaging             itself and adapting to different ecosystems or business habitats." />
+        <meta property="og:image" content="blob:https://instant.tools/d851e8d9-6e0e-4e2f-8416-9a4848d81d79" />
+
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://salazarconcept.com/" />
+        <meta property="twitter:title" content="Salazar Concept - EMBRACE THE CONCEPT" />
+        <meta property="twitter:description" content="True concepts are those that express a very strong definition and             are well consolidated by everyone around the world. the salazar             concept is a universal concept that was inspired by an icon capable             of looking at a market from a 360o angle and capable of camouflaging             itself and adapting to different ecosystems or business habitats." />
+        <meta property="twitter:image" content="banner.png" />
+
+      </head>
       <body className={n27.className}>
         <div id="cortin"></div>
         <AppContext.Provider value={{ firstLoad, pageTransition }}>
