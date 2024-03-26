@@ -16,7 +16,7 @@ export default function Social() {
             >
               <video controls className="w-full h-[70vh] object-cover">
                 <source
-                  src="/work/circuito-internacional-de-vila-real/redes.mp4"
+                  src="/work/circuito-internacional-de-vila-real/redes.MP4"
                   type="video/mp4"
                 />
               </video>

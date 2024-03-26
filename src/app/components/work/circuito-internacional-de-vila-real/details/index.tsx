@@ -7,19 +7,19 @@ export default function Details() {
       <div className="flex items-center">
         <AnimationOnScroll className="w-2/5" animateIn="animate__fadeInUp">
           <h3 className="font-bold text-3xl uppercase border-b-2 border-black pb-3 mb-10">
-            Comunicação
+            Communication
           </h3>
           <h3 className="font-bold text-3xl uppercase border-b-2 border-black pb-3 mb-10">
             BRANDING
           </h3>
           <h3 className="font-bold text-3xl uppercase border-b-2 border-black pb-3 mb-10">
-            FOTOGRAFIA
+            Photography
           </h3>
           <h3 className="font-bold text-3xl uppercase border-b-2 border-black pb-3 mb-10">
-            VÍDEO
+            Video
           </h3>
           <h3 className="font-bold text-3xl uppercase border-b-2 border-black pb-3 mb-10">
-            REDES SOCIAS
+            Social network
           </h3>
         </AnimationOnScroll>
 

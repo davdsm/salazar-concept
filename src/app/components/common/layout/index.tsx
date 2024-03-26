@@ -34,7 +34,7 @@ export default function Layout({
   return (
     <ParallaxProvider>
       <main className={!firstLoad ? "main-animation" : ""}>
-        <div className="bg-black">
+        <div>
           {(!firstLoad || keepLogo) && <Loading hideLogo={!keepLogo} />}
 
           <Header />

@@ -33,7 +33,7 @@ export default function Photography() {
                   src={`/work/circuito-internacional-de-vila-real/photography/${
                     index + 1
                   }.jpg`}
-                  className="h-[75vh] object-cover"
+                  className="h-[75vh] object-contain"
                 />
               ))}
           </Slider>

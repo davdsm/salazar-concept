@@ -24,7 +24,7 @@ export default function Final() {
         </AnimationOnScroll>
       </div>
 
-      <div className="flex justify-center sm:justify-between mt-10 flex-wrap gap-10">
+      <div className="hidden sm:flex justify-center sm:justify-between mt-10 flex-wrap gap-10">
         <AnimationOnScroll
           animateIn="animate__fadeInUp"
           className="w-40 sm:w-60"

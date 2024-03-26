@@ -2,6 +2,7 @@
 
 import { useContext, useState } from "react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 import Close from "@/app/components/icons/close";
 
@@ -14,7 +15,11 @@ export default function Header() {
 
   const toggleMenu = () => setIsOpen((prev) => !prev);
 
-  const { pageTransition } = useContext(AppContext);
+  const { pageTransition, firstLoad } = useContext(AppContext);
+
+  const pathname = usePathname();
+  console.log({ pathname });
+  const slowAnimation = firstLoad && pathname !== "/";
 
   return (
     <header className="text-white z-20 w-full bg-black fixed">
@@ -25,7 +30,9 @@ export default function Header() {
         <div className="absolute left-8 -bottom-2">
           <Link
             href="/"
-            className="animationDelay4800 m-8 animate__animated animate__fadeInDown"
+            className={`m-8 animate__animated animate__fadeInDown ${
+              !slowAnimation ? "animationDelay4800" : "animationDelay1400"
+            }`}
             onClick={(e) => pageTransition(e, "/")}
           >
             <span className="sr-only">Salazar Concept</span>
@@ -46,7 +53,11 @@ export default function Header() {
             Menu
           </button>
         </div>
-        <div className="animationDelay4800 hidden lg:flex lg:gap-x-12 animate__animated animate__fadeInDown">
+        <div
+          className={`hidden lg:flex lg:gap-x-12 animate__animated animate__fadeInDown ${
+            !slowAnimation ? "animationDelay4800" : "animationDelay1400"
+          }`}
+        >
           <Links handleClick={toggleMenu} />
         </div>
       </nav>
@@ -61,7 +72,9 @@ export default function Header() {
           <div className="flex items-start justify-between">
             <Link
               href="/"
-              className="animationDelay4800 ml-0.5 -mt-3 p-1.5 animate__animated animate__fadeInDown"
+              className={`ml-0.5 -mt-3 p-1.5 animate__animated animate__fadeInDown ${
+                !slowAnimation ? "animationDelay4800" : "animationDelay1400"
+              }`}
               onClick={(e) => pageTransition(e, "/")}
             >
               <span className="sr-only">Salazar Concept</span>

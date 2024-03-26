@@ -244,6 +244,26 @@ html {
   animation-delay: 1200ms !important;
 }
 
+.animationDelay1400 {
+  animation-delay: 1400ms !important;
+}
+
+.animationDelay3000 {
+  animation-delay: 3000ms !important;
+}
+
+.animationDelay3200 {
+  animation-delay: 3200ms !important;
+}
+
+.animationDelay3400 {
+  animation-delay: 3400ms !important;
+}
+
+.animationDelay3600 {
+  animation-delay: 3600ms !important;
+}
+
 .animationDelay4800 {
   animation-delay: 4800ms !important;
 }

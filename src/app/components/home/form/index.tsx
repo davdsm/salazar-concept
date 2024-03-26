@@ -69,13 +69,7 @@ export const services = [
     id: 5,
     name: "Photography",
     img: "/logo/logo.svg",
-    details: [
-      "Event",
-      "Product",
-      "Live Model",
-      "Studio",
-      "Product Styling",
-    ],
+    details: ["Event", "Product", "Live Model", "Studio", "Product Styling"],
   },
   {
     id: 6,
@@ -97,13 +91,14 @@ export const services = [
   },
 ];
 
-const initialValues = services.map(({ name, details }) => ({
+const initialValues = services.map(({ name }) => ({
   service: name,
-  selected: [details[details.length - 1]],
+  selected: [],
 }));
 
 export default function Form() {
-  const [servicesSelected, setServicesSelected] = useState(initialValues);
+  const [servicesSelected, setServicesSelected] =
+    useState<{ service: string; selected: string[] }[]>(initialValues);
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (event: any) => {
