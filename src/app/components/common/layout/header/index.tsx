@@ -18,7 +18,6 @@ export default function Header() {
   const { pageTransition, firstLoad } = useContext(AppContext);
 
   const pathname = usePathname();
-  console.log({ pathname });
   const slowAnimation = firstLoad && pathname !== "/";
 
   return (

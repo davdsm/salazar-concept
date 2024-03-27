@@ -78,57 +78,71 @@ export default function GraphicLine() {
           </p>
         </AnimationOnScroll>
 
-        <AnimationOnScroll
-          animateIn="animate__fadeInUp"
-          className="flex flex-wrap"
-        >
-          <img
-            src="/work/circuito-internacional-de-vila-real/IMG_6234.PNG"
-            alt="Graphic Line 4"
-            className="w-1/2 sm:w-1/4"
-          />
-          <img
-            src="/work/circuito-internacional-de-vila-real/IMG_6235.PNG"
-            alt="Graphic Line 5"
-            className="w-1/2 sm:w-1/4"
-          />
-          <img
-            src="/work/circuito-internacional-de-vila-real/IMG_6238.PNG"
-            alt="Graphic Line 6"
-            className="w-1/2 sm:w-1/4"
-          />
-          <img
-            src="/work/circuito-internacional-de-vila-real/IMG_6239.PNG"
-            alt="Graphic Line 7"
-            className="w-1/2 sm:w-1/4"
-          />
-        </AnimationOnScroll>
+        <div className="sm:flex">
+          <AnimationOnScroll
+            animateIn="animate__fadeInUp"
+            className="flex flex-wrap w-full sm:w-1/2"
+          >
+            <img
+              src="/work/circuito-internacional-de-vila-real/IMG_6234.PNG"
+              alt="Graphic Line 4"
+              className="w-1/2"
+            />
+            <img
+              src="/work/circuito-internacional-de-vila-real/IMG_6235.PNG"
+              alt="Graphic Line 5"
+              className="w-1/2"
+            />
+          </AnimationOnScroll>
+          <AnimationOnScroll
+            animateIn="animate__fadeInUp"
+            className="flex flex-wrap animationDelay300 w-full sm:w-1/2"
+          >
+            <img
+              src="/work/circuito-internacional-de-vila-real/IMG_6238.PNG"
+              alt="Graphic Line 6"
+              className="w-1/2"
+            />
+            <img
+              src="/work/circuito-internacional-de-vila-real/IMG_6239.PNG"
+              alt="Graphic Line 7"
+              className="w-1/2"
+            />
+          </AnimationOnScroll>
+        </div>
 
-        <AnimationOnScroll
-          animateIn="animate__fadeInUp"
-          className="flex flex-wrap"
-        >
-          <img
-            src="/work/circuito-internacional-de-vila-real/IMG_6242.PNG"
-            alt="Graphic Line 8"
-            className="w-1/2 sm:w-1/4"
-          />
-          <img
-            src="/work/circuito-internacional-de-vila-real/IMG_6243.PNG"
-            alt="Graphic Line 9"
-            className="w-1/2 sm:w-1/4"
-          />
-          <img
-            src="/work/circuito-internacional-de-vila-real/IMG_6249.PNG"
-            alt="Graphic Line 10"
-            className="w-full sm:w-1/4"
-          />
-          <img
-            src="/work/circuito-internacional-de-vila-real/IMG_6250.PNG"
-            alt="Graphic Line 11"
-            className="w-full sm:w-1/4"
-          />
-        </AnimationOnScroll>
+        <div className="sm:flex">
+          <AnimationOnScroll
+            animateIn="animate__fadeInUp"
+            className="flex flex-wrap w-full sm:w-1/2"
+          >
+            <img
+              src="/work/circuito-internacional-de-vila-real/IMG_6242.PNG"
+              alt="Graphic Line 8"
+              className="w-1/2"
+            />
+            <img
+              src="/work/circuito-internacional-de-vila-real/IMG_6243.PNG"
+              alt="Graphic Line 9"
+              className="w-1/2"
+            />
+          </AnimationOnScroll>
+          <AnimationOnScroll
+            animateIn="animate__fadeInUp"
+            className="flex flex-wrap w-full sm:w-1/2 animationDelay300"
+          >
+            <img
+              src="/work/circuito-internacional-de-vila-real/IMG_6249.PNG"
+              alt="Graphic Line 10"
+              className="w-1/2"
+            />
+            <img
+              src="/work/circuito-internacional-de-vila-real/IMG_6250.PNG"
+              alt="Graphic Line 11"
+              className="w-1/2"
+            />
+          </AnimationOnScroll>
+        </div>
       </div>
     </div>
   );
