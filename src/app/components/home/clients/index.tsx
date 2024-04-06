@@ -1,22 +1,10 @@
+import { useEffect, useState } from "react";
+
 import { AnimationOnScroll } from "react-animation-on-scroll";
 import Slider from "react-slick";
+import PocketBase from "pocketbase";
 
-const clients = [
-  { id: 1 },
-  { id: 2 },
-  { id: 3 },
-  { id: 4 },
-  { id: 5 },
-  { id: 6 },
-  { id: 7 },
-  { id: 8 },
-  { id: 9 },
-  { id: 10 },
-  { id: 11 },
-  { id: 12 },
-  { id: 13 }, 
-  { id: 14 }, 
-];
+import { API_URL } from "@/app/utils";
 
 const settings = {
   dots: true,
@@ -45,7 +33,29 @@ const settings = {
   ],
 };
 
+type Client = {
+  id: string;
+  isVisible: boolean;
+  collectionId: string;
+  logo: string;
+  name: string;
+};
+
 export default function Clients() {
+  const [clients, setClients] = useState<Client[]>([]);
+
+  useEffect(() => {
+    const fetchClients = async () => {
+      const pb = new PocketBase(API_URL);
+
+      const { items } = await pb.collection("Clients").getList<Client>();
+
+      setClients(items);
+    };
+
+    fetchClients();
+  }, []);
+
   return (
     <AnimationOnScroll animateIn="animate__fadeInUp">
       <section className="container mt-16 pt-10 relative max-w-none">
@@ -54,19 +64,22 @@ export default function Clients() {
         <h1 className="font-bold text-4xl sm:text-8xl uppercase">Clients</h1>
 
         <Slider {...settings} className="mt-6">
-          {clients.map(({ id }, index) => (
-            <AnimationOnScroll
-              key={`${id}-clients`}
-              animateIn="animate__fadeInUp"
-            >
-              <div className="bg-[#f1f1f1] client rounded-full w-32 h-32 mx-auto">
-                <img
-                  src={`/home/clients/${index + 1}.png`}
-                  className="scale-[0.7] mx-auto rounded-full w-32 h-32 object-contain"
-                />
-              </div>
-            </AnimationOnScroll>
-          ))}
+          {clients.map(({ id, isVisible, collectionId, logo, name }) => {
+            if (!isVisible) return;
+
+            return (
+              <AnimationOnScroll key={id} animateIn="animate__fadeInUp">
+                <div className="bg-[#f1f1f1] client rounded-full w-32 h-32 mx-auto">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`${API_URL}/api/files/${collectionId}/${id}/${logo}`}
+                    className="scale-[0.7] mx-auto rounded-full w-32 h-32 object-contain"
+                    alt={name}
+                  />
+                </div>
+              </AnimationOnScroll>
+            );
+          })}
         </Slider>
       </section>
     </AnimationOnScroll>
