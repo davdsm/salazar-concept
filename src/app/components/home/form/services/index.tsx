@@ -54,48 +54,52 @@ export default function Services({
       </AnimationOnScroll>
 
       <div className="mt-6 sm:mt-10">
-        {services.map(({ id, name, details }, servicesIndex) => (
-          <AnimationOnScroll
-            animateIn="animate__fadeInUp"
-            key={id}
-            className="flex mb-8 flex-col md:flex-row items-center text-center md:text-left"
-          >
-            <Image src="/logo/logo.svg" width={120} height={120} alt={name} />
-            <div>
-              <h2 className="font-bold text-3xl sm:text-6xl uppercase">
-                {name}
-              </h2>
+        {services.map(({ id, name, details, isVisible }, servicesIndex) => {
+          if (!isVisible) return;
 
-              <div className="flex gap-3 mt-2 flex-wrap justify-center md:justify-start">
-                {details.map((detail, index) => {
-                  const isSelected =
-                    services[servicesIndex].selected.includes(detail);
+          return (
+            <AnimationOnScroll
+              animateIn="animate__fadeInUp"
+              key={id}
+              className="flex mb-8 flex-col md:flex-row items-center text-center md:text-left"
+            >
+              <Image src="/logo/logo.svg" width={120} height={120} alt={name} />
+              <div>
+                <h2 className="font-bold text-3xl sm:text-6xl uppercase">
+                  {name}
+                </h2>
 
-                  return (
-                    <AnimationOnScroll
-                      animateIn="animate__fadeInUp"
-                      key={`${detail}-${index}`}
-                      className={`flex mb-8 flex-col md:flex-row items-center text-center md:text-left animationDelay${
-                        100 * index
-                      }`}
-                    >
-                      <p
-                        className={`border border-black rounded-full px-1 py-1.5 text-xs uppercase cursor-pointer hover:bg-black hover:text-white ${
-                          isSelected ? "bg-black text-white" : ""
+                <div className="flex gap-3 mt-2 flex-wrap justify-center md:justify-start">
+                  {details.map((detail, index) => {
+                    const isSelected =
+                      services[servicesIndex].selected.includes(detail);
+
+                    return (
+                      <AnimationOnScroll
+                        animateIn="animate__fadeInUp"
+                        key={`${detail}-${index}`}
+                        className={`flex mb-8 flex-col md:flex-row items-center text-center md:text-left animationDelay${
+                          100 * index
                         }`}
-                        onClick={() =>
-                          toggleService(isSelected, servicesIndex, detail)
-                        }
                       >
-                        {detail}
-                      </p>
-                    </AnimationOnScroll>
-                  );
-                })}
+                        <p
+                          className={`border border-black rounded-full px-1 py-1.5 text-xs uppercase cursor-pointer hover:bg-black hover:text-white ${
+                            isSelected ? "bg-black text-white" : ""
+                          }`}
+                          onClick={() =>
+                            toggleService(isSelected, servicesIndex, detail)
+                          }
+                        >
+                          {detail}
+                        </p>
+                      </AnimationOnScroll>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          </AnimationOnScroll>
-        ))}
+            </AnimationOnScroll>
+          );
+        })}
       </div>
     </section>
   );

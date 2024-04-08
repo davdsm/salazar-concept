@@ -12,6 +12,7 @@ export type Service = {
   name: string;
   details: string[];
   selected: string[];
+  isVisible: boolean;
 };
 
 let defaultServices: any;
@@ -31,14 +32,12 @@ export default function Form() {
       const subCategories = await pb.collection("SubCategories").getFullList();
 
       const items = categories.map(({ isVisible, id, name }) => {
-        if (!isVisible) return;
-
         const details = subCategories
           .filter(({ isVisible, category }) => isVisible && category === id)
           .sort((a, b) => a.order - b.order)
           .map(({ name }) => name);
 
-        return { id, name, details, selected: [] };
+        return { id, name, details, selected: [], isVisible };
       });
 
       defaultServices = items;
