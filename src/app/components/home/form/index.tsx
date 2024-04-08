@@ -1,113 +1,62 @@
-"use client";
+import { useEffect, useState } from "react";
 
-import { useState } from "react";
+import PocketBase from "pocketbase";
+
+import { API_URL } from "@/app/utils";
 
 import Services from "@/app/components/home/form/services";
 import Talk from "@/app/components/home/form/talk";
 
-export const services = [
-  {
-    id: 1,
-    name: "Communication",
-    img: "/logo/logo.svg",
-    details: [
-      "Advertising",
-      "Brand Communication",
-      "Copywriting",
-      "Social Media",
-      "Corporative Communication ",
-      "Content Creation",
-      "Press Release",
-    ],
-  },
-  {
-    id: 2,
-    name: "Design",
-    img: "/logo/logo.svg",
-    details: [
-      "Flyers",
-      "Posters",
-      "Communication Design",
-      "Graphic Design",
-      "Logos",
-      "Brand Book",
-      "Graphic Line",
-      "Product Design",
-      "Packaging Design",
-      "Motion Graphic ",
-      "3D",
-    ],
-  },
-  {
-    id: 3,
-    name: "Website",
-    img: "/logo/logo.svg",
-    details: [
-      "Content + Copywriting",
-      "Development",
-      "UI",
-      "UX",
-      "SEO",
-      "Google Ads",
-      "Web Design",
-      "E-mail Marketing",
-      "Web Analytics",
-    ],
-  },
-  {
-    id: 4,
-    name: "Video",
-    img: "/logo/logo.svg",
-    details: [
-      "Storytelling",
-      "Promotional",
-      "Insitutional",
-      "Social Media (Reels + Tik Tok)",
-    ],
-  },
-  {
-    id: 5,
-    name: "Photography",
-    img: "/logo/logo.svg",
-    details: ["Event", "Product", "Live Model", "Studio", "Product Styling"],
-  },
-  {
-    id: 6,
-    name: "Marketing",
-    img: "/logo/logo.svg",
-    details: [
-      "Product Marketing",
-      "Creative Direction",
-      "Planning",
-      "Remarketing",
-      "Strategy",
-      "Data Analysis",
-      "Social Media Ads",
-      "E-commerce and Online Sales",
-      "Market Research",
-      "Social Media Management",
-      "Campaign Creation",
-    ],
-  },
-];
+export type Service = {
+  id: string;
+  name: string;
+  details: string[];
+  selected: string[];
+};
 
-const initialValues = services.map(({ name }) => ({
-  service: name,
-  selected: [],
-}));
+let defaultServices: any;
 
 export default function Form() {
-  const [servicesSelected, setServicesSelected] =
-    useState<{ service: string; selected: string[] }[]>(initialValues);
+  const [services, setServices] = useState<Service[]>([]);
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      const pb = new PocketBase(API_URL);
+
+      const categories = await pb
+        .collection("Categories")
+        .getFullList({ sort: "order" });
+
+      const subCategories = await pb.collection("SubCategories").getFullList();
+
+      const items = categories.map(({ isVisible, id, name }) => {
+        if (!isVisible) return;
+
+        const details = subCategories
+          .filter(({ isVisible, category }) => isVisible && category === id)
+          .sort((a, b) => a.order - b.order)
+          .map(({ name }) => name);
+
+        return { id, name, details, selected: [] };
+      });
+
+      defaultServices = items;
+      setServices(items as any);
+    };
+
+    fetchServices();
+  }, []);
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
 
-    let serviceDetailsHtml = `${servicesSelected.map(
-      (service) => `
+    let serviceDetailsHtml = `${services.map(
+      (service) =>
+        service.selected.length &&
+        `
       <li>
-        ${service.service}
+        ${service.name}
         <ul>
           ${service.selected.map((detail) => `<li>${detail}</li>`)}
         </ul>
@@ -135,8 +84,8 @@ export default function Form() {
             <ul>
                 ${serviceDetailsHtml.replaceAll(",", "")}
             </ul>
-          </li> 
-         
+          </li>
+
         </ul>`,
       }),
       headers: {
@@ -146,7 +95,7 @@ export default function Form() {
     });
 
     if (response.status === 200) {
-      setServicesSelected(initialValues);
+      setServices(defaultServices);
       setMessage("A sua mensagem foi enviada!");
       event.target.reset();
     } else {
@@ -157,10 +106,8 @@ export default function Form() {
   return (
     <>
       <Services
-        servicesSelected={servicesSelected}
-        changeSelectedServices={(newServices) =>
-          setServicesSelected(newServices)
-        }
+        services={services}
+        changeSelectedServices={(newServices) => setServices(newServices)}
       />
 
       <Talk handleSubmit={handleSubmit} message={message} />

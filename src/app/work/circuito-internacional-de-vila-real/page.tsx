@@ -3,7 +3,7 @@
 import Layout from "@/app/components/common/layout";
 import Concept from "@/app/components/work/circuito-internacional-de-vila-real/concept";
 import Details from "@/app/components/work/circuito-internacional-de-vila-real/details";
-import Entry from "@/app/components/work/circuito-internacional-de-vila-real/entry";
+// import Entry from "@/app/components/work/circuito-internacional-de-vila-real/entry";
 import Final from "@/app/components/work/circuito-internacional-de-vila-real/final";
 import GraphicLine from "@/app/components/work/circuito-internacional-de-vila-real/graphicLine";
 import Photography from "@/app/components/work/circuito-internacional-de-vila-real/photography";

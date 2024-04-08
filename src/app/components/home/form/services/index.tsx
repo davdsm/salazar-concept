@@ -2,24 +2,23 @@ import { AnimationOnScroll } from "react-animation-on-scroll";
 
 import Image from "next/image";
 
-import { services } from "..";
 import { Parallax } from "react-scroll-parallax";
 
-type servicesSelected = { service: string; selected: string[] }[];
+import { Service } from "..";
 
 export default function Services({
-  servicesSelected,
+  services,
   changeSelectedServices,
 }: {
-  servicesSelected: servicesSelected;
-  changeSelectedServices: (newServices: servicesSelected) => void;
+  services: Service[];
+  changeSelectedServices: (newServices: Service[]) => void;
 }) {
   const toggleService = (
     isSelected: boolean,
     serviceIndex: number,
     serviceDetail: string
   ) => {
-    const newServices = [...servicesSelected];
+    const newServices = [...services];
 
     if (isSelected) {
       newServices[serviceIndex].selected.splice(
@@ -55,13 +54,13 @@ export default function Services({
       </AnimationOnScroll>
 
       <div className="mt-6 sm:mt-10">
-        {services.map(({ id, img, name, details }, servicesIndex) => (
+        {services.map(({ id, name, details }, servicesIndex) => (
           <AnimationOnScroll
             animateIn="animate__fadeInUp"
-            key={`${id}-${name}-services`}
+            key={id}
             className="flex mb-8 flex-col md:flex-row items-center text-center md:text-left"
           >
-            <Image src={img} width={120} height={120} alt={name} />
+            <Image src="/logo/logo.svg" width={120} height={120} alt={name} />
             <div>
               <h2 className="font-bold text-3xl sm:text-6xl uppercase">
                 {name}
@@ -70,7 +69,7 @@ export default function Services({
               <div className="flex gap-3 mt-2 flex-wrap justify-center md:justify-start">
                 {details.map((detail, index) => {
                   const isSelected =
-                    servicesSelected[servicesIndex].selected.includes(detail);
+                    services[servicesIndex].selected.includes(detail);
 
                   return (
                     <AnimationOnScroll

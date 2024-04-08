@@ -48,7 +48,9 @@ export default function Clients() {
     const fetchClients = async () => {
       const pb = new PocketBase(API_URL);
 
-      const { items } = await pb.collection("Clients").getList<Client>();
+      const items = await pb
+        .collection("Clients")
+        .getFullList<Client>({ sort: "order" });
 
       setClients(items);
     };
