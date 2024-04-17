@@ -248,6 +248,10 @@ html {
   animation-delay: 1400ms !important;
 }
 
+.animationDelay2000 {
+  animation-delay: 2000ms !important;
+}
+
 .animationDelay3000 {
   animation-delay: 3000ms !important;
 }
