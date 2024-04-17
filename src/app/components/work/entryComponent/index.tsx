@@ -39,7 +39,7 @@ export default function EntryComponent({ sections, name }: any) {
             isSmallImages,
             videos,
           }: any) => (
-            <div key={id} className="container pt-14">
+            <div key={id} className="pt-8">
               {title && images.length === 0 && (
                 <div
                   className={`animate__animated animate__fadeInDown ${
@@ -53,10 +53,10 @@ export default function EntryComponent({ sections, name }: any) {
               )}
 
               {images.length > 0 && !title && !text && !isSmallImages && (
-                <div className="flex gap-x-3.5 gap-y-16 flex-col sm:flex-row">
+                <div className="flex gap-x-3.5 gap-y-6 flex-col sm:flex-row">
                   {images.map((img: string, index: number) => (
                     <div
-                      className={`animate__animated animate__fadeInDown ${
+                      className={`w-3/4 sm:w-2/6 m-auto animate__animated animate__fadeInDown ${
                         !firstLoad ? "animationDelay2000" : "animationDelay600"
                       }`}
                       key={`${img}-${index}`}
