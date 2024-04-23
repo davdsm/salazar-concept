@@ -92,32 +92,36 @@ export default function Project({ params }: { params: { slug: string } }) {
                   </AnimationOnScroll>
                 )}
 
-                {images.length > 0 && !title && !text && !isSmallImages && (
-                  <div className="flex gap-x-3.5 gap-y-16 flex-col sm:flex-row">
-                    {images.map((img: string, index: number) => (
-                      <AnimationOnScroll
-                        className={`animationDelay${100 * index}`}
-                        animateIn="animate__fadeInUp"
-                        key={`${img}-${index}`}
-                      >
-                        <img
-                          src={`${API_URL}/api/files/${collectionId}/${id}/${img}`}
-                          className={
-                            images_hover?.length ? "cursor-pointer" : ""
-                          }
-                          onMouseEnter={(e) =>
-                            images_hover?.length &&
-                            (e.currentTarget.src = `${API_URL}/api/files/${collectionId}/${id}/${images_hover[index]}`)
-                          }
-                          onMouseLeave={(e) =>
-                            images_hover?.length &&
-                            (e.currentTarget.src = `${API_URL}/api/files/${collectionId}/${id}/${img}`)
-                          }
-                        />
-                      </AnimationOnScroll>
-                    ))}
-                  </div>
-                )}
+                {images.length > 0 &&
+                  !title &&
+                  !text &&
+                  !isSmallImages &&
+                  !isSlide && (
+                    <div className="flex gap-x-3.5 gap-y-16 flex-col sm:flex-row">
+                      {images.map((img: string, index: number) => (
+                        <AnimationOnScroll
+                          className={`animationDelay${100 * index}`}
+                          animateIn="animate__fadeInUp"
+                          key={`${img}-${index}`}
+                        >
+                          <img
+                            src={`${API_URL}/api/files/${collectionId}/${id}/${img}`}
+                            className={
+                              images_hover?.length ? "cursor-pointer" : ""
+                            }
+                            onMouseEnter={(e) =>
+                              images_hover?.length &&
+                              (e.currentTarget.src = `${API_URL}/api/files/${collectionId}/${id}/${images_hover[index]}`)
+                            }
+                            onMouseLeave={(e) =>
+                              images_hover?.length &&
+                              (e.currentTarget.src = `${API_URL}/api/files/${collectionId}/${id}/${img}`)
+                            }
+                          />
+                        </AnimationOnScroll>
+                      ))}
+                    </div>
+                  )}
 
                 {text && images.length === 0 && (
                   <AnimationOnScroll animateIn="animate__fadeInUp">
@@ -270,7 +274,7 @@ export default function Project({ params }: { params: { slug: string } }) {
                   </AnimationOnScroll>
                 )}
 
-                {videos.length > 0 && (
+                {videos.length > 1 && (
                   <AnimationOnScroll animateIn="animate__fadeInUp">
                     <div>
                       {title && (
