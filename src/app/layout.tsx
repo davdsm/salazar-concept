@@ -151,7 +151,7 @@ export default function RootLayout({
         <meta name="title" content="Salazar Concept - EMBRACE THE CONCEPT" />
         <meta
           name="description"
-          content="True concepts are those that express a very strong definition and             are well consolidated by everyone around the world. the salazar             concept is a universal concept that was inspired by an icon capable             of looking at a market from a 360o angle and capable of camouflaging             itself and adapting to different ecosystems or business habitats."
+          content="True concepts are those that express a very strong definition and             are well consolidated by everyone around the world. the salazar             concept is a universal concept that was inspired by an icon capable             of looking at a market from a 360 angle and capable of camouflaging             itself and adapting to different ecosystems or business habitats."
         />
 
         <meta property="og:type" content="website" />
@@ -162,7 +162,7 @@ export default function RootLayout({
         />
         <meta
           property="og:description"
-          content="True concepts are those that express a very strong definition and             are well consolidated by everyone around the world. the salazar             concept is a universal concept that was inspired by an icon capable             of looking at a market from a 360o angle and capable of camouflaging             itself and adapting to different ecosystems or business habitats."
+          content="True concepts are those that express a very strong definition and             are well consolidated by everyone around the world. the salazar             concept is a universal concept that was inspired by an icon capable             of looking at a market from a 360 angle and capable of camouflaging             itself and adapting to different ecosystems or business habitats."
         />
         <meta
           property="og:image"
@@ -177,7 +177,7 @@ export default function RootLayout({
         />
         <meta
           property="twitter:description"
-          content="True concepts are those that express a very strong definition and             are well consolidated by everyone around the world. the salazar             concept is a universal concept that was inspired by an icon capable             of looking at a market from a 360o angle and capable of camouflaging             itself and adapting to different ecosystems or business habitats."
+          content="True concepts are those that express a very strong definition and             are well consolidated by everyone around the world. the salazar             concept is a universal concept that was inspired by an icon capable             of looking at a market from a 360 angle and capable of camouflaging             itself and adapting to different ecosystems or business habitats."
         />
         <meta property="twitter:image" content="banner.png" />
       </head>

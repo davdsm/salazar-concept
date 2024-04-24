@@ -52,31 +52,39 @@ export default function EntryComponent({ sections, name }: any) {
                 </div>
               )}
 
-              {images.length > 0 && !title && !text && !isSmallImages && (
-                <div className="flex gap-x-3.5 gap-y-6 flex-col sm:flex-row">
-                  {images.map((img: string, index: number) => (
-                    <div
-                      className={`w-3/4 sm:w-2/6 m-auto animate__animated animate__fadeInDown ${
-                        !firstLoad ? "animationDelay2000" : "animationDelay600"
-                      }`}
-                      key={`${img}-${index}`}
-                    >
-                      <img
-                        src={`${API_URL}/api/files/${collectionId}/${id}/${img}`}
-                        className={images_hover?.length ? "cursor-pointer" : ""}
-                        onMouseEnter={(e) =>
-                          images_hover?.length &&
-                          (e.currentTarget.src = `${API_URL}/api/files/${collectionId}/${id}/${images_hover[index]}`)
-                        }
-                        onMouseLeave={(e) =>
-                          images_hover?.length &&
-                          (e.currentTarget.src = `${API_URL}/api/files/${collectionId}/${id}/${img}`)
-                        }
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
+              {images.length > 0 &&
+                !title &&
+                !text &&
+                !isSmallImages &&
+                !isSlide && (
+                  <div className="flex gap-x-3.5 gap-y-6 flex-col sm:flex-row">
+                    {images.map((img: string, index: number) => (
+                      <div
+                        className={`w-3/4 sm:w-2/6 m-auto animate__animated animate__fadeInDown ${
+                          !firstLoad
+                            ? "animationDelay2000"
+                            : "animationDelay600"
+                        }`}
+                        key={`${img}-${index}`}
+                      >
+                        <img
+                          src={`${API_URL}/api/files/${collectionId}/${id}/${img}`}
+                          className={
+                            images_hover?.length ? "cursor-pointer" : ""
+                          }
+                          onMouseEnter={(e) =>
+                            images_hover?.length &&
+                            (e.currentTarget.src = `${API_URL}/api/files/${collectionId}/${id}/${images_hover[index]}`)
+                          }
+                          onMouseLeave={(e) =>
+                            images_hover?.length &&
+                            (e.currentTarget.src = `${API_URL}/api/files/${collectionId}/${id}/${img}`)
+                          }
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
 
               {text && images.length === 0 && (
                 <div

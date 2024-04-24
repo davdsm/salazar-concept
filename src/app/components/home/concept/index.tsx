@@ -29,7 +29,7 @@ export default function Concept() {
             True concepts are those that express a very strong definition and
             are well consolidated by everyone around the world. the salazar
             concept is a universal concept that was inspired by an icon capable
-            of looking at a market from a 360o angle and capable of camouflaging
+            of looking at a market from a 360 angle and capable of camouflaging
             itself and adapting to different ecosystems or business habitats.
           </p>
         </div>
