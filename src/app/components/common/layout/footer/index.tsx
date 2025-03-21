@@ -34,14 +34,6 @@ export default function Footer() {
           </AnimationOnScroll>
           <AnimationOnScroll
             animateIn="animate__fadeIn"
-            className="animationDelay200"
-          >
-             <a href="https://www.google.com/maps/place/F%C3%A1brica+ASA/@41.4196881,-8.3076324,17z/data=!3m1!4b1!4m6!3m5!1s0xd24ee2c9c5ecf17:0xb516596b283ecb35!8m2!3d41.4196882!4d-8.3027615!16s%2Fg%2F1hc1szpc0?entry=ttu" target="_blank">
-              Fábrica ASA-Espaço S 1.13 , <br /> 4835-164 Guimarães
-            </a>
-          </AnimationOnScroll>
-          <AnimationOnScroll
-            animateIn="animate__fadeIn"
             className="animationDelay300"
           >
             <div className="flex flex-col gap-6">
