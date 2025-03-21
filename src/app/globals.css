@@ -97,7 +97,8 @@ html {
 }
 
 .project:hover > div > img {
-  filter: brightness(2);
+  /* filter: brightness(2); */
+  transform: scale(0.9);
 }
 
 .project:hover > p {

@@ -1,9 +1,9 @@
-version: '3.5'
 
 services:
-  app:
+  salazarapp:
     image: openai-demo-app
     container_name: salazar-concept-app
+    restart: unless-stopped
     build:
       context: ./
       target: production
@@ -12,15 +12,23 @@ services:
         - .:/app
         - /app/node_modules
         - /app/.next
-    ports:
-      - "3000:3000"
+    # ports:
+    #   - "3000:3000"
+    networks:
+      - proxy
 
-  api:
+  salazarapi:
     image: ghcr.io/muchobien/pocketbase:latest
     container_name: salazar-concept-api
     restart: unless-stopped
-    ports:
-      - "8090:8090"
+    # ports:
+    #   - "8090:8090"
     volumes:
       - ./api:/api
       - ./api/data:/pb_data
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
