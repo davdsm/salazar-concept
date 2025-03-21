@@ -63,8 +63,12 @@ export default function Form() {
     `
     )}`;
 
-    const response = await fetch("http://api.davdsm.pt:8030/sendMail", {
+    const response = await fetch("https://api.davdsm.pt/sendMail", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        davdsmKey: "d41d8cd98f00b204e9800998ecf8427e",
+      },
       body: JSON.stringify({
         sender: "geral@davdsm.pt",
         receiver: {
@@ -87,10 +91,6 @@ export default function Form() {
 
         </ul>`,
       }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        davdsmKey: "d41d8cd98f00b204e9800998ecf8427e",
-      },
     });
 
     if (response.status === 200) {
