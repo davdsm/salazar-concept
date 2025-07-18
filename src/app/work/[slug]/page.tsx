@@ -100,15 +100,15 @@ export default function Project({ params }: { params: { slug: string } }) {
                     <div className="flex gap-x-3.5 gap-y-16 flex-col sm:flex-row">
                       {images.map((img: string, index: number) => (
                         <AnimationOnScroll
-                          className={`animationDelay${100 * index}`}
+                          className={`${images.length === 1 ? '' : 'aspect-square'} relative w-1/${images.length} animationDelay${100 * index}`}
                           animateIn="animate__fadeInUp"
                           key={`${img}-${index}`}
                         >
                           <img
                             src={`${API_URL}/api/files/${collectionId}/${id}/${img}`}
-                            className={
+                            className={`rounded w-full h-full ${images.length === 1 ? 'object-contain' : 'object-cover'}  ${
                               images_hover?.length ? "cursor-pointer" : ""
-                            }
+                            }`}
                             onMouseEnter={(e) =>
                               images_hover?.length &&
                               (e.currentTarget.src = `${API_URL}/api/files/${collectionId}/${id}/${images_hover[index]}`)
@@ -137,13 +137,13 @@ export default function Project({ params }: { params: { slug: string } }) {
                     <div className="flex gap-x-3.5 gap-y-16 flex-col sm:w-1/2">
                       {images.map((img: string, index: number) => (
                         <AnimationOnScroll
-                          className={`animationDelay${100 * index}`}
+                          className={`${images.length === 1 ? '' : 'aspect-square'} relative w-1/${images.length} animationDelay${100 * index}`}
                           animateIn="animate__fadeInUp"
                           key={`${img}-${index}`}
                         >
                           <img
                             src={`${API_URL}/api/files/${collectionId}/${id}/${img}`}
-                            className={`${
+                            className={`rounded w-full h-full ${images.length === 1 ? 'object-contain' : 'object-cover'}  ${
                               images_hover?.length ? "cursor-pointer" : ""
                             }`}
                             onMouseEnter={(e) =>
@@ -202,15 +202,15 @@ export default function Project({ params }: { params: { slug: string } }) {
                     <div className="flex gap-x-3.5 gap-y-16 flex-col sm:flex-row sm:w-2/3">
                       {images.map((img: string, index: number) => (
                         <AnimationOnScroll
-                          className={`animationDelay${100 * index}`}
+                          className={`${images.length === 1 ? '' : 'aspect-square'} relative w-1/${images.length} animationDelay${100 * index}`}
                           animateIn="animate__fadeInUp"
                           key={`${img}-${index}`}
                         >
                           <img
                             src={`${API_URL}/api/files/${collectionId}/${id}/${img}`}
-                            className={
+                            className={`rounded w-full h-full ${images.length === 1 ? 'object-contain' : 'object-cover'} ${
                               images_hover?.length ? "cursor-pointer" : ""
-                            }
+                            }`}
                             onMouseEnter={(e) =>
                               images_hover?.length &&
                               (e.currentTarget.src = `${API_URL}/api/files/${collectionId}/${id}/${images_hover[index]}`)
@@ -240,7 +240,7 @@ export default function Project({ params }: { params: { slug: string } }) {
                   <div className="hidden sm:flex justify-center sm:justify-between flex-wrap gap-10">
                     {images.map((img: string, index: number) => (
                       <AnimationOnScroll
-                        className={`animationDelay${100 * index} w-52 h-52`}
+                        className={`${images.length === 1 ? '' : 'aspect-square'} relative w-1/${images.length} animationDelay${100 * index} w-52 h-52`}
                         animateIn="animate__fadeInUp"
                         key={`${img}-${index}`}
                       >
