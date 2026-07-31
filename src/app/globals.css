@@ -1,0 +1,286 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body,
+html {
+  transition: all ease 1s;
+}
+
+#cortin {
+  position: fixed;
+  top: 0;
+  right: 100%;
+  width: 100%;
+  height: 100%;
+  background: black;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+#cortin.up {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-name: cortinUp;
+  -webkit-animation-name: cortinUp;
+  pointer-events: all;
+}
+
+#cortin.down {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  -webkit-animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-name: cortinDown;
+  -webkit-animation-name: cortinDown;
+  pointer-events: all;
+}
+
+.zoomOut {
+  padding: 0;
+}
+
+.zoomIn {
+  padding: 0;
+}
+
+.container {
+  @apply mx-auto max-w-7xl px-8 sm:px-10;
+}
+
+.text-animation::after {
+  content: " concept";
+  animation: spin 4s ease-in-out infinite;
+}
+
+.main-animation {
+  animation: block-hide 4s ease-out forwards;
+}
+
+.loader-animation {
+  animation: loader 4s ease-out forwards;
+}
+
+.loader-background-animation {
+  animation: loaderBackground 4s ease-out forwards;
+}
+
+.animal-animation {
+  animation-name: animalAnimation;
+  animation-delay: 3.9s;
+  animation-duration: 4s;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+  transition: all ease 0.2s;
+  transform: scale(1);
+}
+
+.entry-animation {
+  animation-name: entryAnimation;
+  animation-delay: 2s;
+  animation-duration: 6s;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+  transition: all ease 0.2s;
+  transform: scale(1);
+}
+
+.project *,
+.client {
+  transition: all ease 0.2s;
+}
+
+.project {
+  cursor: pointer;
+}
+
+.project:hover > div > img {
+  /* filter: brightness(2); */
+  transform: scale(0.9);
+}
+
+.project:hover > p {
+  transform: translateX(10px);
+}
+
+.client:hover {
+  transform: translateX(5px);
+}
+
+@keyframes block-hide {
+  0%,
+  99% {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  100% {
+    height: unset;
+    overflow: unset;
+  }
+}
+
+@keyframes spin {
+  0% {
+    content: " concept";
+  }
+
+  100% {
+    content: " ideology";
+  }
+}
+
+@keyframes loaderBackground {
+  0%,
+  80% {
+    background: black;
+  }
+
+  100% {
+    background: transparent;
+  }
+}
+
+@keyframes animalAnimation {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(0.8);
+  }
+}
+
+@keyframes entryAnimation {
+  0% {
+    transform: scale(1);
+    background: black;
+  }
+
+  100% {
+    transform: scale(1.3);
+    background: transparent;
+  }
+}
+
+@keyframes loader {
+  0%,
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
+
+@keyframes cortinUp {
+  from {
+    right: 100%;
+  }
+
+  to {
+    right: 0%;
+  }
+}
+
+@keyframes cortinDown {
+  from {
+    left: 0%;
+  }
+
+  to {
+    left: 100%;
+  }
+}
+
+.animationDelay100 {
+  animation-delay: 100ms !important;
+}
+
+.animationDelay200 {
+  animation-delay: 200ms !important;
+}
+
+.animationDelay300 {
+  animation-delay: 300ms !important;
+}
+
+.animationDelay400 {
+  animation-delay: 400ms !important;
+}
+
+.animationDelay500 {
+  animation-delay: 500ms !important;
+}
+
+.animationDelay600 {
+  animation-delay: 600ms !important;
+}
+
+.animationDelay700 {
+  animation-delay: 700ms !important;
+}
+
+.animationDelay800 {
+  animation-delay: 800ms !important;
+}
+
+.animationDelay900 {
+  animation-delay: 900ms !important;
+}
+
+.animationDelay1000 {
+  animation-delay: 1000ms !important;
+}
+
+.animationDelay1100 {
+  animation-delay: 1100ms !important;
+}
+
+.animationDelay1200 {
+  animation-delay: 1200ms !important;
+}
+
+.animationDelay1400 {
+  animation-delay: 1400ms !important;
+}
+
+.animationDelay2000 {
+  animation-delay: 2000ms !important;
+}
+
+.animationDelay3000 {
+  animation-delay: 3000ms !important;
+}
+
+.animationDelay3200 {
+  animation-delay: 3200ms !important;
+}
+
+.animationDelay3400 {
+  animation-delay: 3400ms !important;
+}
+
+.animationDelay3600 {
+  animation-delay: 3600ms !important;
+}
+
+.animationDelay4800 {
+  animation-delay: 4800ms !important;
+}
+
+.animationDelay5100 {
+  animation-delay: 5100ms !important;
+}
+
+.animationDelay5500 {
+  animation-delay: 5500ms !important;
+}
+
+.animationDelay5900 {
+  animation-delay: 5900ms !important;
+}
