@@ -6,7 +6,7 @@ import Close from "@/app/components/icons/close";
 
 import Links from "./links";
 import Link from "next/link";
-import { AppContext } from "@/app/layout";
+import { AppContext } from "@/app/app-context";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);

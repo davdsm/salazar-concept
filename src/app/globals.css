@@ -2,285 +2,379 @@
 @tailwind components;
 @tailwind utilities;
 
-body,
-html {
-  transition: all ease 1s;
+:root {
+  --beige: #f2efea;
+  --ink: #3d3a36;
+  --ink-soft: #6e6860;
 }
 
-#cortin {
+html,
+body {
+  background: var(--beige);
+  color: var(--ink);
+  min-height: 100%;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+body {
+  margin: 0;
+}
+
+.intro-curtain {
   position: fixed;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  background: var(--beige);
+  overflow: hidden;
+}
+
+.intro-copy {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.18em;
+  will-change: transform, opacity;
+}
+
+.intro-slot {
+  flex-shrink: 0;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.intro-line {
+  margin: 0;
+  font-size: clamp(2.4rem, 8.4vw, 6.1rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  color: #000;
+}
+
+.hero-sticky {
+  position: relative;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--beige);
+}
+
+.hero-frame {
+  position: absolute;
   top: 0;
-  right: 100%;
+  left: 0;
   width: 100%;
   height: 100%;
-  background: black;
-  z-index: 9999;
+  overflow: hidden;
+  background: #000;
+  will-change: width, height, top, left, border-radius;
+}
+
+.hero-zoom {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-media {
+  position: absolute;
+  inset: -2px;
+  overflow: hidden;
+  pointer-events: none;
+  background: #000;
+  will-change: transform;
+}
+
+.hero-vimeo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 177.78vh;
+  height: 56.25vw;
+  min-width: 100%;
+  min-height: 100%;
+  border: 0;
+  transform: translate(-50%, -50%);
   pointer-events: none;
 }
 
-#cortin.up {
-  animation-duration: 1s;
-  animation-fill-mode: both;
-  -webkit-animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-name: cortinUp;
-  -webkit-animation-name: cortinUp;
-  pointer-events: all;
+.hero-phrase {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0 2.4vw;
+  width: 100%;
+  font-size: 6.2vw;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+  color: #fff;
+  mix-blend-mode: difference;
+  pointer-events: none;
+  will-change: transform, opacity;
 }
 
-#cortin.down {
-  animation-duration: 1s;
-  animation-fill-mode: both;
-  -webkit-animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-name: cortinDown;
-  -webkit-animation-name: cortinDown;
-  pointer-events: all;
+.hero-statement {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0 4vw;
+  width: 100%;
+  overflow: hidden;
+  font-size: clamp(2.7rem, 12.5vw, 6.5rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  text-align: center;
+  color: #fff;
+  mix-blend-mode: difference;
+  pointer-events: none;
 }
 
-.zoomOut {
-  padding: 0;
+.hero-statement-line {
+  display: block;
+  white-space: nowrap;
 }
 
-.zoomIn {
-  padding: 0;
-}
-
-.container {
-  @apply mx-auto max-w-7xl px-8 sm:px-10;
-}
-
-.text-animation::after {
-  content: " concept";
-  animation: spin 4s ease-in-out infinite;
-}
-
-.main-animation {
-  animation: block-hide 4s ease-out forwards;
-}
-
-.loader-animation {
-  animation: loader 4s ease-out forwards;
-}
-
-.loader-background-animation {
-  animation: loaderBackground 4s ease-out forwards;
-}
-
-.animal-animation {
-  animation-name: animalAnimation;
-  animation-delay: 3.9s;
-  animation-duration: 4s;
-  animation-timing-function: ease;
-  animation-fill-mode: forwards;
-  transition: all ease 0.2s;
-  transform: scale(1);
-}
-
-.entry-animation {
-  animation-name: entryAnimation;
-  animation-delay: 2s;
-  animation-duration: 6s;
-  animation-timing-function: ease;
-  animation-fill-mode: forwards;
-  transition: all ease 0.2s;
-  transform: scale(1);
-}
-
-.project *,
-.client {
-  transition: all ease 0.2s;
-}
-
-.project {
-  cursor: pointer;
-}
-
-.project:hover > div > img {
-  /* filter: brightness(2); */
-  transform: scale(0.9);
-}
-
-.project:hover > p {
-  transform: translateX(10px);
-}
-
-.client:hover {
-  transform: translateX(5px);
-}
-
-@keyframes block-hide {
-  0%,
-  99% {
-    height: 100vh;
-    overflow: hidden;
-  }
-
-  100% {
-    height: unset;
-    overflow: unset;
+@media (max-width: 700px) {
+  .hero-statement {
+    padding: 0 2.4vw;
+    letter-spacing: 0.004em;
+    font-size: clamp(2.8rem, 12vw, 4.8rem);
   }
 }
 
-@keyframes spin {
-  0% {
-    content: " concept";
-  }
-
-  100% {
-    content: " ideology";
-  }
+.hero-statement.is-below {
+  z-index: 6;
+  overflow: visible;
 }
 
-@keyframes loaderBackground {
-  0%,
-  80% {
-    background: black;
-  }
-
-  100% {
-    background: transparent;
-  }
+.about-block {
+  position: fixed;
+  inset: 0;
+  z-index: 7;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 10vh 8vw;
+  text-align: center;
+  color: #fff;
+  mix-blend-mode: difference;
+  pointer-events: none;
 }
 
-@keyframes animalAnimation {
-  0% {
-    transform: scale(1);
-  }
-
-  100% {
-    transform: scale(0.8);
-  }
+.about-title {
+  margin: 0;
+  max-width: none;
+  font-size: clamp(1.05rem, 4.6vw, 2.7rem);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
 }
 
-@keyframes entryAnimation {
-  0% {
-    transform: scale(1);
-    background: black;
-  }
-
-  100% {
-    transform: scale(1.3);
-    background: transparent;
-  }
+.about-body {
+  margin: 1.45rem 0 0;
+  max-width: 38em;
+  font-family: "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, serif;
+  font-size: clamp(0.95rem, 1.65vw, 1.18rem);
+  font-weight: 400;
+  line-height: 1.7;
 }
 
-@keyframes loader {
-  0%,
-  80% {
-    opacity: 1;
-  }
+.story-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  pointer-events: none;
+}
 
-  100% {
-    opacity: 0;
+.story-frame {
+  position: relative;
+  z-index: 5;
+  width: 86vw;
+  height: 68vh;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: #000;
+  will-change: transform;
+}
+
+.story-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  user-select: none;
+}
+
+.hero-statement .text-clip {
+  padding-top: 0.32em;
+}
+
+.text-line {
+  max-width: 8.6em;
+}
+
+.text-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.hero-brand {
+  position: fixed;
+  top: 42%;
+  left: 50%;
+  z-index: 8;
+  width: min(72vw, 200px);
+  transform: translateX(-50%);
+  pointer-events: none;
+  mix-blend-mode: difference;
+  opacity: 0;
+  will-change: width, top, transform;
+}
+
+.hero-brand img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+}
+
+html.has-chameleon-cursor,
+html.has-chameleon-cursor * {
+  cursor: none !important;
+}
+
+.chameleon-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  width: 7.25rem;
+  height: 7.25rem;
+  overflow: visible;
+  pointer-events: none;
+  filter: drop-shadow(0 0 0.6px #f2efea) drop-shadow(0 0 0.6px #3d3a36);
+  will-change: transform;
+}
+
+@media (pointer: coarse) {
+  .chameleon-cursor {
     display: none;
   }
 }
 
-@keyframes cortinUp {
-  from {
-    right: 100%;
+.chameleon-cursor img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  object-fit: contain;
+}
+
+.text-clip {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  line-height: 1;
+}
+
+.text-char {
+  display: block;
+  transform: translateY(100%);
+  will-change: transform;
+}
+
+.text-char.is-space {
+  width: 0.32em;
+}
+
+.intro-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 0 1.25rem 1.1rem;
+}
+
+.intro-progress-pct {
+  display: block;
+  text-align: right;
+  margin-bottom: 0.45rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.intro-progress-track {
+  height: 1px;
+  width: 100%;
+  background: rgb(61 58 54 / 0.16);
+}
+
+.intro-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-line,
+  .hero-phrase,
+  .text-char,
+  .hero-brand {
+    opacity: 1;
+    transform: none;
   }
 
-  to {
-    right: 0%;
+  .intro-copy,
+  .intro-progress {
+    transition: none;
   }
-}
-
-@keyframes cortinDown {
-  from {
-    left: 0%;
-  }
-
-  to {
-    left: 100%;
-  }
-}
-
-.animationDelay100 {
-  animation-delay: 100ms !important;
-}
-
-.animationDelay200 {
-  animation-delay: 200ms !important;
-}
-
-.animationDelay300 {
-  animation-delay: 300ms !important;
-}
-
-.animationDelay400 {
-  animation-delay: 400ms !important;
-}
-
-.animationDelay500 {
-  animation-delay: 500ms !important;
-}
-
-.animationDelay600 {
-  animation-delay: 600ms !important;
-}
-
-.animationDelay700 {
-  animation-delay: 700ms !important;
-}
-
-.animationDelay800 {
-  animation-delay: 800ms !important;
-}
-
-.animationDelay900 {
-  animation-delay: 900ms !important;
-}
-
-.animationDelay1000 {
-  animation-delay: 1000ms !important;
-}
-
-.animationDelay1100 {
-  animation-delay: 1100ms !important;
-}
-
-.animationDelay1200 {
-  animation-delay: 1200ms !important;
-}
-
-.animationDelay1400 {
-  animation-delay: 1400ms !important;
-}
-
-.animationDelay2000 {
-  animation-delay: 2000ms !important;
-}
-
-.animationDelay3000 {
-  animation-delay: 3000ms !important;
-}
-
-.animationDelay3200 {
-  animation-delay: 3200ms !important;
-}
-
-.animationDelay3400 {
-  animation-delay: 3400ms !important;
-}
-
-.animationDelay3600 {
-  animation-delay: 3600ms !important;
-}
-
-.animationDelay4800 {
-  animation-delay: 4800ms !important;
-}
-
-.animationDelay5100 {
-  animation-delay: 5100ms !important;
-}
-
-.animationDelay5500 {
-  animation-delay: 5500ms !important;
-}
-
-.animationDelay5900 {
-  animation-delay: 5900ms !important;
 }

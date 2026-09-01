@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import { AppContext } from "@/app/layout";
+import { AppContext } from "@/app/app-context";
 import { API_URL } from "@/app/utils";
 import Slider from "react-slick";
 

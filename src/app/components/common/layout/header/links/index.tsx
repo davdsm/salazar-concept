@@ -1,4 +1,4 @@
-import { AppContext } from "@/app/layout";
+import { AppContext } from "@/app/app-context";
 import Link from "next/link";
 import { useContext } from "react";
 

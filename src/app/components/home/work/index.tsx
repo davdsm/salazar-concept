@@ -5,7 +5,7 @@ import PocketBase from "pocketbase";
 
 import Image from "next/image";
 import Link from "next/link";
-import { AppContext } from "@/app/layout";
+import { AppContext } from "@/app/app-context";
 import { API_URL } from "@/app/utils";
 
 type Project = {
