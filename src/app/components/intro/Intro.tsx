@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import LegacySection from "@/app/components/intro/LegacySection";
 
 const WORDMARK_RATIO = 136 / 928;
 
@@ -16,6 +17,24 @@ const SENSE_LINES = ["WE CREATE", "TO BE FELT."] as const;
 const ABOUT_TITLE = "Salazar Concept, Creative Agency,";
 const ABOUT_BODY =
   "True concepts are those that express a very strong definition and are well consolidated by everyone around the world. The Salazar Concept is a universal concept that was inspired by an icon capable of looking at a market from a 360 angle and capable of camouflaging itself and adapting to different ecosystems or business habitats.";
+
+const INDUSTRIES = [
+  {
+    src: "/images/industries/construction.jpg",
+    lead: "FROM",
+    name: "CONSTRUCTION,",
+  },
+  {
+    src: "/images/industries/restauration.jpg",
+    lead: "TO",
+    name: "RESTAURATION,",
+  },
+  {
+    src: "/images/industries/science.jpg",
+    lead: "TO",
+    name: "SCIENCE.",
+  },
+] as const;
 
 function MaskedLine({
   text,
@@ -109,6 +128,12 @@ export default function Intro() {
   const storyRef = useRef<HTMLDivElement>(null);
   const senseRef = useRef<HTMLParagraphElement>(null);
   const aboutRef = useRef<HTMLElement>(null);
+  const aboutThumbRef = useRef<HTMLDivElement>(null);
+  const industryRef = useRef<HTMLDivElement>(null);
+  const industryTrackRef = useRef<HTMLDivElement>(null);
+  const industryPinRef = useRef<HTMLElement>(null);
+  const captionLineRef = useRef<HTMLParagraphElement>(null);
+  const dotsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     resetScrollTop();
@@ -157,8 +182,8 @@ export default function Intro() {
       gsap.set(statement, { display: "flex", autoAlpha: 1 });
       gsap.set(
         [
-          ...phrase.querySelectorAll(".text-char"),
-          ...statement.querySelectorAll(".text-char"),
+          ...Array.from(phrase.querySelectorAll(".text-char")),
+          ...Array.from(statement.querySelectorAll(".text-char")),
         ],
         { yPercent: 0, y: 0 }
       );
@@ -276,9 +301,9 @@ export default function Intro() {
       gsap.set(slot, { width: 0, height: 0 });
       gsap.set(
         [
-          ...topLine.querySelectorAll(".text-char"),
-          ...bottomLine.querySelectorAll(".text-char"),
-          ...phrase.querySelectorAll(".text-char"),
+          ...Array.from(topLine.querySelectorAll(".text-char")),
+          ...Array.from(bottomLine.querySelectorAll(".text-char")),
+          ...Array.from(phrase.querySelectorAll(".text-char")),
         ],
         { yPercent: 100, y: 0 }
       );
@@ -486,8 +511,32 @@ export default function Intro() {
     const story = storyRef.current;
     const sense = senseRef.current;
     const about = aboutRef.current;
+    const aboutThumb = aboutThumbRef.current;
+    const industry = industryRef.current;
+    const industryTrack = industryTrackRef.current;
+    const industryPin = industryPinRef.current;
+    const captionLine = captionLineRef.current;
+    const dots = dotsRef.current;
+    const cursor = cursorRef.current;
 
-    if (!brand || !phrase || !statement || !frame || !track || !story || !sense || !about) return;
+    if (
+      !brand ||
+      !phrase ||
+      !statement ||
+      !frame ||
+      !track ||
+      !story ||
+      !sense ||
+      !about ||
+      !aboutThumb ||
+      !industry ||
+      !industryTrack ||
+      !industryPin ||
+      !captionLine ||
+      !dots ||
+      !cursor
+    )
+      return;
 
     gsap.registerPlugin(ScrollTrigger);
     ScrollTrigger.clearScrollMemory?.();
@@ -519,6 +568,19 @@ export default function Intro() {
     gsap.set(sense, { display: "none", autoAlpha: 0 });
     gsap.set(about, { display: "none", autoAlpha: 0, y: 28 });
     gsap.set(story, { x: 0, y: () => window.innerHeight });
+    gsap.set(industry, {
+      autoAlpha: 0,
+      y: 0,
+      top: () => window.innerHeight,
+      left: () => (window.innerWidth - Math.min(320, window.innerWidth * 0.36)) / 2,
+      width: () => Math.min(320, window.innerWidth * 0.36),
+      height: () => Math.min(320, window.innerWidth * 0.36) * 0.64,
+      maxWidth: 320,
+      maxHeight: 205,
+      borderRadius: 2,
+    });
+    gsap.set(industryTrack, { xPercent: 0 });
+    gsap.set([dots, captionLine], { autoAlpha: 0, y: 0 });
 
     if (reduce) {
       gsap.set(statementChars, { yPercent: 0, y: 0 });
@@ -529,6 +591,8 @@ export default function Intro() {
       gsap.set(story, { x: 0, y: 0 });
       return;
     }
+
+    let syncSpacerHeight: (() => void) | null = null;
 
     const ctx = gsap.context(() => {
       gsap.set(frame, {
@@ -670,6 +734,20 @@ export default function Intro() {
       const sideInset = () => Math.max(32, window.innerWidth * 0.07);
       const bannerHeight = () => window.innerHeight * 0.3;
 
+      const measureThumb = () => {
+        const hidden = getComputedStyle(about).display === "none";
+        if (hidden) about.style.display = "flex";
+        const r = aboutThumb.getBoundingClientRect();
+        if (hidden) about.style.display = "none";
+        if (r.width < 8) return null;
+        return {
+          top: r.top,
+          left: r.left,
+          width: r.width,
+          height: r.height,
+        };
+      };
+
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: track,
@@ -749,7 +827,242 @@ export default function Intro() {
         },
         0.6
       );
+
+      const thumbW = () => measureThumb()?.width ?? Math.min(320, window.innerWidth * 0.36);
+      const thumbH = () => measureThumb()?.height ?? thumbW() * 0.64;
+      const thumbTop = () => measureThumb()?.top ?? window.innerHeight * 0.58;
+      const thumbLeft = () =>
+        measureThumb()?.left ?? (window.innerWidth - thumbW()) / 2;
+      const segs = captionLine.querySelectorAll(".industry-seg");
+      const dotEls = dots.querySelectorAll(".industry-dot");
+      const captionXTo = gsap.quickTo(captionLine, "x", {
+        duration: 0.7,
+        ease: "power3.out",
+        force3D: true,
+      });
+
+      const updateIndustryUi = () => {
+        const slideP = gsap.utils.clamp(
+          0,
+          2,
+          -(Number(gsap.getProperty(industryTrack, "xPercent")) || 0) /
+            (100 / INDUSTRIES.length)
+        );
+        segs.forEach((seg, i) => {
+          const d = Math.abs(slideP - i);
+          gsap.set(seg, {
+            opacity: gsap.utils.clamp(0.16, 1, 1 - d * 0.78),
+          });
+        });
+        const i0 = Math.min(2, Math.floor(slideP));
+        const i1 = Math.min(2, i0 + 1);
+        const f = slideP - i0;
+        const a = segs[i0] as HTMLElement;
+        const b = segs[i1] as HTMLElement;
+        if (a && b) {
+          const c0 = a.offsetLeft + a.offsetWidth / 2;
+          const c1 = b.offsetLeft + b.offsetWidth / 2;
+          captionXTo(window.innerWidth / 2 - (c0 + (c1 - c0) * f));
+        }
+        const active = Math.round(slideP);
+        dotEls.forEach((dot, i) => {
+          dot.classList.toggle("is-active", i === active);
+        });
+      };
+
+      const introST = tl.scrollTrigger;
+      const riseStart = () =>
+        (introST?.start ?? 0) +
+        ((introST?.end ?? 0) - (introST?.start ?? 0)) * 0.84;
+
+      const industryRiseDur = 0.28;
+      const industryExpandDur = 0.38;
+      const industryScrollAt = industryRiseDur + industryExpandDur + 0.04;
+      const industryScrollDur = 2.2;
+      const industryHoldDur = 0.1;
+      const industryExitDur = 0.2;
+      const industryExitAt =
+        industryScrollAt + industryScrollDur + industryHoldDur;
+      const industryTlDur = industryExitAt + industryExitDur;
+      const industryScrollVh = 10.35;
+      const industryScrollEnd = () =>
+        riseStart() + window.innerHeight * industryScrollVh;
+
+      const enterLegacy = () => {
+        desired = "none";
+        syncCopy();
+        gsap.set(brand, { autoAlpha: 0 });
+        gsap.set(about, { autoAlpha: 0, display: "none" });
+        gsap.set(cursor, { autoAlpha: 0 });
+        document.documentElement.classList.add("is-legacy");
+        document.documentElement.classList.remove("has-chameleon-cursor");
+      };
+
+      const leaveLegacy = () => {
+        if (!document.documentElement.classList.contains("is-legacy")) return;
+        document.documentElement.classList.remove("is-legacy");
+        document.documentElement.classList.add("has-chameleon-cursor");
+        gsap.set(cursor, { autoAlpha: 1 });
+        gsap.set(brand, { autoAlpha: 1 });
+      };
+
+      const updateSpacerHeight = () => {
+        const spacerTop = industryPin.offsetTop;
+        const height = industryScrollEnd() - spacerTop;
+        industryPin.style.height = `${Math.max(window.innerHeight, height)}px`;
+      };
+
+      syncSpacerHeight = updateSpacerHeight;
+
+      const industryTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: track,
+          start: riseStart,
+          end: industryScrollEnd,
+          scrub: 1.15,
+          invalidateOnRefresh: true,
+          onLeave: enterLegacy,
+          onEnterBack: () => {
+            leaveLegacy();
+            gsap.set(industry, {
+              visibility: "visible",
+              autoAlpha: 1,
+            });
+            gsap.set(captionLine, { visibility: "visible" });
+          },
+          onLeaveBack: () => {
+            leaveLegacy();
+            gsap.set(industryTrack, { xPercent: 0 });
+            gsap.set([dots, captionLine], {
+              autoAlpha: 0,
+              visibility: "hidden",
+              y: 0,
+            });
+            gsap.set(industry, {
+              y: 0,
+              autoAlpha: 0,
+              visibility: "hidden",
+            });
+            gsap.set(brand, { autoAlpha: 1 });
+          },
+          onUpdate(self) {
+            updateIndustryUi();
+            const time = self.progress * industryTlDur;
+            if (time < industryExitAt) {
+              if (document.documentElement.classList.contains("is-legacy")) {
+                leaveLegacy();
+              }
+            }
+            if (self.progress > industryRiseDur / industryTlDur + 0.01) {
+              desired = "none";
+              gsap.set(brand, { autoAlpha: 0 });
+            } else {
+              desired = "about";
+              gsap.set(brand, { autoAlpha: 1 });
+            }
+            if (self.progress > 0) syncCopy();
+          },
+        },
+      });
+
+      industryTl.fromTo(
+        industry,
+        {
+          autoAlpha: 0,
+          y: 0,
+          top: () => window.innerHeight,
+          left: () => thumbLeft(),
+          width: () => thumbW(),
+          height: () => thumbH(),
+          maxWidth: 320,
+          maxHeight: 205,
+          borderRadius: 2,
+        },
+        {
+          autoAlpha: 1,
+          top: () => thumbTop(),
+          left: () => thumbLeft(),
+          width: () => thumbW(),
+          height: () => thumbH(),
+          maxWidth: 320,
+          maxHeight: 205,
+          borderRadius: 2,
+          duration: industryRiseDur,
+          ease: "none",
+        },
+        0
+      );
+
+      industryTl.to(
+        industry,
+        {
+          top: 0,
+          left: 0,
+          width: () => window.innerWidth,
+          height: () => window.innerHeight,
+          maxWidth: "none",
+          maxHeight: "none",
+          borderRadius: 0,
+          duration: industryExpandDur,
+          ease: "none",
+        },
+        industryRiseDur
+      );
+
+      industryTl.to(
+        [dots, captionLine],
+        { autoAlpha: 1, visibility: "visible", duration: 0.1, ease: "none" },
+        industryScrollAt - 0.08
+      );
+
+      industryTl.fromTo(
+        industryTrack,
+        { xPercent: 0, force3D: true },
+        {
+          xPercent: (-100 / INDUSTRIES.length) * (INDUSTRIES.length - 1),
+          duration: industryScrollDur,
+          ease: "none",
+          force3D: true,
+        },
+        industryScrollAt
+      );
+
+      industryTl.to(
+        [industry, captionLine],
+        {
+          y: () => -window.innerHeight,
+          duration: industryExitDur,
+          ease: "none",
+        },
+        industryExitAt
+      );
+
+      industryTl.to(
+        dots,
+        { autoAlpha: 0, duration: industryExitDur * 0.3, ease: "none" },
+        industryExitAt
+      );
+
+      const legacyEl = document.querySelector(".legacy");
+      if (legacyEl) {
+        ScrollTrigger.create({
+          trigger: legacyEl,
+          start: "top top",
+          end: "bottom top",
+          onEnterBack: enterLegacy,
+          onLeaveBack: leaveLegacy,
+        });
+      }
+
+      updateSpacerHeight();
+      ScrollTrigger.refresh();
     });
+
+    const onResize = () => {
+      syncSpacerHeight?.();
+      ScrollTrigger.refresh();
+    };
+    window.addEventListener("resize", onResize);
 
     const onOpened = () => {
       resetScrollTop();
@@ -768,6 +1081,7 @@ export default function Intro() {
     return () => {
       window.removeEventListener("intro-opened", onOpened);
       window.removeEventListener("pageshow", onPageShow);
+      window.removeEventListener("resize", onResize);
       ctx.revert();
     };
   }, []);
@@ -802,6 +1116,10 @@ export default function Intro() {
             </div>
           </div>
         </section>
+
+        <section ref={industryPinRef} className="industry-spacer" aria-hidden="true" />
+
+        <LegacySection />
 
       <div ref={curtainRef} className="intro-curtain" aria-hidden="true">
         <div ref={copyRef} className="intro-copy">
@@ -854,7 +1172,36 @@ export default function Intro() {
       >
         <h2 className="about-title">{ABOUT_TITLE}</h2>
         <p className="about-body">{ABOUT_BODY}</p>
+        <div ref={aboutThumbRef} className="about-thumb-slot" />
       </article>
+      <div ref={industryRef} className="industry-panel">
+        <div ref={industryTrackRef} className="industry-track">
+          {INDUSTRIES.map((item) => (
+            <div className="industry-slide" key={item.src}>
+              <img src={item.src} alt="" draggable={false} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div ref={dotsRef} className="industry-dots" aria-hidden="true">
+        {INDUSTRIES.map((item, index) => (
+          <span
+            className={index === 0 ? "industry-dot is-active" : "industry-dot"}
+            key={item.name}
+          />
+        ))}
+      </div>
+      <p
+        ref={captionLineRef}
+        className="industry-caption-line"
+        aria-label="From construction, to restauration, to science."
+      >
+        {INDUSTRIES.map((item) => (
+          <span className="industry-seg" key={item.name}>
+            <i>{item.lead}</i> {item.name}
+          </span>
+        ))}
+      </p>
       <div ref={brandRef} className="hero-brand">
         <img
           src="/logo/wordmark.png"
