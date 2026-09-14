@@ -13,6 +13,7 @@ import MaskedLine from "@/app/components/intro/MaskedLine";
 const WORDMARK_RATIO = 136 / 928;
 
 const HERO_LOOP_SRC = "/videos/hero-loop.mp4";
+const HERO_LOOP_MOBILE_SRC = "/videos/hero-loop-mobile.mp4";
 const HERO_STILL_SRC = "/images/story.jpg";
 const HERO_PHRASE = "ART FROM EVERY ANGLE.";
 const STATEMENT = "WE DON'T CREATE TO BE SEEN.";
@@ -110,6 +111,19 @@ export default function Intro() {
   const industryPinRef = useRef<HTMLElement>(null);
   const captionLineRef = useRef<HTMLParagraphElement>(null);
   const dotsRef = useRef<HTMLDivElement>(null);
+
+  /* A fonte é escolhida aqui e não no JSX. O ficheiro de 1080p pesa 19 MB e
+     num telemóvel não há nada a ganhar com ele: a versão de 720p faz 3,7 MB.
+     Com o src no HTML servido, o download arrancava antes de sabermos o
+     tamanho do ecrã — e trocá-lo depois só pedia os dois. O poster cobre o
+     intervalo até este efeito correr. */
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.src = window.matchMedia("(max-width: 900px)").matches
+      ? HERO_LOOP_MOBILE_SRC
+      : HERO_LOOP_SRC;
+  }, [heroStill]);
 
   useEffect(() => {
     resetScrollTop();
@@ -515,17 +529,28 @@ export default function Intro() {
       return;
 
     gsap.registerPlugin(ScrollTrigger);
+    /* No telemóvel a barra de endereço entra e sai durante o scroll, e cada
+       vez que isso acontece o browser dispara um resize. Sem isto o
+       ScrollTrigger remedia as posições a meio da viagem e os pins dão um
+       salto visível a cada poucos dedos de scroll. */
+    ScrollTrigger.config({ ignoreMobileResize: true });
     ScrollTrigger.clearScrollMemory?.();
     resetScrollTop();
 
     const reduce = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
+    const coarse = window.matchMedia("(pointer: coarse)").matches;
+    const compact = window.matchMedia("(max-width: 900px)").matches;
 
     const brandWidth = () => Math.min(200, window.innerWidth * 0.72);
     const brandTop = () => {
       const height = brandWidth() * WORDMARK_RATIO;
-      const phraseSize = window.innerWidth * 0.062;
+      // Lido do CSS em vez de repetir aqui o 6.2vw da .hero-phrase: a frase
+      // encolhe em ecrãs estreitos e a assinatura tem de a acompanhar.
+      const phraseSize =
+        parseFloat(getComputedStyle(phrase).fontSize) ||
+        window.innerWidth * 0.062;
       return window.innerHeight / 2 - phraseSize / 2 - 22 - height;
     };
 
@@ -728,7 +753,10 @@ export default function Intro() {
         scrollTrigger: {
           trigger: track,
           start: "top top",
-          end: "+=450%",
+          // A coreografia é a mesma; só acontece em menos píxeis. Num
+          // telemóvel 450% da altura do ecrã são perto de quarenta gestos de
+          // dedo para atravessar o hero.
+          end: compact ? "+=330%" : "+=450%",
           pin: true,
           scrub: 0.45,
           invalidateOnRefresh: true,
@@ -865,7 +893,7 @@ export default function Intro() {
       const industryExitAt =
         industryScrollAt + industryScrollDur + industryHoldDur;
       const industryTlDur = industryExitAt + industryExitDur;
-      const industryScrollVh = 10.35;
+      const industryScrollVh = compact ? 6.9 : 10.35;
       const industryScrollEnd = () =>
         riseStart() + window.innerHeight * industryScrollVh;
 
@@ -1054,7 +1082,14 @@ export default function Intro() {
       ScrollTrigger.refresh();
     });
 
+    /* O spacer do carousel é medido em alturas de ecrã, por isso continua a
+       ter de ser refeito quando a janela muda mesmo de tamanho. Num ecrã de
+       toque só a largura conta como mudança real: a altura oscila sozinha
+       com a barra do browser. */
+    let lastWidth = window.innerWidth;
     const onResize = () => {
+      if (coarse && window.innerWidth === lastWidth) return;
+      lastWidth = window.innerWidth;
       syncSpacerHeight?.();
       ScrollTrigger.refresh();
     };
@@ -1103,7 +1138,6 @@ export default function Intro() {
                   <video
                     ref={videoRef}
                     className="hero-vimeo"
-                    src={HERO_LOOP_SRC}
                     poster={HERO_STILL_SRC}
                     muted
                     loop

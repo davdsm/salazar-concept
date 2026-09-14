@@ -550,11 +550,14 @@ html.is-footer .industry-panel {
   pointer-events: none !important;
 }
 
+/* O corpo é medido contra a coluna, não contra o ecrã: o texto vive na
+   metade direita do .legacy-layout, e a 7.6vw "Impact forever." media 899px
+   dentro de uma coluna de 617px — saía do ecrã a meio da palavra. */
 .legacy-title {
   margin: 0;
   max-width: none;
   color: #000;
-  font-size: clamp(3.2rem, 7.6vw, 6.8rem);
+  font-size: clamp(2rem, 4.5vw, 5.4rem);
   font-weight: 700;
   line-height: 0.94;
   letter-spacing: -0.045em;
@@ -606,6 +609,31 @@ html.is-footer .industry-panel {
     padding-inline: 6vw;
     font-size: clamp(2.1rem, 11vw, 4.2rem);
     letter-spacing: -0.04em;
+  }
+
+  /* As linhas do título são nowrap por desenho, e o mínimo do clamp de base
+     (3.2rem) dava 423px a "Impact forever." dentro de uma coluna de 332px.
+     Um documento mais largo do que o ecrã não corta só o título: o browser
+     responde a encolher a página inteira até ela caber, e o site aparecia a
+     81% em todos os telemóveis. */
+  .legacy-title {
+    font-size: clamp(1.9rem, 9.2vw, 4.4rem);
+  }
+}
+
+/* A galeria herdava as duas colunas do desktop: num ecrã de 390px cada
+   fotografia ficava com 180px de largura por 420 de altura, um recorte
+   vertical onde não se percebe o trabalho. Em coluna única cada uma fica
+   com a largura toda e volta a ler-se. */
+@media (max-width: 640px) {
+  .legacy-gallery {
+    grid-template-columns: 1fr;
+    gap: clamp(0.8rem, 3vw, 1.2rem);
+  }
+
+  .legacy-shot,
+  .legacy-shot.is-offset {
+    height: min(46dvh, 360px);
   }
 }
 
@@ -920,7 +948,7 @@ html.lenis body {
   }
 
   .fame-ind {
-    font-size: 0.62rem;
+    font-size: 0.68rem;
   }
 }
 
@@ -1263,8 +1291,47 @@ html.lenis body {
     gap: 2.2rem;
   }
 
+  /* O corpo vem de clamp(0.56rem, 0.78vw, 0.7rem): num telemóvel o 0.78vw
+     não chega a nada e ficava tudo no mínimo, 8.96px. É neste bloco que
+     estão o email e as redes, e a 9px não se leem. Volta aos 11px que o
+     desenho tem no desktop. */
   .site-footer-cols {
     width: 100%;
     max-width: none;
+    gap: 1.3rem 2rem;
+    font-size: 0.7rem;
+  }
+}
+
+/* Num ecrã de toque o ponteiro é o dedo: estes controlos têm 27px de altura
+   e a área sensível passa a 44px sem lhes mudar o aspeto. */
+@media (pointer: coarse) {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .fame-cta,
+  .site-footer-journey,
+  .site-footer-inquiry-back {
+    position: relative;
+  }
+
+  .fame-cta::after,
+  .site-footer-journey::after,
+  .site-footer-inquiry-back::after,
+  .site-footer-inquiry-submit::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 100%;
+    height: 100%;
+    min-width: 44px;
+    min-height: 44px;
+    transform: translate(-50%, -50%);
+  }
+
+  .fame-stage {
+    cursor: default;
   }
 }

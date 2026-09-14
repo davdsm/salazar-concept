@@ -25,6 +25,11 @@ export default function SiteFooter() {
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    /* A pausa antes de abrir é suspense num ecrã grande, onde o footer entra
+       por baixo do que ainda se vê. Num telemóvel ele ocupa o ecrã inteiro e
+       três segundos passam a ler-se como um ecrã preto que não responde. */
+    const openDelay = window.matchMedia("(pointer: coarse)").matches ? 1.4 : 3;
+
     gsap.set(gaps, { flexGrow: 0 });
     gsap.set(mid, { height: 0, autoAlpha: 0, overflow: "hidden" });
     gsap.set(chars, { yPercent: 100, y: 0 });
@@ -90,13 +95,13 @@ export default function SiteFooter() {
       onEnter: () => {
         document.documentElement.classList.add("is-footer");
         delay?.kill();
-        delay = gsap.delayedCall(3, open);
+        delay = gsap.delayedCall(openDelay, open);
       },
       onEnterBack: () => {
         document.documentElement.classList.add("is-footer");
         if (!opened) {
           delay?.kill();
-          delay = gsap.delayedCall(3, open);
+          delay = gsap.delayedCall(openDelay, open);
         }
       },
       onLeaveBack: () => {

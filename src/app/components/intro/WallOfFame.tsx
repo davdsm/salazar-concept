@@ -150,8 +150,17 @@ export default function WallOfFame() {
     };
 
     /* O título faz mais caminho que as bandeiras: entra mais abaixo e
-       sai mais acima, para o scroll o arrastar através dos panos. */
-    const titleTravel = () => Math.min(window.innerHeight * 0.85, 900);
+       sai mais acima, para o scroll o arrastar através dos panos.
+
+       A fração tem de ser travada em ±1. Sem isso, com a secção ainda a 15
+       mil píxeis abaixo, o translate chegava aos 13 mil px e — sendo o
+       título absoluto — esticava o documento outro tanto, deixando um rasto
+       de scroll vazio depois do footer.
+
+       O curso também não passa do palco: num telemóvel as bandeiras medem
+       230px e um parallax de 700px punha o título fora delas quase sempre. */
+    const titleTravel = () =>
+      Math.min(window.innerHeight * 0.85, stage.clientHeight * 1.2, 900);
     const syncParallax = () => {
       if (reduce) {
         title.style.transform = "";
@@ -160,7 +169,8 @@ export default function WallOfFame() {
       const r = stage.getBoundingClientRect();
       const p =
         (r.top + r.height / 2 - window.innerHeight / 2) / window.innerHeight;
-      title.style.transform = `translate3d(0, ${(p * titleTravel()).toFixed(2)}px, 0)`;
+      const travel = Math.max(-1, Math.min(1, p)) * titleTravel();
+      title.style.transform = `translate3d(0, ${travel.toFixed(2)}px, 0)`;
     };
     syncParallax();
 
@@ -432,6 +442,16 @@ export default function WallOfFame() {
     stage.addEventListener("pointermove", onMove);
     stage.addEventListener("pointerleave", onLeave);
 
+    /* Num ecrã de toque não há hover: sem isto as bandeiras nunca reagiam e
+       a legenda ficava sempre apagada. O toque acende a bandeira e ela fica
+       acesa até se tocar noutra — limpar no pointerup dava só um flash. O
+       cancel é o que chega quando o dedo passa a scroll. */
+    const coarse = window.matchMedia("(pointer: coarse)").matches;
+    if (coarse) {
+      stage.addEventListener("pointerdown", onMove);
+      stage.addEventListener("pointercancel", onLeave);
+    }
+
     const ro = new ResizeObserver(measure);
     ro.observe(stage);
 
@@ -458,6 +478,8 @@ export default function WallOfFame() {
       revealTl.kill();
       stage.removeEventListener("pointermove", onMove);
       stage.removeEventListener("pointerleave", onLeave);
+      stage.removeEventListener("pointerdown", onMove);
+      stage.removeEventListener("pointercancel", onLeave);
       ro.disconnect();
       io.disconnect();
       flags.forEach((f) => gl.deleteTexture(f.tex));
