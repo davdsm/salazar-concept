@@ -1,14 +1,19 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+import ClothImage from "@/app/components/common/cloth/ClothImage";
+import WallOfFame from "@/app/components/intro/WallOfFame";
 import LegacySection from "@/app/components/intro/LegacySection";
+import SiteFooter from "@/app/components/intro/SiteFooter";
+import MaskedLine from "@/app/components/intro/MaskedLine";
 
 const WORDMARK_RATIO = 136 / 928;
 
-const VIMEO_SRC =
-  "https://player.vimeo.com/video/832231383?background=1&autoplay=1&muted=1&loop=1&autopause=0";
+const HERO_LOOP_SRC = "/videos/hero-loop.mp4";
+const HERO_STILL_SRC = "/images/story.jpg";
 const HERO_PHRASE = "ART FROM EVERY ANGLE.";
 const STATEMENT = "WE DON'T CREATE TO BE SEEN.";
 const STATEMENT_LINES = ["WE DON'T CREATE", "TO BE SEEN."] as const;
@@ -35,36 +40,6 @@ const INDUSTRIES = [
     name: "SCIENCE.",
   },
 ] as const;
-
-function MaskedLine({
-  text,
-  wrapWords = false,
-}: {
-  text: string;
-  wrapWords?: boolean;
-}) {
-  const chars = (value: string, keyPrefix: string) =>
-    value.split("").map((char, index) => (
-      <span className="text-clip" key={`${keyPrefix}-${char}-${index}`}>
-        <span className={char === " " ? "text-char is-space" : "text-char"}>
-          {char === " " ? "\u00A0" : char}
-        </span>
-      </span>
-    ));
-
-  if (!wrapWords) return <>{chars(text, "c")}</>;
-
-  return (
-    <span className="text-line">
-      {text.split(" ").map((word, wordIndex, words) => (
-        <span className="text-word" key={`${word}-${wordIndex}`}>
-          {chars(word, `${wordIndex}`)}
-          {wordIndex < words.length - 1 ? chars(" ", `s${wordIndex}`) : null}
-        </span>
-      ))}
-    </span>
-  );
-}
 
 function holeSize() {
   const vw = window.innerWidth;
@@ -118,7 +93,8 @@ export default function Intro() {
   const pctRef = useRef<HTMLSpanElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
   const mediaRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLIFrameElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [heroStill, setHeroStill] = useState(false);
   const phraseRef = useRef<HTMLParagraphElement>(null);
   const statementRef = useRef<HTMLParagraphElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
@@ -147,7 +123,6 @@ export default function Intro() {
     const bar = barRef.current;
     const pct = pctRef.current;
     const hero = heroRef.current;
-    const video = videoRef.current;
     const phrase = phraseRef.current;
     const statement = statementRef.current;
     const brand = brandRef.current;
@@ -162,7 +137,6 @@ export default function Intro() {
       !bar ||
       !pct ||
       !hero ||
-      !video ||
       !phrase ||
       !statement ||
       !brand
@@ -175,6 +149,7 @@ export default function Intro() {
     ).matches;
 
     if (reduce) {
+      setHeroStill(true);
       curtain.style.display = "none";
       document.documentElement.style.overflow = "";
       resetScrollTop();
@@ -276,21 +251,14 @@ export default function Intro() {
       tryOpen();
     };
 
-    const onVimeoMessage = (event: MessageEvent) => {
-      if (event.origin !== "https://player.vimeo.com") return;
-      try {
-        const data =
-          typeof event.data === "string" ? JSON.parse(event.data) : event.data;
-        if (data.event === "ready" || data.event === "play") {
-          markMediaReady();
-        }
-      } catch {
-        return;
-      }
-    };
+    const video = videoRef.current;
+    if (!video) return;
 
-    window.addEventListener("message", onVimeoMessage);
-    video.addEventListener("load", markMediaReady);
+    const onHeroReady = () => markMediaReady();
+    video.addEventListener("playing", onHeroReady);
+    video.addEventListener("canplay", onHeroReady);
+    video.addEventListener("error", onHeroReady);
+    if (video.readyState >= 3) markMediaReady();
     const mediaFallback = window.setTimeout(markMediaReady, 8000);
 
     const peek = holeSize();
@@ -372,8 +340,9 @@ export default function Intro() {
 
     return () => {
       window.removeEventListener("resize", onResize);
-      window.removeEventListener("message", onVimeoMessage);
-      video.removeEventListener("load", markMediaReady);
+      video.removeEventListener("playing", onHeroReady);
+      video.removeEventListener("canplay", onHeroReady);
+      video.removeEventListener("error", onHeroReady);
       window.clearTimeout(mediaFallback);
       ctx.revert();
       gsap.killTweensOf([tracker, hole]);
@@ -431,9 +400,17 @@ export default function Intro() {
       gsap.to(cursor, { autoAlpha: 1, duration: 0.18, ease: "power2.out" });
     };
 
+    const syncLinkHover = (event: MouseEvent) => {
+      const node = event.target;
+      const onLink =
+        node instanceof Element && !!node.closest("a, button");
+      cursor.classList.toggle("is-on-link", onLink);
+    };
+
     if (reduce) {
       const onMove = (event: MouseEvent) => {
         showCursor();
+        syncLinkHover(event);
         const inset = cursor.offsetWidth * 0.42;
         cursorX(
           gsap.utils.clamp(inset, window.innerWidth - inset, event.clientX)
@@ -477,6 +454,7 @@ export default function Intro() {
 
     const onMove = (event: MouseEvent) => {
       showCursor();
+      syncLinkHover(event);
       const nx = (event.clientX / window.innerWidth) * 2 - 1;
       const ny = (event.clientY / window.innerHeight) * 2 - 1;
       phraseX(nx * 48);
@@ -517,7 +495,6 @@ export default function Intro() {
     const industryPin = industryPinRef.current;
     const captionLine = captionLineRef.current;
     const dots = dotsRef.current;
-    const cursor = cursorRef.current;
 
     if (
       !brand ||
@@ -533,8 +510,7 @@ export default function Intro() {
       !industryTrack ||
       !industryPin ||
       !captionLine ||
-      !dots ||
-      !cursor
+      !dots
     )
       return;
 
@@ -756,6 +732,11 @@ export default function Intro() {
           pin: true,
           scrub: 0.45,
           invalidateOnRefresh: true,
+          // O pin acrescenta ~4050px ao documento. Sem prioridade, o GSAP
+          // refresca os triggers da LegacySection antes deste, e eles medem
+          // posições de um documento que ainda não tem o pin spacer — ficando
+          // ~4400px acima do sítio certo.
+          refreshPriority: 10,
           onUpdate(self) {
             const p = self.progress;
             if (p >= 0.84) desired = "about";
@@ -893,16 +874,12 @@ export default function Intro() {
         syncCopy();
         gsap.set(brand, { autoAlpha: 0 });
         gsap.set(about, { autoAlpha: 0, display: "none" });
-        gsap.set(cursor, { autoAlpha: 0 });
         document.documentElement.classList.add("is-legacy");
-        document.documentElement.classList.remove("has-chameleon-cursor");
       };
 
       const leaveLegacy = () => {
         if (!document.documentElement.classList.contains("is-legacy")) return;
         document.documentElement.classList.remove("is-legacy");
-        document.documentElement.classList.add("has-chameleon-cursor");
-        gsap.set(cursor, { autoAlpha: 1 });
         gsap.set(brand, { autoAlpha: 1 });
       };
 
@@ -921,6 +898,9 @@ export default function Intro() {
           end: industryScrollEnd,
           scrub: 1.15,
           invalidateOnRefresh: true,
+          // Depende das medidas do pin acima, mas tem de assentar antes da
+          // LegacySection, que vive a seguir a ele no documento.
+          refreshPriority: 5,
           onLeave: enterLegacy,
           onEnterBack: () => {
             leaveLegacy();
@@ -1027,6 +1007,22 @@ export default function Intro() {
         industryScrollAt
       );
 
+      /* Parallax dentro de cada slide: a imagem desliza ao contrário do track,
+         a cerca de um terço da velocidade. É o que dá profundidade ao carousel
+         em vez de três fotos a passar em bloco. A folga vem do 118% de largura
+         que o CSS lhes dá. */
+      industryTl.fromTo(
+        industryTrack.querySelectorAll(".industry-slide img"),
+        { xPercent: -6, force3D: true },
+        {
+          xPercent: 6,
+          duration: industryScrollDur,
+          ease: "none",
+          force3D: true,
+        },
+        industryScrollAt
+      );
+
       industryTl.to(
         [industry, captionLine],
         {
@@ -1096,14 +1092,26 @@ export default function Intro() {
               className="hero-zoom origin-center will-change-transform"
             >
               <div ref={mediaRef} className="hero-media">
-                <iframe
-                  ref={videoRef}
-                  className="hero-vimeo"
-                  src={VIMEO_SRC}
-                  title="Salazar Concept"
-                  allow="autoplay; fullscreen; picture-in-picture"
-                  allowFullScreen
-                />
+                {heroStill ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    className="hero-vimeo"
+                    src={HERO_STILL_SRC}
+                    alt=""
+                  />
+                ) : (
+                  <video
+                    ref={videoRef}
+                    className="hero-vimeo"
+                    src={HERO_LOOP_SRC}
+                    poster={HERO_STILL_SRC}
+                    muted
+                    loop
+                    playsInline
+                    autoPlay
+                    preload="auto"
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -1112,7 +1120,22 @@ export default function Intro() {
           </p>
           <div className="story-stage">
             <div ref={storyRef} className="story-frame">
-              <img src="/images/story.jpg" alt="" draggable={false} />
+              <ClothImage
+                src="/images/story.jpg"
+                alt=""
+                fill
+                options={{
+                  shadow: 0,
+                  cornerRadius: 0,
+                  // Discreto: a moldura já está a ser animada por fora, e um
+                  // pano agitado por cima disso lia-se como ruído.
+                  wind: 2.2,
+                  amplitude: 22,
+                  drape: 26,
+                  light: 0.42,
+                  sheen: 0.08,
+                }}
+              />
             </div>
           </div>
         </section>
@@ -1120,6 +1143,10 @@ export default function Intro() {
         <section ref={industryPinRef} className="industry-spacer" aria-hidden="true" />
 
         <LegacySection />
+
+        <WallOfFame />
+
+        <SiteFooter />
 
       <div ref={curtainRef} className="intro-curtain" aria-hidden="true">
         <div ref={copyRef} className="intro-copy">

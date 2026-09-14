@@ -3,34 +3,43 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import MaskedLine from "@/app/components/intro/MaskedLine";
 
 const LEGACY_LEAD = "A brand becomes something you never forget.";
 const LEGACY_TITLE = "Made once.";
 const LEGACY_TITLE_EM = "Impact forever.";
 const LEGACY_BODY =
-  "What we create is not made for the moment alone. It is shaped to hold its meaning, its beauty, and its place long after the first impression has passed. Every project is built to endure — with the same care on the hundredth day as on the first.";
+  "What we create is not made for the moment alone. It is shaped to hold its meaning, its beauty, and its place long after the first impression has passed. Every project is built to endure, with the same care on the hundredth day as on the first.";
 
 export default function LegacySection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const leadRef = useRef<HTMLParagraphElement>(null);
   const leftMaskRef = useRef<HTMLDivElement>(null);
   const leftImgRef = useRef<HTMLImageElement>(null);
   const shotARef = useRef<HTMLElement>(null);
   const shotBRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
+    const lead = leadRef.current;
     const leftMask = leftMaskRef.current;
     const leftImg = leftImgRef.current;
     const shotA = shotARef.current;
     const shotB = shotBRef.current;
+    const title = titleRef.current;
 
-    if (!section || !leftMask || !leftImg || !shotA || !shotB) return;
+    if (!section || !lead || !leftMask || !leftImg || !shotA || !shotB || !title)
+      return;
 
     gsap.registerPlugin(ScrollTrigger);
 
     const reduce = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
+
+    const titleChars = title.querySelectorAll(".text-char");
+    gsap.set(titleChars, { yPercent: reduce ? 0 : 130, y: 0 });
 
     if (reduce) return;
 
@@ -52,6 +61,11 @@ export default function LegacySection() {
             start: "top 92%",
             end: "top 42%",
             scrub: 1.1,
+            // Medir depois do pin do Intro (refreshPriority 10) e do carousel
+            // (5): ambos vivem acima desta secção e alteram a altura do
+            // documento, logo a posição a que ela começa.
+            refreshPriority: 0,
+            invalidateOnRefresh: true,
           },
         }
       );
@@ -71,12 +85,36 @@ export default function LegacySection() {
             start: "top bottom",
             end: "bottom top",
             scrub: parallax.scrub,
+            refreshPriority: 0,
+            invalidateOnRefresh: true,
           },
         }
       );
     };
 
     const ctx = gsap.context(() => {
+      /* Emerge do vazio que a precede: a máscara abre de baixo para cima ao
+         ritmo do scroll, por isso as letras nascem do bege em vez de já lá
+         estarem quando o carousel se afasta. */
+      gsap.fromTo(
+        lead,
+        { clipPath: "inset(105% 0 0 0)", y: 34 },
+        {
+          clipPath: "inset(0% 0 0 0)",
+          y: 0,
+          ease: "none",
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: lead,
+            start: "top 92%",
+            end: "top 46%",
+            scrub: 1.15,
+            refreshPriority: 0,
+            invalidateOnRefresh: true,
+          },
+        }
+      );
+
       reveal(leftMask, leftImg, leftMask, {
         from: 10,
         to: -16,
@@ -101,6 +139,8 @@ export default function LegacySection() {
             start: "top bottom",
             end: "bottom top",
             scrub: 1.5,
+            refreshPriority: 0,
+            invalidateOnRefresh: true,
           },
         }
       );
@@ -117,19 +157,55 @@ export default function LegacySection() {
             start: "top bottom",
             end: "bottom top",
             scrub: 0.5,
+            refreshPriority: 0,
+            invalidateOnRefresh: true,
           },
         }
       );
     }, section);
 
-    ScrollTrigger.refresh();
+    const titleTl = gsap.timeline({ paused: true });
+    title.querySelectorAll(".legacy-title-line").forEach((line, index) => {
+      titleTl.to(
+        line.querySelectorAll(".text-char"),
+        {
+          yPercent: 0,
+          y: 0,
+          duration: 0.9,
+          ease: "power3.out",
+          stagger: 0.028,
+        },
+        index * 0.16
+      );
+    });
 
-    return () => ctx.revert();
+    let titleDelay: gsap.core.Tween | null = null;
+    const titleIo = new IntersectionObserver(
+      (entries) => {
+        if (!entries[entries.length - 1]?.isIntersecting) return;
+        titleIo.disconnect();
+        titleDelay = gsap.delayedCall(0.12, () => titleTl.play());
+      },
+      { threshold: 0.4, rootMargin: "0px 0px -12% 0px" }
+    );
+    titleIo.observe(title);
+
+    // Na primeira montagem o pin do Intro pode ainda não existir; adiar o
+    // refresh para o fim do ciclo garante que já entrou na conta.
+    const settle = requestAnimationFrame(() => ScrollTrigger.refresh());
+
+    return () => {
+      titleDelay?.kill();
+      titleIo.disconnect();
+      titleTl.kill();
+      cancelAnimationFrame(settle);
+      ctx.revert();
+    };
   }, []);
 
   return (
     <section ref={sectionRef} className="legacy" aria-labelledby="legacy-lead">
-      <p id="legacy-lead" className="legacy-lead">
+      <p ref={leadRef} id="legacy-lead" className="legacy-lead">
         {LEGACY_LEAD}
       </p>
 
@@ -164,9 +240,13 @@ export default function LegacySection() {
           </div>
 
           <article className="legacy-story">
-            <h2 className="legacy-title">
-              {LEGACY_TITLE}{" "}
-              <em>{LEGACY_TITLE_EM}</em>
+            <h2 ref={titleRef} className="legacy-title">
+              <span className="legacy-title-line">
+                <MaskedLine text={LEGACY_TITLE} />
+              </span>
+              <span className="legacy-title-line">
+                <MaskedLine text={LEGACY_TITLE_EM} />
+              </span>
             </h2>
             <p className="legacy-body">{LEGACY_BODY}</p>
           </article>

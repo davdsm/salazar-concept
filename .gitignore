@@ -39,3 +39,10 @@ next-env.d.ts
 api/data/*.db
 api/data/storage/
 api/data/backups/
+
+# pulled source media for the hero loop (PocketBase + Instagram). too large for git.
+/public/reel-source/
+
+# remotion authoring app
+/hero-loop/node_modules/
+/hero-loop/out/
