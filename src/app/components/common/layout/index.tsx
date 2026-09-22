@@ -6,7 +6,7 @@ import Header from "@/app/components/common/layout/header";
 import Footer from "@/app/components/common/layout/footer";
 import Loading from "@/app/components/common/layout/loader";
 
-import { AppContext } from "@/app/layout";
+import { AppContext } from "@/app/app-context";
 
 export default function Layout({
   entryComponent,

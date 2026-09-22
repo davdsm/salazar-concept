@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 import localFont from "next/font/local";
@@ -8,6 +8,7 @@ import "animate.css/animate.min.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./globals.css";
+import { AppContext } from "@/app/app-context";
 
 const n27 = localFont({
   src: [
@@ -73,14 +74,6 @@ const n27 = localFont({
       style: "italic",
     },
   ],
-});
-
-export const AppContext = createContext({
-  firstLoad: false,
-  pageTransition: (
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-    link: string
-  ) => {},
 });
 
 export default function RootLayout({
