@@ -144,35 +144,92 @@ export default function RootLayout({
         <meta name="title" content="Salazar Concept - EMBRACE THE CONCEPT" />
         <meta
           name="description"
-          content="True concepts are those that express a very strong definition and             are well consolidated by everyone around the world. the salazar             concept is a universal concept that was inspired by an icon capable             of looking at a market from a 360 angle and capable of camouflaging             itself and adapting to different ecosystems or business habitats."
+          content="Salazar Concept is a creative agency inspired by an icon capable of looking at a market from a 360° angle and adapting to different ecosystems and business habitats."
         />
+        <meta
+          name="keywords"
+          content="Salazar Concept, creative agency, branding, photography, video, web design, Portugal"
+        />
+        <meta name="author" content="Salazar Concept" />
+        <meta name="theme-color" content="#000000" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://www.salazarconcept.com/" />
 
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://salazarconcept.com/" />
+        <meta property="og:site_name" content="Salazar Concept" />
+        <meta property="og:locale" content="en_GB" />
+        <meta property="og:url" content="https://www.salazarconcept.com/" />
         <meta
           property="og:title"
           content="Salazar Concept - EMBRACE THE CONCEPT"
         />
         <meta
           property="og:description"
-          content="True concepts are those that express a very strong definition and             are well consolidated by everyone around the world. the salazar             concept is a universal concept that was inspired by an icon capable             of looking at a market from a 360 angle and capable of camouflaging             itself and adapting to different ecosystems or business habitats."
+          content="Salazar Concept is a creative agency inspired by an icon capable of looking at a market from a 360° angle and adapting to different ecosystems and business habitats."
         />
         <meta
           property="og:image"
-          content="blob:https://instant.tools/d851e8d9-6e0e-4e2f-8416-9a4848d81d79"
+          content="https://www.salazarconcept.com/banner.png"
         />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="1467" />
+        <meta property="og:image:height" content="971" />
+        <meta property="og:image:alt" content="Salazar Concept" />
 
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://salazarconcept.com/" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content="https://www.salazarconcept.com/" />
         <meta
-          property="twitter:title"
+          name="twitter:title"
           content="Salazar Concept - EMBRACE THE CONCEPT"
         />
         <meta
-          property="twitter:description"
-          content="True concepts are those that express a very strong definition and             are well consolidated by everyone around the world. the salazar             concept is a universal concept that was inspired by an icon capable             of looking at a market from a 360 angle and capable of camouflaging             itself and adapting to different ecosystems or business habitats."
+          name="twitter:description"
+          content="Salazar Concept is a creative agency inspired by an icon capable of looking at a market from a 360° angle and adapting to different ecosystems and business habitats."
         />
-        <meta property="twitter:image" content="banner.png" />
+        <meta
+          name="twitter:image"
+          content="https://www.salazarconcept.com/banner.png"
+        />
+        <meta name="twitter:image:alt" content="Salazar Concept" />
+
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Organization",
+                  "@id": "https://www.salazarconcept.com/#organization",
+                  name: "Salazar Concept",
+                  legalName: "Salazar Concept",
+                  url: "https://www.salazarconcept.com/",
+                  logo: "https://www.salazarconcept.com/logo/logo.png",
+                  image: "https://www.salazarconcept.com/banner.png",
+                  email: "geral@salazarconcept.com",
+                  description:
+                    "Salazar Concept is a creative agency inspired by an icon capable of looking at a market from a 360° angle and adapting to different ecosystems and business habitats.",
+                  sameAs: [
+                    "https://www.instagram.com/_salazarconcept_/",
+                    "https://www.facebook.com/profile.php?id=61553893785070",
+                    "https://www.linkedin.com/company/salazar-concept/",
+                  ],
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://www.salazarconcept.com/#website",
+                  url: "https://www.salazarconcept.com/",
+                  name: "Salazar Concept",
+                  alternateName: "EMBRACE THE CONCEPT",
+                  inLanguage: "en",
+                  publisher: {
+                    "@id": "https://www.salazarconcept.com/#organization",
+                  },
+                },
+              ],
+            }),
+          }}
+        />
       </head>
       <body className={n27.className}>
         <div id="cortin"></div>

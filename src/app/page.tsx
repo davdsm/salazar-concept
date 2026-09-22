@@ -6,9 +6,12 @@ export default function Home() {
         <img
           className="maintenance-animal"
           src="/logo/logo.gif"
-          alt=""
+          alt="Salazar Concept"
         />
-        <h1 className="maintenance-copy">Cooking Something Special</h1>
+        <h1 className="maintenance-copy">
+          <span className="sr-only">Salazar Concept. </span>
+          Cooking Something Special
+        </h1>
       </div>
 
       <div className="maintenance-links">
@@ -16,7 +19,7 @@ export default function Home() {
         <a
           href="https://www.instagram.com/_salazarconcept_/"
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
           @_salazarconcept_
         </a>
