@@ -289,24 +289,34 @@ export default function WallOfFame() {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const cssW = Math.max(1, stage.clientWidth);
       const n = PROJECTS.length;
+      // No telemóvel cinco panos numa fila ficam pequenos: duas linhas
+      // (2 em cima, maiores; 3 em baixo).
+      const stacked = cssW < 900;
+      const ratio = stacked ? 2.2 : 2.25;
+      const gapR = 0.09;
 
-      // Quanto mais estreito o ecrã, mais esguio o estandarte — senão cinco
-      // panos lado a lado num telemóvel leem-se como confete.
-      const ratio = cssW < 560 ? 3.2 : cssW < 900 ? 2.8 : 2.25;
-      const gapR = 0.09; // do lado da bandeira, não do canvas
+      const rowSize = (count: number, cap: number) => {
+        let rw = cssW / (count + (count - 1) * gapR);
+        let rh = rw * ratio;
+        if (rh > cap) {
+          rh = cap;
+          rw = rh / ratio;
+        }
+        return { fw: rw, fh: rh };
+      };
 
-      let fw = cssW / (n + (n - 1) * gapR);
-      let fh = fw * ratio;
-
-      // Em ecrãs baixos (telemóvel deitado) a altura manda, e a largura
-      // recua para manter a proporção.
-      const maxH = window.innerHeight * 0.68;
-      if (fh > maxH) {
-        fh = maxH;
-        fw = fh / ratio;
+      let cssH: number;
+      if (stacked) {
+        const cap = window.innerHeight * 0.34;
+        const top = rowSize(2, cap);
+        const bot = rowSize(3, cap);
+        const gapY = Math.min(top.fh, bot.fh) * 0.12;
+        cssH = Math.round(top.fh + bot.fh + gapY + top.fh * 0.08);
+      } else {
+        const row = rowSize(n, window.innerHeight * 0.68);
+        cssH = Math.round(row.fh / 0.88);
       }
 
-      const cssH = Math.round(fh / 0.88);
       if (Math.abs(stage.clientHeight - cssH) > 1) {
         stage.style.height = `${cssH}px`;
       }
@@ -319,16 +329,48 @@ export default function WallOfFame() {
       }
       gl.viewport(0, 0, W, H);
 
-      const flagW = fw * dpr;
-      const flagH = fh * dpr;
-      const gap = flagW * gapR;
-      const totalW = n * flagW + (n - 1) * gap;
-      const left = (W - totalW) / 2;
-      const top = (H - flagH) / 2;
+      const toFlag = (row: { fw: number; fh: number }) => ({
+        w: row.fw * dpr,
+        h: row.fh * dpr,
+        gap: row.fw * dpr * gapR,
+      });
+
+      const place = (
+        indices: number[],
+        flag: { w: number; h: number; gap: number },
+        rowY: number
+      ) => {
+        const totalW =
+          indices.length * flag.w + (indices.length - 1) * flag.gap;
+        const left = (W - totalW) / 2;
+        indices.forEach((i, col) => {
+          layout[i] = {
+            x: left + col * (flag.w + flag.gap),
+            y: rowY,
+            w: flag.w,
+            h: flag.h,
+          };
+        });
+      };
 
       layout.length = 0;
-      for (let i = 0; i < n; i++) {
-        layout.push({ x: left + i * (flagW + gap), y: top, w: flagW, h: flagH });
+      if (stacked) {
+        const cap = window.innerHeight * 0.34;
+        const top = toFlag(rowSize(2, cap));
+        const bot = toFlag(rowSize(3, cap));
+        const gapY = Math.min(top.h, bot.h) * 0.12;
+        const totalH = top.h + bot.h + gapY;
+        const y = (H - totalH) / 2;
+        place([0, 1], top, y);
+        place([2, 3, 4], bot, y + top.h + gapY);
+      } else {
+        const flag = toFlag(rowSize(n, window.innerHeight * 0.68));
+        const top = (H - flag.h) / 2;
+        place(
+          PROJECTS.map((_, i) => i),
+          flag,
+          top
+        );
       }
     };
 
@@ -364,6 +406,7 @@ export default function WallOfFame() {
         flag.hover += (flag.hoverTo - flag.hover) * ease;
 
         const r = layout[i];
+        if (!r) return;
         gl.activeTexture(gl.TEXTURE0);
         gl.bindTexture(gl.TEXTURE_2D, flag.tex);
         gl.uniform1i(u.tex, 0);
@@ -429,6 +472,10 @@ export default function WallOfFame() {
       const y = (e.clientY - rect.top) * dpr;
       flags.forEach((flag, i) => {
         const r = layout[i];
+        if (!r) {
+          flag.hoverTo = 0;
+          return;
+        }
         const inside = x >= r.x && x <= r.x + r.w && y >= r.y && y <= r.y + r.h;
         flag.hoverTo = inside ? 1 : 0;
       });
