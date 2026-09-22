@@ -1,27 +1,26 @@
-"use client";
-
-import Layout from "@/app/components/common/layout";
-import Entry from "@/app/components/home/entry";
-import Concept from "@/app/components/home/concept";
-import Work from "@/app/components/home/work";
-import Clients from "@/app/components/home/clients";
-// import Culture from "@/app/components/culture";
-import Form from "@/app/components/home/form";
-
 export default function Home() {
   return (
-    <Layout entryComponent={<Entry />} keepLogo>
-      <div className="pb-40">
-        <Concept />
-
-        <Work />
-
-        <Clients />
-
-        <Form />
+    <main className="maintenance">
+      <div className="maintenance-stage">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          className="maintenance-animal"
+          src="/logo/logo.gif"
+          alt=""
+        />
+        <h1 className="maintenance-copy">Cooking Something Special</h1>
       </div>
 
-      {/* <Culture /> */}
-    </Layout>
+      <div className="maintenance-links">
+        <a href="mailto:geral@salazarconcept.com">geral@salazarconcept.com</a>
+        <a
+          href="https://www.instagram.com/_salazarconcept_/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          @_salazarconcept_
+        </a>
+      </div>
+    </main>
   );
 }
