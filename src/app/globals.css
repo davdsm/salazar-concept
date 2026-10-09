@@ -291,11 +291,12 @@ body {
   top: 42%;
   left: 50%;
   z-index: 8;
-  width: min(20vw, 88px);
+  width: min(22vw, 96px);
   transform: translateX(-50%);
   pointer-events: none;
   mix-blend-mode: difference;
   opacity: 0;
+  overflow: visible;
   will-change: width, top, transform;
 }
 
@@ -303,6 +304,7 @@ body {
   display: block;
   width: 100%;
   height: auto;
+  overflow: visible;
   user-select: none;
 }
 

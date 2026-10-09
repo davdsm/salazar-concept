@@ -10,7 +10,7 @@ import LegacySection from "@/app/components/intro/LegacySection";
 import SiteFooter from "@/app/components/intro/SiteFooter";
 import MaskedLine from "@/app/components/intro/MaskedLine";
 
-const WORDMARK_RATIO = 153 / 161;
+const WORDMARK_RATIO = 1;
 
 const HERO_LOOP_SRC = "/videos/hero-loop.mp4";
 const HERO_LOOP_MOBILE_SRC = "/videos/hero-loop-mobile.mp4";
@@ -543,9 +543,9 @@ export default function Intro() {
     const coarse = window.matchMedia("(pointer: coarse)").matches;
     const compact = window.matchMedia("(max-width: 900px)").matches;
 
-    // O wordmark era largo e baixo; o logo novo é o camaleão, quase
-    // quadrado — a mesma largura de 200px fazia-o gigante no ecrã.
-    const brandWidth = () => Math.min(88, window.innerWidth * 0.2);
+    // O wordmark era largo e baixo; o logo novo é o camaleão em quadrado
+    // com margem — a mesma largura de 200px fazia-o gigante no ecrã.
+    const brandWidth = () => Math.min(96, window.innerWidth * 0.22);
     const brandTop = () => {
       const height = brandWidth() * WORDMARK_RATIO;
       // Lido do CSS em vez de repetir aqui o 6.2vw da .hero-phrase: a frase
@@ -783,7 +783,7 @@ export default function Intro() {
         brand,
         { width: brandWidth, top: brandTop },
         {
-          width: () => Math.min(104, window.innerWidth * 0.24),
+          width: () => Math.min(112, window.innerWidth * 0.26),
           top: () => Math.max(18, window.innerWidth * 0.016),
           duration: 0.38,
           ease: "none",
