@@ -291,7 +291,7 @@ body {
   top: 42%;
   left: 50%;
   z-index: 8;
-  width: min(22vw, 96px);
+  width: min(72vw, 280px);
   transform: translateX(-50%);
   pointer-events: none;
   mix-blend-mode: difference;
