@@ -291,7 +291,7 @@ body {
   top: 42%;
   left: 50%;
   z-index: 8;
-  width: min(72vw, 200px);
+  width: min(20vw, 88px);
   transform: translateX(-50%);
   pointer-events: none;
   mix-blend-mode: difference;
@@ -966,14 +966,6 @@ html.lenis body {
 
 /* A legenda segue a bandeira apontada. O canvas e o HTML são camadas
    separadas; sem este espelho o destaque só acontecia numa delas. */
-.fame-item {
-  transition: opacity 0.35s ease;
-}
-
-.fame-item.is-off {
-  opacity: 0.32;
-}
-
 .fame-item.is-on .fame-ind {
   opacity: 1;
 }

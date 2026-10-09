@@ -398,8 +398,6 @@ export default function WallOfFame() {
       gl.uniform1f(u.time, time);
       gl.uniform3f(u.paper, paper[0], paper[1], paper[2]);
 
-      const anyHover = flags.some((f) => f.hoverTo > 0);
-
       flags.forEach((flag, i) => {
         if (!flag.ready) return;
         const ease = 1 - Math.exp(-dt / 0.22);
@@ -414,7 +412,7 @@ export default function WallOfFame() {
         gl.uniform1f(u.phase, flag.phase);
         gl.uniform1f(u.hover, flag.hover);
         gl.uniform1f(u.reveal, flag.reveal);
-        gl.uniform1f(u.dim, anyHover ? 1 - flag.hover : 0);
+        gl.uniform1f(u.dim, 0);
 
         // cover: encolhe o eixo sobrante e centra o que fica de fora
         const flagAspect = r.w / r.h;
@@ -458,10 +456,8 @@ export default function WallOfFame() {
       section.querySelectorAll<HTMLElement>(".fame-item"),
     );
     const syncLegend = () => {
-      const any = flags.some((f) => f.hoverTo > 0);
       items.forEach((el, i) => {
         el.classList.toggle("is-on", flags[i]?.hoverTo > 0);
-        el.classList.toggle("is-off", any && !(flags[i]?.hoverTo > 0));
       });
     };
 
