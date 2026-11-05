@@ -10,14 +10,29 @@ type Project = {
   src: string;
 };
 
-/* Cinco estandartes. A ordem alterna claro/escuro para o título em difference
+/* Quatro estandartes. A ordem alterna claro/escuro para o título em difference
    ter sempre contraste por baixo, seja onde for que o pano esteja. */
 const PROJECTS: Project[] = [
-  { category: "Photography", industry: "Science", src: "/images/industries/science.jpg" },
-  { category: "Branding Kit", industry: "Restauration", src: "/images/industries/restauration.jpg" },
-  { category: "Art Direction", industry: "Construction", src: "/images/industries/construction.jpg" },
-  { category: "Identity", industry: "Retail", src: "/images/legacy/detail-a.jpg" },
-  { category: "Campaign", industry: "Culture", src: "/images/legacy/hero.jpg" },
+  {
+    category: "Art Direction",
+    industry: "Walkys",
+    src: "/images/wall-of-fame/art-direction-walkys.jpg",
+  },
+  {
+    category: "Photography",
+    industry: "Tia Xica",
+    src: "/images/wall-of-fame/photography-tia-xica.jpg",
+  },
+  {
+    category: "Branding",
+    industry: "Taiponte",
+    src: "/images/wall-of-fame/branding-taiponte.jpg",
+  },
+  {
+    category: "Identity",
+    industry: "SEK",
+    src: "/images/wall-of-fame/identity-sek.jpg",
+  },
 ];
 
 const VERT = `#version 300 es

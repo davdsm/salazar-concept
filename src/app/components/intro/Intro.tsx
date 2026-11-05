@@ -36,9 +36,14 @@ const INDUSTRIES = [
     name: "RESTAURATION,",
   },
   {
-    src: "/images/industries/science.jpg",
+    src: "/images/industries/sports.jpg",
     lead: "TO",
-    name: "SCIENCE.",
+    name: "SPORTS,",
+  },
+  {
+    src: "/images/industries/fashion.jpg",
+    lead: "TO",
+    name: "FASHION.",
   },
 ] as const;
 
@@ -1256,7 +1261,7 @@ export default function Intro() {
       <p
         ref={captionLineRef}
         className="industry-caption-line"
-        aria-label="From construction, to restauration, to science."
+        aria-label="From construction, to restauration, to sports, to fashion."
       >
         {INDUSTRIES.map((item) => (
           <span className="industry-seg" key={item.name}>
