@@ -31,9 +31,9 @@ const INDUSTRIES = [
     name: "CONSTRUCTION,",
   },
   {
-    src: "/images/industries/restauration.jpg",
+    src: "/images/industries/food.jpg",
     lead: "TO",
-    name: "RESTAURATION,",
+    name: "FOOD,",
   },
   {
     src: "/images/industries/sports.jpg",
@@ -46,6 +46,7 @@ const INDUSTRIES = [
     name: "FASHION.",
   },
 ] as const;
+const INDUSTRY_LAST = INDUSTRIES.length - 1;
 
 function holeSize() {
   const vw = window.innerWidth;
@@ -859,7 +860,7 @@ export default function Intro() {
       const updateIndustryUi = () => {
         const slideP = gsap.utils.clamp(
           0,
-          2,
+          INDUSTRY_LAST,
           -(Number(gsap.getProperty(industryTrack, "xPercent")) || 0) /
             (100 / INDUSTRIES.length)
         );
@@ -869,8 +870,8 @@ export default function Intro() {
             opacity: gsap.utils.clamp(0.16, 1, 1 - d * 0.78),
           });
         });
-        const i0 = Math.min(2, Math.floor(slideP));
-        const i1 = Math.min(2, i0 + 1);
+        const i0 = Math.min(INDUSTRY_LAST, Math.floor(slideP));
+        const i1 = Math.min(INDUSTRY_LAST, i0 + 1);
         const f = slideP - i0;
         const a = segs[i0] as HTMLElement;
         const b = segs[i1] as HTMLElement;
@@ -1261,7 +1262,7 @@ export default function Intro() {
       <p
         ref={captionLineRef}
         className="industry-caption-line"
-        aria-label="From construction, to restauration, to sports, to fashion."
+        aria-label="From construction, to food, to sports, to fashion."
       >
         {INDUSTRIES.map((item) => (
           <span className="industry-seg" key={item.name}>
