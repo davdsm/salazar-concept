@@ -10,7 +10,7 @@ type Project = {
   src: string;
 };
 
-/* Quatro estandartes. A ordem alterna claro/escuro para o título em difference
+/* Cinco estandartes. A ordem alterna claro/escuro para o título em difference
    ter sempre contraste por baixo, seja onde for que o pano esteja. */
 const PROJECTS: Project[] = [
   {
@@ -32,6 +32,11 @@ const PROJECTS: Project[] = [
     category: "Identity",
     industry: "SEK",
     src: "/images/wall-of-fame/identity-sek.jpg",
+  },
+  {
+    category: "Website",
+    industry: "SEK",
+    src: "/images/wall-of-fame/website-sek.jpg",
   },
 ];
 
@@ -304,7 +309,8 @@ export default function WallOfFame() {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const cssW = Math.max(1, stage.clientWidth);
       const n = PROJECTS.length;
-      // No telemóvel quatro panos numa fila ficam pequenos: duas linhas 2×2.
+      // No telemóvel cinco panos numa fila ficam pequenos: duas linhas
+      // (2 em cima; 3 em baixo).
       const stacked = cssW < 900;
       const ratio = stacked ? 2.2 : 2.25;
       const gapR = 0.09;
@@ -323,7 +329,7 @@ export default function WallOfFame() {
       if (stacked) {
         const cap = window.innerHeight * 0.34;
         const top = rowSize(2, cap);
-        const bot = rowSize(2, cap);
+        const bot = rowSize(3, cap);
         const gapY = Math.min(top.fh, bot.fh) * 0.12;
         cssH = Math.round(top.fh + bot.fh + gapY + top.fh * 0.08);
       } else {
@@ -371,12 +377,12 @@ export default function WallOfFame() {
       if (stacked) {
         const cap = window.innerHeight * 0.34;
         const top = toFlag(rowSize(2, cap));
-        const bot = toFlag(rowSize(2, cap));
+        const bot = toFlag(rowSize(3, cap));
         const gapY = Math.min(top.h, bot.h) * 0.12;
         const totalH = top.h + bot.h + gapY;
         const y = (H - totalH) / 2;
         place([0, 1], top, y);
-        place([2, 3], bot, y + top.h + gapY);
+        place([2, 3, 4], bot, y + top.h + gapY);
       } else {
         const flag = toFlag(rowSize(n, window.innerHeight * 0.68));
         const top = (H - flag.h) / 2;

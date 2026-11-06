@@ -649,8 +649,8 @@ html.has-chameleon-cursor * {
   top: 0;
   left: 0;
   z-index: 40;
-  width: 7.25rem;
-  height: 7.25rem;
+  width: 5.5rem;
+  height: 5.5rem;
   overflow: visible;
   pointer-events: none;
   filter: drop-shadow(0 0 0.6px #f2efea) drop-shadow(0 0 0.6px #3d3a36);
@@ -845,7 +845,7 @@ html.lenis body {
    seu pano. O gap (~9% da largura da coluna) espelha o gapR do canvas. */
 .fame-legend {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 2.1%;
   margin: clamp(1.1rem, 2.4vh, 1.8rem) 0 0;
   padding: 0;
@@ -938,10 +938,19 @@ html.lenis body {
     font-size: clamp(2.2rem, 10vw, 4rem);
   }
 
-  /* Mesma grelha das bandeiras: 2×2. */
+  /* Mesma grelha das bandeiras: dois em cima, três em baixo. */
   .fame-legend {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 1.15rem 0.85rem;
+  }
+
+  .fame-item:nth-child(1),
+  .fame-item:nth-child(2) {
+    grid-column: span 3;
+  }
+
+  .fame-item:nth-child(n + 3) {
+    grid-column: span 2;
   }
 
   .fame-item {
