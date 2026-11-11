@@ -1464,39 +1464,12 @@ html.is-portfolio body {
   color: #0e0e0d;
 }
 
-html.has-pf-cursor,
-html.has-pf-cursor * {
-  cursor: none !important;
-}
-
 .portfolio {
   position: relative;
   min-height: 100dvh;
   background: #fff;
   color: #0e0e0d;
   overflow-x: clip;
-}
-
-.pf-cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 50;
-  width: 0.55rem;
-  height: 0.55rem;
-  margin: -0.275rem 0 0 -0.275rem;
-  border-radius: 50%;
-  background: #0e0e0d;
-  pointer-events: none;
-  mix-blend-mode: difference;
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-    background-color 0.35s ease;
-  will-change: transform;
-}
-
-.pf-cursor.is-hot {
-  transform: scale(4.2);
-  background: #fff;
 }
 
 .pf-top {
@@ -2044,13 +2017,51 @@ html.has-pf-cursor * {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pf-cursor {
-    display: none;
-  }
-
   .pf-back-arrow,
   .pf-outro-cta,
   .pf-outro-cta-icon {
     transition: none;
   }
+}
+
+/* Transição entre páginas — mesmo ADN do véu de idioma: círculo que cresce
+   a partir do link e recolhe na página seguinte. */
+.page-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0e0e0d;
+  color: var(--beige);
+  visibility: hidden;
+  pointer-events: none;
+}
+
+html.is-page-transit,
+html.is-page-transit body {
+  overflow: hidden;
+}
+
+html.is-page-transit .page-veil {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.page-veil-word {
+  display: flex;
+  margin: 0;
+  overflow: hidden;
+  font-size: clamp(3rem, 12vw, 10rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.page-veil-char {
+  display: inline-block;
+  padding-top: 0.08em;
 }

@@ -9,6 +9,7 @@ import {
 } from "@/app/i18n/dictionary";
 import { LangProvider } from "@/app/i18n/LangProvider";
 import { LANG_SWAP_SCRIPT } from "@/app/i18n/swap";
+import SiteChrome from "@/app/components/common/SiteChrome";
 import "./globals.css";
 
 const n27 = localFont({
@@ -107,7 +108,10 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <LangProvider lang={lang}>{children}</LangProvider>
+        <LangProvider lang={lang}>
+          <SiteChrome />
+          {children}
+        </LangProvider>
       </body>
     </html>
   );

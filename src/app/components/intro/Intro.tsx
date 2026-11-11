@@ -11,6 +11,7 @@ import SiteFooter from "@/app/components/intro/SiteFooter";
 import MaskedLine from "@/app/components/intro/MaskedLine";
 import { useLang } from "@/app/i18n/LangProvider";
 import { peekLangSwap } from "@/app/i18n/swap";
+import { peekPageEnter } from "@/app/components/common/page-enter";
 
 const WORDMARK_RATIO = 459 / 3072;
 
@@ -83,7 +84,6 @@ export default function Intro() {
   const [heroStill, setHeroStill] = useState(false);
   const phraseRef = useRef<HTMLParagraphElement>(null);
   const statementRef = useRef<HTMLParagraphElement>(null);
-  const cursorRef = useRef<HTMLDivElement>(null);
   const brandRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLElement>(null);
@@ -147,6 +147,8 @@ export default function Intro() {
       "(prefers-reduced-motion: reduce)"
     ).matches;
     const swap = peekLangSwap();
+    const softEnter = peekPageEnter();
+    const resumeY = swap?.y ?? 0;
 
     if (reduce) {
       setHeroStill(true);
@@ -162,18 +164,21 @@ export default function Intro() {
         ],
         { yPercent: 0, y: 0 }
       );
-      if (!swap) return;
+      if (!swap && !softEnter) return;
       const raf = requestAnimationFrame(() => {
         ScrollTrigger.refresh();
-        window.scrollTo(0, swap.y);
+        window.scrollTo(0, resumeY);
         window.dispatchEvent(new Event("lang-restored"));
+        window.dispatchEvent(
+          new CustomEvent("intro-opened", { detail: { y: resumeY } })
+        );
       });
       return () => cancelAnimationFrame(raf);
     }
 
-    /* Vindo de uma troca de idioma: a cortina já foi vista há segundos, por
-       isso o hero abre no estado final e o scroll volta onde estava. */
-    if (swap) {
+    /* Vindo de uma troca de idioma ou de uma transição de página: a cortina
+       já foi vista (ou o véu da transição cobre), o hero abre no estado final. */
+    if (swap || softEnter) {
       curtain.style.display = "none";
       document.documentElement.style.overflow = "";
       gsap.set(hero, { scale: 1 });
@@ -186,7 +191,7 @@ export default function Intro() {
       gsap.set(brand, { autoAlpha: 1 });
       const raf = requestAnimationFrame(() => {
         window.dispatchEvent(
-          new CustomEvent("intro-opened", { detail: { y: swap.y } })
+          new CustomEvent("intro-opened", { detail: { y: resumeY } })
         );
       });
       return () => cancelAnimationFrame(raf);
@@ -377,82 +382,21 @@ export default function Intro() {
     };
   }, []);
 
+  /* O cursor vive no SiteChrome; aqui só o parallax da frase e do vídeo
+     escuta o mesmo ponteiro via sc-pointer. */
   useEffect(() => {
     const phrase = phraseRef.current;
     const media = mediaRef.current;
-    const cursor = cursorRef.current;
-
-    if (!phrase || !media || !cursor) return;
+    if (!phrase || !media) return;
 
     const finePointer = window.matchMedia("(pointer: fine)").matches;
     const reduce = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
+    if (!finePointer || reduce) return;
 
-    if (!finePointer) {
-      cursor.style.display = "none";
-      return;
-    }
-
-    document.documentElement.classList.add("has-chameleon-cursor");
-    gsap.set(cursor, {
-      xPercent: -50,
-      yPercent: -50,
-      transformOrigin: "50% 50%",
-      autoAlpha: 0,
-      rotation: 0,
-    });
     gsap.set(phrase, { transformPerspective: 1200 });
     gsap.set(media, { scale: 1.12 });
-
-    const lag = reduce ? 0.01 : 0.32;
-    const tiltLag = reduce ? 0.01 : 0.55;
-    const cursorX = gsap.quickTo(cursor, "x", {
-      duration: lag,
-      ease: "power3.out",
-    });
-    const cursorY = gsap.quickTo(cursor, "y", {
-      duration: lag,
-      ease: "power3.out",
-    });
-    const cursorRot = gsap.quickTo(cursor, "rotation", {
-      duration: tiltLag,
-      ease: "power3.out",
-    });
-
-    let visible = false;
-    const showCursor = () => {
-      if (visible) return;
-      visible = true;
-      gsap.to(cursor, { autoAlpha: 1, duration: 0.18, ease: "power2.out" });
-    };
-
-    const syncLinkHover = (event: MouseEvent) => {
-      const node = event.target;
-      const onLink =
-        node instanceof Element && !!node.closest("a, button");
-      cursor.classList.toggle("is-on-link", onLink);
-    };
-
-    if (reduce) {
-      const onMove = (event: MouseEvent) => {
-        showCursor();
-        syncLinkHover(event);
-        const inset = cursor.offsetWidth * 0.42;
-        cursorX(
-          gsap.utils.clamp(inset, window.innerWidth - inset, event.clientX)
-        );
-        cursorY(
-          gsap.utils.clamp(inset, window.innerHeight - inset, event.clientY)
-        );
-        cursorRot(0);
-      };
-      window.addEventListener("mousemove", onMove);
-      return () => {
-        window.removeEventListener("mousemove", onMove);
-        document.documentElement.classList.remove("has-chameleon-cursor");
-      };
-    }
 
     const phraseX = gsap.quickTo(phrase, "x", {
       duration: 0.95,
@@ -479,32 +423,19 @@ export default function Intro() {
       ease: "power3.out",
     });
 
-    const onMove = (event: MouseEvent) => {
-      showCursor();
-      syncLinkHover(event);
-      const nx = (event.clientX / window.innerWidth) * 2 - 1;
-      const ny = (event.clientY / window.innerHeight) * 2 - 1;
+    const onPointer = (event: Event) => {
+      const { nx, ny } = (event as CustomEvent<{ nx: number; ny: number }>)
+        .detail;
       phraseX(nx * 48);
       phraseY(ny * 32);
       phraseRY(nx * 11);
       phraseRX(ny * -8);
       mediaX(nx * 22);
       mediaY(ny * 14);
-      const inset = cursor.offsetWidth * 0.42;
-      cursorX(
-        gsap.utils.clamp(inset, window.innerWidth - inset, event.clientX)
-      );
-      cursorY(
-        gsap.utils.clamp(inset, window.innerHeight - inset, event.clientY)
-      );
-      cursorRot(nx * 35);
     };
 
-    window.addEventListener("mousemove", onMove);
-    return () => {
-      window.removeEventListener("mousemove", onMove);
-      document.documentElement.classList.remove("has-chameleon-cursor");
-    };
+    window.addEventListener("sc-pointer", onPointer);
+    return () => window.removeEventListener("sc-pointer", onPointer);
   }, []);
 
   useEffect(() => {
@@ -1284,9 +1215,6 @@ export default function Intro() {
           alt="Salazar Concept"
           draggable={false}
         />
-      </div>
-      <div ref={cursorRef} className="chameleon-cursor" aria-hidden="true">
-        <img src="/logo/chameleon.svg?v=3" alt="" draggable={false} />
       </div>
     </>
   );

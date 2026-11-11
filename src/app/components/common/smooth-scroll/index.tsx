@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -14,6 +15,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
  * igual em toda a página, e a diferença de ritmo deixa de se notar como corte.
  */
 export default function SmoothScroll() {
+  const pathname = usePathname();
+  const lenisRef = useRef<Lenis | null>(null);
+
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -30,6 +34,7 @@ export default function SmoothScroll() {
       syncTouch: false,
       touchMultiplier: 1.6,
     });
+    lenisRef.current = lenis;
 
     // O ScrollTrigger tem de ler a posição que o Lenis está a interpolar, não
     // a do browser — senão os pins ficam um frame atrás e tremem.
@@ -68,8 +73,22 @@ export default function SmoothScroll() {
       gsap.ticker.remove(raf);
       gsap.ticker.lagSmoothing(500, 33);
       lenis.destroy();
+      lenisRef.current = null;
     };
   }, []);
+
+  /* Em cada rota: volta ao topo, refresca triggers e garante que o Lenis
+     não ficou parado da página anterior. */
+  useEffect(() => {
+    const lenis = lenisRef.current;
+    const locked = document.documentElement.style.overflow === "hidden";
+    if (!locked) lenis?.start();
+    lenis?.scrollTo(0, { immediate: true });
+    requestAnimationFrame(() => {
+      lenis?.resize();
+      ScrollTrigger.refresh();
+    });
+  }, [pathname]);
 
   return null;
 }

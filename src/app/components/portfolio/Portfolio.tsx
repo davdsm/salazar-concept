@@ -20,44 +20,12 @@ export default function Portfolio() {
   const outroTitleRef = useRef<HTMLHeadingElement>(null);
   const counterRef = useRef<HTMLSpanElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
-  const cursorRef = useRef<HTMLDivElement>(null);
   const pinRef = useRef<ScrollTrigger | null>(null);
   const [active, setActive] = useState(0);
 
   useEffect(() => {
     document.documentElement.classList.add("is-portfolio");
     return () => document.documentElement.classList.remove("is-portfolio");
-  }, []);
-
-  /* Cursor de tinta: um ponto que cresce sobre as imagens e links — o
-     contraste do branco pede um gesto mais fino do que o camaleão do home. */
-  useEffect(() => {
-    const cursor = cursorRef.current;
-    if (!cursor) return;
-    if (window.matchMedia("(pointer: coarse)").matches) {
-      cursor.hidden = true;
-      return;
-    }
-
-    document.documentElement.classList.add("has-pf-cursor");
-    const setX = gsap.quickTo(cursor, "x", { duration: 0.45, ease: "power3.out" });
-    const setY = gsap.quickTo(cursor, "y", { duration: 0.45, ease: "power3.out" });
-
-    const onMove = (event: PointerEvent) => {
-      setX(event.clientX);
-      setY(event.clientY);
-      const target = event.target as Element | null;
-      cursor.classList.toggle(
-        "is-hot",
-        Boolean(target?.closest("a, button, .pf-card, .pf-rail-btn"))
-      );
-    };
-
-    window.addEventListener("pointermove", onMove, { passive: true });
-    return () => {
-      window.removeEventListener("pointermove", onMove);
-      document.documentElement.classList.remove("has-pf-cursor");
-    };
   }, []);
 
   /* A revelação tipográfica vive fora do context do strip: o pin/rebuild
@@ -312,8 +280,6 @@ export default function Portfolio() {
 
   return (
     <main ref={rootRef} className="portfolio">
-      <div ref={cursorRef} className="pf-cursor" aria-hidden="true" />
-
       <header className="pf-top">
         <a className="pf-back" href="/">
           <span className="pf-back-arrow" aria-hidden="true">

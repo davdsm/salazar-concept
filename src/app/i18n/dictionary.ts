@@ -54,6 +54,7 @@ export type Dictionary = {
       { blurb: string },
     ];
   };
+  transition: { home: string; work: string };
   footer: {
     contact: string;
     studio: string;
@@ -158,6 +159,7 @@ const en: Dictionary = {
       },
     ],
   },
+  transition: { home: "Concept", work: "Portfolio" },
   footer: {
     contact: "CONTACT US",
     studio: "SALAZAR CONCEPT — STUDIO",
@@ -278,6 +280,7 @@ const pt: Dictionary = {
       },
     ],
   },
+  transition: { home: "Conceito", work: "Portfólio" },
   footer: {
     contact: "FALA CONNOSCO",
     studio: "SALAZAR CONCEPT — ESTÚDIO",

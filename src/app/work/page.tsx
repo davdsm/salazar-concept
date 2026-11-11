@@ -6,8 +6,6 @@ import {
   isLang,
   type Lang,
 } from "@/app/i18n/dictionary";
-import LangSwitch from "@/app/components/intro/LangSwitch";
-import SmoothScroll from "@/app/components/common/smooth-scroll";
 import Portfolio from "@/app/components/portfolio/Portfolio";
 
 function requestLang(): Lang {
@@ -24,11 +22,5 @@ export function generateMetadata(): Metadata {
 }
 
 export default function WorkPage() {
-  return (
-    <>
-      <SmoothScroll />
-      <Portfolio />
-      <LangSwitch />
-    </>
-  );
+  return <Portfolio />;
 }
