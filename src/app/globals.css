@@ -1536,19 +1536,42 @@ html.is-portfolio body {
   opacity: 0.45;
 }
 
+/* Desktop: tipografia à esquerda, imagem grande + laterais à direita.
+   Mobile: a mesma markup vira hero full-bleed (ver media query). */
 .pf-hero {
   position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  align-items: stretch;
   min-height: 100dvh;
-  height: 100dvh;
   overflow: hidden;
-  color: #fff;
-  background: #0e0e0d;
+  color: #0e0e0d;
+  background: #fff;
+}
+
+.pf-hero-copy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: clamp(6rem, 14vh, 9rem) clamp(1.4rem, 3.5vw, 3.2rem)
+    clamp(2.2rem, 5vh, 3.6rem);
+}
+
+.pf-hero-visual {
+  position: relative;
+  min-height: 100dvh;
 }
 
 .pf-hero-stage {
   position: absolute;
-  inset: 0;
+  top: 5%;
+  right: 4%;
+  bottom: 7%;
+  left: 4%;
   overflow: hidden;
+  background: #eceae6;
 }
 
 .pf-hero-media {
@@ -1571,31 +1594,39 @@ html.is-portfolio body {
 }
 
 .pf-hero-shade {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgb(14 14 13 / 0.18) 0%,
-    rgb(14 14 13 / 0.08) 35%,
-    rgb(14 14 13 / 0.55) 100%
-  );
-  pointer-events: none;
+  display: none;
 }
 
-.pf-hero-copy {
+.pf-hero-aside {
   position: absolute;
-  inset: 0;
   z-index: 2;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: clamp(5.5rem, 12vh, 8rem) clamp(1.2rem, 4vw, 3.5rem)
-    clamp(1.8rem, 4.5vh, 3rem);
-  pointer-events: none;
+  margin: 0;
+  overflow: hidden;
+  background: #eceae6;
+  box-shadow: 0 18px 40px rgb(14 14 13 / 0.12);
 }
 
-.pf-hero-copy > * {
-  pointer-events: auto;
+.pf-hero-aside img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pf-hero-aside-a {
+  top: 12%;
+  left: -4%;
+  width: min(32%, 15rem);
+  aspect-ratio: 3 / 4;
+  transform: rotate(-6deg);
+}
+
+.pf-hero-aside-b {
+  right: 0%;
+  bottom: 4%;
+  width: min(28%, 13rem);
+  aspect-ratio: 4 / 5;
+  transform: rotate(5deg);
 }
 
 .pf-eyebrow {
@@ -1604,18 +1635,18 @@ html.is-portfolio body {
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  opacity: 0.72;
+  opacity: 0.5;
 }
 
 .pf-title {
   margin: 0;
-  max-width: 14em;
-  font-size: clamp(3.6rem, 13vw, 10rem);
+  max-width: 8.5em;
+  font-size: clamp(3.2rem, 7.8vw, 7.8rem);
   font-weight: 700;
-  line-height: 0.86;
+  line-height: 0.88;
   letter-spacing: -0.055em;
   text-transform: uppercase;
-  color: #fff;
+  color: inherit;
 }
 
 .pf-title-line {
@@ -1636,12 +1667,12 @@ html.is-portfolio body {
 
 .pf-lede {
   margin: clamp(1.2rem, 2.4vh, 1.8rem) 0 0;
-  max-width: 28rem;
-  font-size: clamp(1rem, 1.45vw, 1.18rem);
+  max-width: 26rem;
+  font-size: clamp(1rem, 1.35vw, 1.15rem);
   font-weight: 300;
   line-height: 1.55;
   letter-spacing: 0.01em;
-  color: rgb(255 255 255 / 0.78);
+  color: #3d3a36;
 }
 
 .pf-hero-meta {
@@ -1653,26 +1684,17 @@ html.is-portfolio body {
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #fff;
 }
 
 .pf-hero-meta-sep {
   width: 2.4rem;
   height: 1px;
   background: currentColor;
-  opacity: 0.45;
-}
-
-/* No hero escuro o chrome de cima precisa de ler a branco. */
-.portfolio .pf-back,
-.portfolio .pf-top-label {
-  color: #fff;
-  mix-blend-mode: difference;
+  opacity: 0.35;
 }
 
 .portfolio .pf-brand img {
-  filter: none;
-  mix-blend-mode: difference;
+  filter: invert(1);
 }
 
 .pf-strip {
@@ -1980,33 +2002,106 @@ html.is-portfolio body {
     width: 7.2rem;
   }
 
+  .portfolio .pf-back {
+    color: #fff;
+    mix-blend-mode: difference;
+  }
+
+  .portfolio .pf-brand img {
+    filter: none;
+    mix-blend-mode: difference;
+  }
+
+  /* Mobile: full-bleed — a versão que funcionou. */
   .pf-hero {
+    display: block;
     height: 100dvh;
     min-height: 100dvh;
+    color: #fff;
+    background: #0e0e0d;
+  }
+
+  .pf-hero-visual {
+    position: absolute;
+    inset: 0;
+    min-height: 0;
+  }
+
+  .pf-hero-stage {
+    inset: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .pf-hero-aside {
+    display: none;
+  }
+
+  .pf-hero-shade {
+    display: block;
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgb(14 14 13 / 0.2) 0%,
+      rgb(14 14 13 / 0.08) 38%,
+      rgb(14 14 13 / 0.58) 100%
+    );
+    pointer-events: none;
   }
 
   .pf-hero-copy {
-    padding-top: 7rem;
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    justify-content: flex-end;
+    padding: 7rem clamp(1.1rem, 5vw, 1.6rem) clamp(1.6rem, 4vh, 2.4rem);
+  }
+
+  .pf-eyebrow {
+    opacity: 0.72;
   }
 
   .pf-title {
+    max-width: 14em;
     font-size: clamp(3rem, 16vw, 4.8rem);
+    color: #fff;
+  }
+
+  .pf-lede {
+    color: rgb(255 255 255 / 0.78);
+  }
+
+  .pf-hero-meta {
+    color: #fff;
+  }
+
+  .pf-hero-meta-sep {
+    opacity: 0.45;
+  }
+
+  /* Destaques em carrossel horizontal com snap — mais editorial no telemóvel. */
+  .pf-strip {
+    min-height: 0;
+    padding: 0 0 clamp(3rem, 8vh, 4.5rem);
   }
 
   .pf-strip-hud {
-    position: sticky;
-    top: 0;
+    position: relative;
+    top: auto;
     grid-template-columns: 1fr;
-    gap: 0.7rem;
-    padding-top: max(4.8rem, calc(env(safe-area-inset-top) + 3.6rem));
-    background: linear-gradient(#fff 55%, rgb(255 255 255 / 0));
+    gap: 0.75rem;
+    padding: 1.4rem clamp(1rem, 4vw, 1.4rem) 0.4rem;
+    background: none;
   }
 
   .pf-rail {
     justify-content: flex-start;
     overflow-x: auto;
     flex-wrap: nowrap;
-    padding-bottom: 0.2rem;
+    padding-bottom: 0.15rem;
     -webkit-overflow-scrolling: touch;
   }
 
@@ -2016,19 +2111,27 @@ html.is-portfolio body {
   }
 
   .pf-track {
-    display: block;
-    width: 100%;
+    display: flex;
+    align-items: stretch;
+    gap: 0.85rem;
+    width: auto;
     min-height: 0;
-    padding: 1.2rem clamp(1rem, 4vw, 1.5rem) 3rem;
+    padding: 0.6rem max(1rem, 4vw) 0.4rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: max(1rem, 4vw);
+    -webkit-overflow-scrolling: touch;
   }
 
   .pf-card {
-    width: 100%;
-    margin-bottom: clamp(3.5rem, 12vh, 5.5rem);
+    flex: 0 0 min(78vw, 22rem);
+    width: min(78vw, 22rem);
+    margin: 0;
+    scroll-snap-align: center;
   }
 
   .pf-card-frame {
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 3 / 4;
   }
 
   .pf-card-angle {
@@ -2038,6 +2141,14 @@ html.is-portfolio body {
   .pf-card-copy {
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  .pf-card-name {
+    font-size: clamp(1.55rem, 7vw, 2.1rem);
+  }
+
+  .pf-card-blurb {
+    font-size: 0.92rem;
   }
 }
 

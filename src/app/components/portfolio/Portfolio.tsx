@@ -197,8 +197,12 @@ export default function Portfolio() {
         }
       };
 
+      let mobileOff: (() => void) | null = null;
+
       const killStrip = () => {
         pinRef.current = null;
+        mobileOff?.();
+        mobileOff = null;
         ScrollTrigger.getAll()
           .filter((st) => st.vars.id === "pf-strip")
           .forEach((st) => st.kill());
@@ -210,36 +214,29 @@ export default function Portfolio() {
         killStrip();
 
         if (isMobile() || reduce) {
-          cards.forEach((card, index) => {
-            paintCard(index, 1);
-            ScrollTrigger.create({
-              id: "pf-strip",
-              trigger: card,
-              start: "top 60%",
-              end: "bottom 40%",
-              onToggle: (self) => {
-                if (self.isActive) setActive(index);
-              },
-            });
-            const media = card.querySelector(".pf-card-media");
-            if (!media || reduce) return;
-            gsap.fromTo(
-              media,
-              { scale: 1.08, yPercent: 5 },
-              {
-                scale: 1,
-                yPercent: 0,
-                ease: "none",
-                scrollTrigger: {
-                  id: "pf-strip",
-                  trigger: card,
-                  start: "top bottom",
-                  end: "bottom top",
-                  scrub: true,
-                },
+          cards.forEach((_, index) => paintCard(index, 1));
+          const onScroll = () => {
+            const mid = track.scrollLeft + track.clientWidth * 0.5;
+            let best = 0;
+            let bestDist = Infinity;
+            cards.forEach((card, index) => {
+              const center = card.offsetLeft + card.offsetWidth * 0.5;
+              const dist = Math.abs(center - mid);
+              if (dist < bestDist) {
+                bestDist = dist;
+                best = index;
               }
-            );
-          });
+            });
+            setActive((prev) => (prev === best ? prev : best));
+            gsap.set(progress, {
+              scaleX:
+                track.scrollLeft /
+                Math.max(1, track.scrollWidth - track.clientWidth),
+            });
+          };
+          track.addEventListener("scroll", onScroll, { passive: true });
+          onScroll();
+          mobileOff = () => track.removeEventListener("scroll", onScroll);
           return;
         }
 
@@ -303,12 +300,17 @@ export default function Portfolio() {
 
   const jumpTo = (index: number) => {
     const strip = stripRef.current;
-    if (!strip) return;
+    const track = trackRef.current;
+    if (!strip || !track) return;
     if (window.matchMedia("(max-width: 900px)").matches) {
-      const card = strip.querySelectorAll(".pf-card")[index] as
+      const card = track.querySelectorAll(".pf-card")[index] as
         | HTMLElement
         | undefined;
-      card?.scrollIntoView({ behavior: "smooth", block: "center" });
+      if (!card) return;
+      track.scrollTo({
+        left: card.offsetLeft - (track.clientWidth - card.offsetWidth) / 2,
+        behavior: "smooth",
+      });
       return;
     }
     const pin = pinRef.current;
@@ -334,18 +336,6 @@ export default function Portfolio() {
       </header>
 
       <section ref={heroRef} className="pf-hero">
-        <div className="pf-hero-stage">
-          <img
-            ref={heroMediaRef}
-            className="pf-hero-media"
-            src={PORTFOLIO_PROJECTS[0].src}
-            alt=""
-            draggable={false}
-          />
-          <div className="pf-hero-veil" aria-hidden="true" />
-          <div className="pf-hero-shade" aria-hidden="true" />
-        </div>
-
         <div className="pf-hero-copy">
           <p className="pf-eyebrow pf-hero-fade">{copy.eyebrow}</p>
           <h1 ref={titleRef} className="pf-title">
@@ -361,6 +351,26 @@ export default function Portfolio() {
             <span className="pf-hero-meta-sep" aria-hidden="true" />
             <span>{copy.scroll}</span>
           </div>
+        </div>
+
+        <div className="pf-hero-visual">
+          <div className="pf-hero-stage">
+            <img
+              ref={heroMediaRef}
+              className="pf-hero-media"
+              src={PORTFOLIO_PROJECTS[0].src}
+              alt=""
+              draggable={false}
+            />
+            <div className="pf-hero-veil" aria-hidden="true" />
+            <div className="pf-hero-shade" aria-hidden="true" />
+          </div>
+          <figure className="pf-hero-aside pf-hero-aside-a pf-hero-fade">
+            <img src={PORTFOLIO_PROJECTS[1].src} alt="" draggable={false} />
+          </figure>
+          <figure className="pf-hero-aside pf-hero-aside-b pf-hero-fade">
+            <img src={PORTFOLIO_PROJECTS[2].src} alt="" draggable={false} />
+          </figure>
         </div>
       </section>
 
