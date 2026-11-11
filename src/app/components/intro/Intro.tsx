@@ -9,42 +9,20 @@ import WallOfFame from "@/app/components/intro/WallOfFame";
 import LegacySection from "@/app/components/intro/LegacySection";
 import SiteFooter from "@/app/components/intro/SiteFooter";
 import MaskedLine from "@/app/components/intro/MaskedLine";
+import { useLang } from "@/app/i18n/LangProvider";
+import { peekLangSwap } from "@/app/i18n/swap";
 
 const WORDMARK_RATIO = 459 / 3072;
 
 const HERO_LOOP_SRC = "/videos/hero-loop.mp4";
 const HERO_LOOP_MOBILE_SRC = "/videos/hero-loop-mobile.mp4";
 const HERO_STILL_SRC = "/images/story.jpg";
-const HERO_PHRASE = "ART FROM EVERY ANGLE.";
-const STATEMENT = "WE DON'T CREATE TO BE SEEN.";
-const STATEMENT_LINES = ["WE DON'T CREATE", "TO BE SEEN."] as const;
-const SENSE = "WE CREATE TO BE FELT.";
-const SENSE_LINES = ["WE CREATE", "TO BE FELT."] as const;
-const ABOUT_TITLE = "Salazar Concept, Creative Agency,";
-const ABOUT_BODY =
-  "True concepts are those that express a very strong definition and are well consolidated by everyone around the world. The Salazar Concept is a universal concept that was inspired by an icon capable of looking at a market from a 360 angle and capable of camouflaging itself and adapting to different ecosystems or business habitats.";
 
 const INDUSTRIES = [
-  {
-    src: "/images/industries/construction.jpg",
-    lead: "FROM",
-    name: "CONSTRUCTION,",
-  },
-  {
-    src: "/images/industries/food.jpg",
-    lead: "TO",
-    name: "FOOD,",
-  },
-  {
-    src: "/images/industries/sports.jpg",
-    lead: "TO",
-    name: "SPORTS,",
-  },
-  {
-    src: "/images/industries/fashion.jpg",
-    lead: "TO",
-    name: "FASHION.",
-  },
+  "/images/industries/construction.jpg",
+  "/images/industries/food.jpg",
+  "/images/industries/sports.jpg",
+  "/images/industries/fashion.jpg",
 ] as const;
 const INDUSTRY_LAST = INDUSTRIES.length - 1;
 
@@ -90,6 +68,7 @@ function resetScrollTop() {
 }
 
 export default function Intro() {
+  const t = useLang().t.intro;
   const curtainRef = useRef<HTMLDivElement>(null);
   const copyRef = useRef<HTMLDivElement>(null);
   const topLineRef = useRef<HTMLParagraphElement>(null);
@@ -167,6 +146,7 @@ export default function Intro() {
     const reduce = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
+    const swap = peekLangSwap();
 
     if (reduce) {
       setHeroStill(true);
@@ -182,7 +162,34 @@ export default function Intro() {
         ],
         { yPercent: 0, y: 0 }
       );
-      return;
+      if (!swap) return;
+      const raf = requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+        window.scrollTo(0, swap.y);
+        window.dispatchEvent(new Event("lang-restored"));
+      });
+      return () => cancelAnimationFrame(raf);
+    }
+
+    /* Vindo de uma troca de idioma: a cortina já foi vista há segundos, por
+       isso o hero abre no estado final e o scroll volta onde estava. */
+    if (swap) {
+      curtain.style.display = "none";
+      document.documentElement.style.overflow = "";
+      gsap.set(hero, { scale: 1 });
+      gsap.set(phrase.querySelectorAll(".text-char"), { yPercent: 0, y: 0 });
+      gsap.set(statement.querySelectorAll(".text-char"), {
+        yPercent: 130,
+        y: 0,
+      });
+      gsap.set(statement, { display: "none", autoAlpha: 0 });
+      gsap.set(brand, { autoAlpha: 1 });
+      const raf = requestAnimationFrame(() => {
+        window.dispatchEvent(
+          new CustomEvent("intro-opened", { detail: { y: swap.y } })
+        );
+      });
+      return () => cancelAnimationFrame(raf);
     }
 
     document.documentElement.style.overflow = "hidden";
@@ -1102,8 +1109,9 @@ export default function Intro() {
     };
     window.addEventListener("resize", onResize);
 
-    const onOpened = () => {
-      resetScrollTop();
+    const onOpened = (event: Event) => {
+      const y = (event as CustomEvent<{ y?: number }>).detail?.y ?? 0;
+      if (!y) resetScrollTop();
       ScrollTrigger.refresh();
     };
     window.addEventListener("intro-opened", onOpened);
@@ -1156,8 +1164,8 @@ export default function Intro() {
               </div>
             </div>
           </div>
-          <p ref={phraseRef} className="hero-phrase" aria-label={HERO_PHRASE}>
-            <MaskedLine text={HERO_PHRASE} />
+          <p ref={phraseRef} className="hero-phrase" aria-label={t.phrase}>
+            <MaskedLine text={t.phrase} />
           </p>
           <div className="story-stage">
             <div ref={storyRef} className="story-frame">
@@ -1192,11 +1200,11 @@ export default function Intro() {
       <div ref={curtainRef} className="intro-curtain" aria-hidden="true">
         <div ref={copyRef} className="intro-copy">
           <p ref={topLineRef} className="intro-line">
-            <MaskedLine text="EMBRACE" />
+            <MaskedLine text={t.curtainTop} />
           </p>
           <div ref={slotRef} className="intro-slot" />
           <p ref={bottomLineRef} className="intro-line">
-            <MaskedLine text="THE CONCEPT" />
+            <MaskedLine text={t.curtainBottom} />
           </p>
         </div>
 
@@ -1214,9 +1222,9 @@ export default function Intro() {
       <p
         ref={statementRef}
         className="hero-statement"
-        aria-label={STATEMENT}
+        aria-label={t.statement}
       >
-        {STATEMENT_LINES.map((line) => (
+        {t.statementLines.map((line) => (
           <span className="hero-statement-line" key={line}>
             <MaskedLine text={line} />
           </span>
@@ -1225,9 +1233,9 @@ export default function Intro() {
       <p
         ref={senseRef}
         className="hero-statement is-below"
-        aria-label={SENSE}
+        aria-label={t.sense}
       >
-        {SENSE_LINES.map((line) => (
+        {t.senseLines.map((line) => (
           <span className="hero-statement-line" key={line}>
             <MaskedLine text={line} />
           </span>
@@ -1236,35 +1244,35 @@ export default function Intro() {
       <article
         ref={aboutRef}
         className="about-block"
-        aria-label={ABOUT_TITLE}
+        aria-label={t.aboutTitle}
       >
-        <h2 className="about-title">{ABOUT_TITLE}</h2>
-        <p className="about-body">{ABOUT_BODY}</p>
+        <h2 className="about-title">{t.aboutTitle}</h2>
+        <p className="about-body">{t.aboutBody}</p>
         <div ref={aboutThumbRef} className="about-thumb-slot" />
       </article>
       <div ref={industryRef} className="industry-panel">
         <div ref={industryTrackRef} className="industry-track">
-          {INDUSTRIES.map((item) => (
-            <div className="industry-slide" key={item.src}>
-              <img src={item.src} alt="" draggable={false} />
+          {INDUSTRIES.map((src) => (
+            <div className="industry-slide" key={src}>
+              <img src={src} alt="" draggable={false} />
             </div>
           ))}
         </div>
       </div>
       <div ref={dotsRef} className="industry-dots" aria-hidden="true">
-        {INDUSTRIES.map((item, index) => (
+        {INDUSTRIES.map((src, index) => (
           <span
             className={index === 0 ? "industry-dot is-active" : "industry-dot"}
-            key={item.name}
+            key={src}
           />
         ))}
       </div>
       <p
         ref={captionLineRef}
         className="industry-caption-line"
-        aria-label="From construction, to food, to sports, to fashion."
+        aria-label={t.industriesLabel}
       >
-        {INDUSTRIES.map((item) => (
+        {t.industries.map((item) => (
           <span className="industry-seg" key={item.name}>
             <i>{item.lead}</i> {item.name}
           </span>

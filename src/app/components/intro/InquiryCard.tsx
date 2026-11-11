@@ -6,6 +6,7 @@ import {
   useState,
   type KeyboardEvent,
 } from "react";
+import { useLang } from "@/app/i18n/LangProvider";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const STUDIO_MAIL = "geral@salazarconcept.com";
@@ -16,38 +17,10 @@ function isPhone(value: string) {
 }
 
 const STEPS = [
-  {
-    key: "name" as const,
-    type: "text",
-    autoComplete: "name",
-    label: "01 — Name",
-    placeholder: "Your name",
-    error: "Just your name is enough",
-  },
-  {
-    key: "idea" as const,
-    type: "text",
-    autoComplete: "off",
-    label: "02 — Idea",
-    placeholder: "Describe your idea",
-    error: "A few words is plenty",
-  },
-  {
-    key: "email" as const,
-    type: "email",
-    autoComplete: "email",
-    label: "03 — Email",
-    placeholder: "you@email.com",
-    error: "That email looks incomplete",
-  },
-  {
-    key: "phone" as const,
-    type: "tel",
-    autoComplete: "tel",
-    label: "04 — Phone",
-    placeholder: "+351 912 345 678",
-    error: "That number looks incomplete",
-  },
+  { key: "name" as const, type: "text", autoComplete: "name" },
+  { key: "idea" as const, type: "text", autoComplete: "off" },
+  { key: "email" as const, type: "email", autoComplete: "email" },
+  { key: "phone" as const, type: "tel", autoComplete: "tel" },
 ] as const;
 
 const FIELD_COUNT = STEPS.length;
@@ -76,6 +49,7 @@ function Arrow({ className }: { className?: string }) {
 }
 
 export default function InquiryCard() {
+  const t = useLang().t.inquiry;
   const [step, setStep] = useState(0);
   const [values, setValues] = useState<Values>({
     name: "",
@@ -88,6 +62,7 @@ export default function InquiryCard() {
   const submittingRef = useRef(false);
 
   const activeField = step >= 1 && step <= FIELD_COUNT ? STEPS[step - 1] : null;
+  const activeCopy = activeField ? t.fields[activeField.key] : null;
 
   useEffect(() => {
     if (step >= 1 && step <= FIELD_COUNT) inputRef.current?.focus();
@@ -95,13 +70,12 @@ export default function InquiryCard() {
 
   const validate = (key: FieldKey, value: string) => {
     const trimmed = value.trim();
-    const field = STEPS.find((item) => item.key === key);
-    if (!trimmed) return field?.error ?? "Required";
+    if (!trimmed) return t.fields[key]?.error ?? t.required;
     if (key === "email" && !EMAIL_RE.test(trimmed)) {
-      return "That email looks incomplete";
+      return t.fields.email.error;
     }
     if (key === "phone" && !isPhone(trimmed)) {
-      return "That number looks incomplete";
+      return t.fields.phone.error;
     }
     return null;
   };
@@ -116,9 +90,10 @@ export default function InquiryCard() {
     const idea = values.idea.trim();
     const email = values.email.trim();
     const phone = values.phone.trim();
-    const body = `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\nIdea:\n${idea}\n`;
+    const m = t.mail;
+    const body = `${m.name}: ${name}\n${m.email}: ${email}\n${m.phone}: ${phone}\n\n${m.idea}:\n${idea}\n`;
     const href = `mailto:${STUDIO_MAIL}?subject=${encodeURIComponent(
-      `Start journey — ${name}`
+      `${t.subject} — ${name}`
     )}&body=${encodeURIComponent(body)}`;
 
     try {
@@ -126,7 +101,7 @@ export default function InquiryCard() {
       window.location.href = href;
       setStep(DONE_STEP);
     } catch {
-      setError("Couldn’t send, try again in a moment");
+      setError(t.failed);
       setStep(FIELD_COUNT);
     } finally {
       submittingRef.current = false;
@@ -161,13 +136,13 @@ export default function InquiryCard() {
     <div className="site-footer-inquiry">
       {step === 0 && (
         <button type="button" className="site-footer-journey" onClick={start}>
-          <span>Start journey</span>
+          <span>{t.start}</span>
           <Arrow className="site-footer-journey-icon" />
         </button>
       )}
 
       <div aria-live="polite" key={step} className="site-footer-inquiry-step">
-        {activeField && (
+        {activeField && activeCopy && (
           <div className="site-footer-inquiry-flow">
             <div className="site-footer-inquiry-meta">
               {step > 1 ? (
@@ -179,13 +154,13 @@ export default function InquiryCard() {
                     setStep(step - 1);
                   }}
                 >
-                  Back
+                  {t.back}
                 </button>
               ) : (
                 <span />
               )}
               <span className="site-footer-inquiry-label">
-                {activeField.label}
+                {activeCopy.label}
               </span>
             </div>
 
@@ -195,7 +170,7 @@ export default function InquiryCard() {
                 type={activeField.type}
                 inputMode={activeField.type === "tel" ? "tel" : undefined}
                 autoComplete={activeField.autoComplete}
-                placeholder={activeField.placeholder}
+                placeholder={activeCopy.placeholder}
                 value={values[activeField.key]}
                 onChange={(event) => {
                   setError(null);
@@ -210,7 +185,7 @@ export default function InquiryCard() {
               <button
                 type="button"
                 onClick={advance}
-                aria-label={step === FIELD_COUNT ? "Send" : "Continue"}
+                aria-label={step === FIELD_COUNT ? t.send : t.next}
                 className="site-footer-inquiry-submit"
               >
                 <Arrow />
@@ -245,7 +220,7 @@ export default function InquiryCard() {
         )}
 
         {step === DONE_STEP && (
-          <p className="site-footer-inquiry-done">We’ll write back soon.</p>
+          <p className="site-footer-inquiry-done">{t.done}</p>
         )}
       </div>
     </div>

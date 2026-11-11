@@ -44,14 +44,26 @@ export default function SmoothScroll() {
     // A intro trava o scroll (overflow hidden) até a cortina abrir.
     const locked = document.documentElement.style.overflow === "hidden";
     if (locked) lenis.stop();
-    const onOpened = () => {
+    let restore = 0;
+    const onOpened = (event: Event) => {
+      const y = (event as CustomEvent<{ y?: number }>).detail?.y ?? 0;
       lenis.start();
       lenis.scrollTo(0, { immediate: true });
       ScrollTrigger.refresh();
+      if (!y) return;
+      // Depois do refresh do Intro, que é quem cria os pin spacers: antes
+      // disso a página ainda não tem altura para chegar a y.
+      restore = requestAnimationFrame(() => {
+        lenis.resize();
+        lenis.scrollTo(y, { immediate: true, force: true });
+        ScrollTrigger.update();
+        window.dispatchEvent(new Event("lang-restored"));
+      });
     };
     window.addEventListener("intro-opened", onOpened);
 
     return () => {
+      cancelAnimationFrame(restore);
       window.removeEventListener("intro-opened", onOpened);
       gsap.ticker.remove(raf);
       gsap.ticker.lagSmoothing(500, 33);

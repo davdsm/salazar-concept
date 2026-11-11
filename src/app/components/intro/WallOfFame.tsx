@@ -3,41 +3,22 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import MaskedLine from "@/app/components/intro/MaskedLine";
+import { useLang } from "@/app/i18n/LangProvider";
 
 type Project = {
-  category: string;
   industry: string;
   src: string;
 };
 
 /* Cinco estandartes. A ordem alterna claro/escuro para o título em difference
-   ter sempre contraste por baixo, seja onde for que o pano esteja. */
+   ter sempre contraste por baixo, seja onde for que o pano esteja. A categoria
+   de cada um vive no dicionário, pela mesma ordem. */
 const PROJECTS: Project[] = [
-  {
-    category: "Art Direction",
-    industry: "Walkys",
-    src: "/images/wall-of-fame/art-direction-walkys.jpg",
-  },
-  {
-    category: "Photography",
-    industry: "Tia Xica",
-    src: "/images/wall-of-fame/photography-tia-xica.jpg",
-  },
-  {
-    category: "Branding",
-    industry: "Taiponte",
-    src: "/images/wall-of-fame/branding-taiponte.jpg",
-  },
-  {
-    category: "Identity",
-    industry: "SEK",
-    src: "/images/wall-of-fame/identity-sek.jpg",
-  },
-  {
-    category: "Website",
-    industry: "SEK",
-    src: "/images/wall-of-fame/website-sek.jpg",
-  },
+  { industry: "Walkys", src: "/images/wall-of-fame/art-direction-walkys.jpg" },
+  { industry: "Tia Xica", src: "/images/wall-of-fame/photography-tia-xica.jpg" },
+  { industry: "Taiponte", src: "/images/wall-of-fame/branding-taiponte.jpg" },
+  { industry: "SEK", src: "/images/wall-of-fame/identity-sek.jpg" },
+  { industry: "SEK", src: "/images/wall-of-fame/website-sek.jpg" },
 ];
 
 const VERT = `#version 300 es
@@ -113,6 +94,7 @@ const COLS = 16;
 const ROWS = 20;
 
 export default function WallOfFame() {
+  const t = useLang().t.fame;
   const sectionRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -558,21 +540,21 @@ export default function WallOfFame() {
       <div ref={stageRef} className="fame-stage">
         <canvas ref={canvasRef} className="fame-canvas" aria-hidden="true" />
         <h2 ref={titleRef} id="fame-title" className="fame-title">
-          <MaskedLine text="Wall of Fame" />
+          <MaskedLine text={t.title} />
         </h2>
       </div>
 
       <ul className="fame-legend">
-        {PROJECTS.map((p) => (
-          <li className="fame-item" key={p.category + p.industry}>
-            <span className="fame-cat">{p.category}</span>
+        {PROJECTS.map((p, i) => (
+          <li className="fame-item" key={p.src}>
+            <span className="fame-cat">{t.categories[i]}</span>
             <span className="fame-ind">{p.industry}</span>
           </li>
         ))}
       </ul>
 
       <a className="fame-cta" href="/work">
-        <span>See the portfolio</span>
+        <span>{t.cta}</span>
         <svg viewBox="0 0 24 12" aria-hidden="true">
           <path d="M0 6h21M16 1l5 5-5 5" fill="none" stroke="currentColor" strokeWidth="1.4" />
         </svg>

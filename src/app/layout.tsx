@@ -1,5 +1,14 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import localFont from "next/font/local";
+import {
+  DICTIONARIES,
+  LANG_HEADER,
+  isLang,
+  type Lang,
+} from "@/app/i18n/dictionary";
+import { LangProvider } from "@/app/i18n/LangProvider";
+import { LANG_SWAP_SCRIPT } from "@/app/i18n/swap";
 import "./globals.css";
 
 const n27 = localFont({
@@ -69,27 +78,37 @@ const n27 = localFont({
   variable: "--font-n27",
 });
 
-export const metadata: Metadata = {
-  title: "Salazar Concept",
-  description:
-    "The Salazar Concept is a universal concept inspired by an icon capable of looking at a market from a 360 angle.",
-};
+function requestLang(): Lang {
+  const value = headers().get(LANG_HEADER);
+  return isLang(value) ? value : "en";
+}
+
+export function generateMetadata(): Metadata {
+  return {
+    title: "Salazar Concept",
+    description: DICTIONARIES[requestLang()].meta.description,
+  };
+}
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const lang = requestLang();
+
   return (
-    <html lang="pt" className={`${n27.variable} ${n27.className}`}>
+    <html lang={lang} className={`${n27.variable} ${n27.className}`}>
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{if("scrollRestoration" in history)history.scrollRestoration="manual";window.scrollTo(0,0);}catch(e){}`,
+            __html: `try{if("scrollRestoration" in history)history.scrollRestoration="manual";window.scrollTo(0,0);}catch(e){}${LANG_SWAP_SCRIPT}`,
           }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <LangProvider lang={lang}>{children}</LangProvider>
+      </body>
     </html>
   );
 }

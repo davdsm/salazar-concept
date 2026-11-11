@@ -4,14 +4,10 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import MaskedLine from "@/app/components/intro/MaskedLine";
-
-const LEGACY_LEAD = "A brand becomes something you never forget.";
-const LEGACY_TITLE = "Made once.";
-const LEGACY_TITLE_EM = "Impact forever.";
-const LEGACY_BODY =
-  "What we create is not made for the moment alone. It is shaped to hold its meaning, its beauty, and its place long after the first impression has passed. Every project is built to endure, with the same care on the hundredth day as on the first.";
+import { useLang } from "@/app/i18n/LangProvider";
 
 export default function LegacySection() {
+  const t = useLang().t.legacy;
   const sectionRef = useRef<HTMLElement>(null);
   const leadRef = useRef<HTMLParagraphElement>(null);
   const leftMaskRef = useRef<HTMLDivElement>(null);
@@ -206,7 +202,7 @@ export default function LegacySection() {
   return (
     <section ref={sectionRef} className="legacy" aria-labelledby="legacy-lead">
       <p ref={leadRef} id="legacy-lead" className="legacy-lead">
-        {LEGACY_LEAD}
+        {t.lead}
       </p>
 
       <div className="legacy-layout">
@@ -242,13 +238,13 @@ export default function LegacySection() {
           <article className="legacy-story">
             <h2 ref={titleRef} className="legacy-title">
               <span className="legacy-title-line">
-                <MaskedLine text={LEGACY_TITLE} />
+                <MaskedLine text={t.title} wrapWords />
               </span>
               <span className="legacy-title-line">
-                <MaskedLine text={LEGACY_TITLE_EM} />
+                <MaskedLine text={t.titleEm} wrapWords />
               </span>
             </h2>
-            <p className="legacy-body">{LEGACY_BODY}</p>
+            <p className="legacy-body">{t.body}</p>
           </article>
         </div>
       </div>

@@ -5,8 +5,10 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import InquiryCard from "@/app/components/intro/InquiryCard";
 import MaskedLine from "@/app/components/intro/MaskedLine";
+import { useLang } from "@/app/i18n/LangProvider";
 
 export default function SiteFooter() {
+  const t = useLang().t.footer;
   const footerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -122,7 +124,7 @@ export default function SiteFooter() {
     <footer ref={footerRef} className="site-footer">
       <div className="site-footer-top">
         <a className="site-footer-cta" href="mailto:geral@salazarconcept.com">
-          <span>CONTACT US</span>
+          <span>{t.contact}</span>
           <svg
             className="site-footer-arrow"
             viewBox="0 0 72 72"
@@ -140,14 +142,14 @@ export default function SiteFooter() {
 
         <div className="site-footer-cols">
           <div>
-            <p>SALAZAR CONCEPT — STUDIO</p>
-            <p>CREATIVE AGENCY</p>
+            <p>{t.studio}</p>
+            <p>{t.agency}</p>
             <a href="mailto:geral@salazarconcept.com">
               GERAL@SALAZARCONCEPT.COM
             </a>
           </div>
           <div>
-            <p>FOLLOW</p>
+            <p>{t.follow}</p>
             <a
               href="https://www.instagram.com/_salazarconcept_/"
               target="_blank"
@@ -177,7 +179,7 @@ export default function SiteFooter() {
 
       <div className="site-footer-mid">
         <p className="site-footer-line">
-          <MaskedLine text="So — what is your idea?" />
+          <MaskedLine text={t.question} />
         </p>
         <InquiryCard />
       </div>
