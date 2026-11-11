@@ -24,8 +24,15 @@ body {
 
 html.is-footer,
 html.is-footer body,
-html.is-footer .intro {
+html.is-footer .intro,
+html.is-footer .portfolio {
   background: #000;
+}
+
+html.is-footer .pf-top {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
 }
 
 html::-webkit-scrollbar,
@@ -1663,13 +1670,11 @@ html.is-portfolio body {
 
 /* O CSS global esconde .text-char com translateY(100%). Depois da animação
    GSAP esta classe segura o estado revelado se o tween for revertido. */
-.pf-title.is-in .text-char,
-.pf-outro-title.is-in .text-char {
+.pf-title.is-in .text-char {
   transform: none;
 }
 
-.pf-title .text-line,
-.pf-outro-title .text-line {
+.pf-title .text-line {
   max-width: none;
 }
 
@@ -1705,47 +1710,113 @@ html.is-portfolio body {
   filter: invert(1);
 }
 
-.pf-strip {
+/* Índice tipográfico: nomes grandes + imagem sticky ao lado. */
+.pf-index {
   position: relative;
-  min-height: 100dvh;
-  padding-top: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: start;
+  padding: clamp(4rem, 10vh, 7rem) clamp(1.2rem, 4vw, 3.5rem)
+    clamp(5rem, 12vh, 8rem);
   background: #fff;
   color: #0e0e0d;
+  border-top: 1px solid rgb(14 14 13 / 0.08);
 }
 
-.pf-strip-hud {
+.pf-index-media {
+  position: sticky;
+  top: clamp(5rem, 12vh, 7rem);
+  order: 2;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #eceae6;
+}
+
+.pf-index-frame {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 5;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  will-change: transform, opacity;
+}
+
+.pf-index-frame:first-child {
+  opacity: 1;
+  visibility: visible;
+}
+
+.pf-index-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+}
+
+.pf-index-list {
+  order: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pf-index-row {
   display: grid;
   grid-template-columns: auto 1fr;
-  grid-template-areas:
-    "counter progress"
-    "rail rail";
-  align-items: end;
-  gap: 0.55rem 1.5rem;
-  padding: 1.1rem clamp(1.2rem, 3vw, 2.5rem) 0;
-  pointer-events: none;
+  gap: clamp(0.85rem, 2vw, 1.6rem);
+  width: 100%;
+  margin: 0;
+  padding: clamp(1.1rem, 2.4vh, 1.7rem) 0;
+  border: 0;
+  border-bottom: 1px solid rgb(14 14 13 / 0.12);
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  opacity: 0.34;
+  transition: opacity 0.35s ease;
 }
 
-.pf-strip-hud > * {
-  pointer-events: auto;
+.pf-index-list li:first-child .pf-index-row {
+  border-top: 1px solid rgb(14 14 13 / 0.12);
 }
 
-.pf-counter {
-  grid-area: counter;
-  display: flex;
-  align-items: baseline;
-  gap: 0.55rem;
-  font-size: clamp(2.2rem, 4.4vw, 3.4rem);
+.pf-index-row:hover,
+.pf-index-row:focus-visible,
+.pf-index-row.is-active {
+  opacity: 1;
+}
+
+.pf-index-row:focus-visible {
+  outline: 1px solid #0e0e0d;
+  outline-offset: 4px;
+}
+
+.pf-index-num {
+  padding-top: 0.35em;
+  font-size: 0.7rem;
   font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.04em;
+  letter-spacing: 0.16em;
 }
 
-.pf-counter-of {
+.pf-index-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.pf-index-name {
+  font-size: clamp(2.2rem, 5.2vw, 4.6rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+}
+
+.pf-index-meta {
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.16em;
@@ -1753,247 +1824,25 @@ html.is-portfolio body {
   opacity: 0.45;
 }
 
-.pf-rail {
-  grid-area: rail;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 0.35rem 1.25rem;
-}
-
-.pf-rail-btn {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.4rem;
-  margin: 0;
-  padding: 0.2rem 0;
-  border: 0;
-  background: none;
-  color: inherit;
-  font: inherit;
-  opacity: 0.34;
-  transition: opacity 0.35s ease;
-}
-
-.pf-rail-btn.is-active,
-.pf-rail-btn:hover {
-  opacity: 1;
-}
-
-.pf-rail-num {
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-}
-
-.pf-rail-name {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.pf-progress {
-  grid-area: progress;
-  width: min(11rem, 28vw);
-  height: 1px;
-  justify-self: end;
-  align-self: center;
-  background: rgb(14 14 13 / 0.14);
-  overflow: hidden;
-}
-
-.pf-progress-bar {
-  width: 100%;
-  height: 100%;
-  background: #0e0e0d;
-  transform: scaleX(0);
-  transform-origin: left center;
-  will-change: transform;
-}
-
-.pf-track {
-  display: flex;
-  align-items: center;
-  gap: clamp(1.4rem, 2.8vw, 2.4rem);
-  width: max-content;
-  min-height: 100dvh;
-  padding: 6.5rem max(2rem, calc((100vw - min(48vw, 36rem)) / 2)) 3.2rem;
-  will-change: transform;
-}
-
-.pf-card {
-  flex: 0 0 auto;
-  width: min(48vw, 36rem);
-}
-
-.pf-card-frame {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  background: #f3f1ed;
-}
-
-.pf-card-angle {
-  position: absolute;
-  top: -7%;
-  right: -3%;
-  z-index: 2;
-  width: 18%;
-  aspect-ratio: 1;
-  border: 1px solid rgb(14 14 13 / 0.55);
-  transform: rotate(-18deg);
-  pointer-events: none;
-}
-
-.pf-card-media-wrap {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-}
-
-.pf-card-media {
+.pf-index-blurb {
   display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform-origin: center center;
-  will-change: transform;
-  user-select: none;
-}
-
-.pf-card-veil {
-  position: absolute;
-  inset: 0;
-  background: #fff;
-  pointer-events: none;
-  will-change: clip-path;
-}
-
-.pf-card-index {
-  position: absolute;
-  left: 0.7rem;
-  bottom: 0.4rem;
-  z-index: 3;
-  font-size: clamp(2.4rem, 5vw, 4.2rem);
-  font-weight: 700;
-  line-height: 0.8;
-  letter-spacing: -0.06em;
-  color: #fff;
-  mix-blend-mode: difference;
-  pointer-events: none;
-}
-
-.pf-card-copy {
-  margin-top: 1.15rem;
-  max-width: 34rem;
-  will-change: transform, opacity;
-}
-
-.pf-card-cat {
-  margin: 0;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  opacity: 0.48;
-}
-
-.pf-card-name {
-  margin: 0.4rem 0 0;
-  font-size: clamp(1.45rem, 2.6vw, 2.2rem);
-  font-weight: 700;
-  line-height: 0.95;
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
-}
-
-.pf-card-blurb {
-  margin: 0.85rem 0 0;
   max-width: 28rem;
-  font-size: clamp(0.95rem, 1.25vw, 1.08rem);
+  max-height: 0;
+  margin-top: 0;
+  overflow: hidden;
+  font-size: clamp(0.92rem, 1.2vw, 1.05rem);
   font-weight: 300;
-  line-height: 1.6;
+  line-height: 1.55;
   color: #3d3a36;
+  opacity: 0;
+  transition: max-height 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.35s ease, margin-top 0.35s ease;
 }
 
-.pf-outro {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 100dvh;
-  padding: clamp(5rem, 12vh, 8rem) clamp(1.2rem, 4vw, 3.5rem)
-    clamp(6rem, 14vh, 9rem);
-  border-top: 1px solid rgb(14 14 13 / 0.08);
-}
-
-.pf-outro-title {
-  margin: 0;
-  max-width: 12em;
-  font-size: clamp(2.8rem, 8vw, 6.5rem);
-  font-weight: 700;
-  line-height: 0.92;
-  letter-spacing: -0.05em;
-  text-transform: uppercase;
-}
-
-.pf-outro-title .text-line {
-  max-width: none;
-}
-
-.pf-outro-body {
-  margin: clamp(1.3rem, 2.5vh, 2rem) 0 0;
-  max-width: 28rem;
-  font-size: clamp(1rem, 1.45vw, 1.18rem);
-  font-weight: 300;
-  line-height: 1.6;
-  color: #3d3a36;
-}
-
-.pf-outro-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.85rem;
-  width: max-content;
-  margin-top: clamp(2rem, 4vh, 3rem);
-  padding: 0.95rem 1.35rem 0.95rem 1.5rem;
-  border: 1px solid #0e0e0d;
-  border-radius: 999px;
-  color: #0e0e0d;
-  text-decoration: none;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  transition: color 0.4s ease, background-color 0.4s ease,
-    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.pf-outro-cta-icon {
-  display: grid;
-  place-items: center;
-  width: 1.85rem;
-  height: 1.85rem;
-  border-radius: 50%;
-  background: #0e0e0d;
-  color: #fff;
-  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.pf-outro-cta:hover {
-  background: #0e0e0d;
-  color: #fff;
-  transform: translateY(-2px);
-}
-
-.pf-outro-cta:hover .pf-outro-cta-icon {
-  background: #fff;
-  color: #0e0e0d;
-  transform: translateX(3px);
-}
-
-.pf-outro-cta:active {
-  transform: scale(0.98);
+.pf-index-blurb.is-open {
+  max-height: 6.5em;
+  margin-top: 0.45rem;
+  opacity: 1;
 }
 
 @media (max-width: 900px) {
@@ -2090,80 +1939,37 @@ html.is-portfolio body {
     opacity: 0.45;
   }
 
-  /* Destaques em carrossel horizontal com snap — mais editorial no telemóvel. */
-  .pf-strip {
-    min-height: 0;
-    padding: 0 0 clamp(3rem, 8vh, 4.5rem);
+  .pf-index {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    padding: clamp(2.4rem, 7vh, 3.5rem) clamp(1rem, 4vw, 1.5rem)
+      clamp(3.5rem, 10vh, 5rem);
   }
 
-  .pf-strip-hud {
+  .pf-index-media {
     position: relative;
     top: auto;
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
-    padding: 1.4rem clamp(1rem, 4vw, 1.4rem) 0.4rem;
-    background: none;
-  }
-
-  .pf-rail {
-    justify-content: flex-start;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    padding-bottom: 0.15rem;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .pf-progress {
+    order: 0;
     width: 100%;
-    justify-self: stretch;
+    aspect-ratio: 5 / 6;
   }
 
-  .pf-track {
-    display: flex;
-    align-items: stretch;
-    gap: 0.85rem;
-    width: auto;
-    min-height: 0;
-    padding: 0.6rem max(1rem, 4vw) 0.4rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: max(1rem, 4vw);
-    -webkit-overflow-scrolling: touch;
+  .pf-index-list {
+    order: 1;
   }
 
-  .pf-card {
-    flex: 0 0 min(62vw, 16.5rem);
-    width: min(62vw, 16.5rem);
-    margin: 0;
-    scroll-snap-align: center;
+  .pf-index-name {
+    font-size: clamp(1.9rem, 10vw, 3rem);
   }
 
-  .pf-card-frame {
-    aspect-ratio: 3 / 4;
-  }
-
-  .pf-card-angle {
-    width: 22%;
-  }
-
-  .pf-card-copy {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
-  .pf-card-name {
-    font-size: clamp(1.25rem, 5.5vw, 1.7rem);
-  }
-
-  .pf-card-blurb {
-    font-size: 0.86rem;
+  .pf-index-blurb {
+    font-size: 0.9rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pf-back-arrow,
-  .pf-outro-cta,
-  .pf-outro-cta-icon {
+  .pf-back-arrow {
     transition: none;
   }
 }
