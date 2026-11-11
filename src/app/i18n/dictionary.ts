@@ -33,6 +33,27 @@ export type Dictionary = {
     cta: string;
     categories: readonly [string, string, string, string, string];
   };
+  portfolio: {
+    meta: string;
+    back: string;
+    eyebrow: string;
+    title: string;
+    titleLines: readonly [string, string];
+    lede: string;
+    scroll: string;
+    indexLabel: string;
+    of: string;
+    outroTitle: string;
+    outroBody: string;
+    outroCta: string;
+    projects: readonly [
+      { blurb: string },
+      { blurb: string },
+      { blurb: string },
+      { blurb: string },
+      { blurb: string },
+    ];
+  };
   footer: {
     contact: string;
     studio: string;
@@ -99,6 +120,42 @@ const en: Dictionary = {
       "Branding",
       "Identity",
       "Website",
+    ],
+  },
+  portfolio: {
+    meta: "Selected work — Salazar Concept.",
+    back: "Back",
+    eyebrow: "Selected work",
+    title: "EVERY ANGLE.",
+    titleLines: ["EVERY", "ANGLE."],
+    lede: "Five pieces. Five habitats. One chameleon looking at each brand from every side.",
+    scroll: "Scroll to turn",
+    indexLabel: "Index",
+    of: "of",
+    outroTitle: "Your angle next.",
+    outroBody: "We don’t create to be seen. We create to be felt — tell us what you want the world to feel.",
+    outroCta: "Start a journey",
+    projects: [
+      {
+        blurb:
+          "A world built for Walkys — direction that holds the frame still while the energy moves.",
+      },
+      {
+        blurb:
+          "Light, texture and appetite. Photography that makes Tia Xica taste like a place you already miss.",
+      },
+      {
+        blurb:
+          "A brand system for Taiponte that settles into stone, timber and the quiet of a finished house.",
+      },
+      {
+        blurb:
+          "SEK, rewritten as a mark you recognise before you read it — sharp, calm, impossible to forget.",
+      },
+      {
+        blurb:
+          "The same identity, now online. A website that moves with the precision of the brand behind it.",
+      },
     ],
   },
   footer: {
@@ -183,6 +240,42 @@ const pt: Dictionary = {
       "Branding",
       "Identidade",
       "Website",
+    ],
+  },
+  portfolio: {
+    meta: "Trabalho seleccionado — Salazar Concept.",
+    back: "Voltar",
+    eyebrow: "Trabalho seleccionado",
+    title: "TODOS OS ÂNGULOS.",
+    titleLines: ["TODOS OS", "ÂNGULOS."],
+    lede: "Cinco peças. Cinco habitats. Um camaleão a olhar para cada marca de todos os lados.",
+    scroll: "Desliza para virar",
+    indexLabel: "Índice",
+    of: "de",
+    outroTitle: "O teu ângulo a seguir.",
+    outroBody: "Não criamos para ser vistos. Criamos para ser sentidos — diz-nos o que queres que o mundo sinta.",
+    outroCta: "Começar a viagem",
+    projects: [
+      {
+        blurb:
+          "Um mundo para a Walkys — direcção que segura o enquadramento enquanto a energia se move.",
+      },
+      {
+        blurb:
+          "Luz, textura e apetite. Fotografia que faz a Tia Xica saborear a um sítio de que já tens saudades.",
+      },
+      {
+        blurb:
+          "Um sistema de marca para a Taiponte que assenta na pedra, na madeira e no silêncio de uma casa pronta.",
+      },
+      {
+        blurb:
+          "A SEK, reescrita como uma marca que reconheces antes de a leres — limpa, calma, impossível de esquecer.",
+      },
+      {
+        blurb:
+          "A mesma identidade, agora online. Um website que se move com a precisão da marca que o carrega.",
+      },
     ],
   },
   footer: {

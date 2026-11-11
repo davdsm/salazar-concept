@@ -687,8 +687,8 @@ html.has-chameleon-cursor * {
    dentro do grupo, por isso aparece recortado no knob. */
 .lang-switch {
   position: fixed;
-  top: max(clamp(0.85rem, 1.8vw, 1.5rem), env(safe-area-inset-top));
   right: max(clamp(0.85rem, 1.8vw, 1.5rem), env(safe-area-inset-right));
+  bottom: max(clamp(0.85rem, 1.8vw, 1.5rem), env(safe-area-inset-bottom));
   z-index: 39;
   display: flex;
   padding: 4px;
@@ -1450,5 +1450,607 @@ html.lenis body {
 
   .fame-stage {
     cursor: default;
+  }
+}
+
+/* ── Portfolio (/work) ───────────────────────────────────────────────
+   Fundo branco de propósito: o home vive no bege/preto; aqui o trabalho
+   ocupa uma sala limpa, como uma galeria. A tipografia e o scroll lateral
+   mantêm o mesmo ADN do resto do site. */
+
+html.is-portfolio,
+html.is-portfolio body {
+  background: #fff;
+  color: #0e0e0d;
+}
+
+html.has-pf-cursor,
+html.has-pf-cursor * {
+  cursor: none !important;
+}
+
+.portfolio {
+  position: relative;
+  min-height: 100dvh;
+  background: #fff;
+  color: #0e0e0d;
+  overflow-x: clip;
+}
+
+.pf-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  width: 0.55rem;
+  height: 0.55rem;
+  margin: -0.275rem 0 0 -0.275rem;
+  border-radius: 50%;
+  background: #0e0e0d;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.35s ease;
+  will-change: transform;
+}
+
+.pf-cursor.is-hot {
+  transform: scale(4.2);
+  background: #fff;
+}
+
+.pf-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  padding: max(1rem, env(safe-area-inset-top)) clamp(1rem, 3vw, 2rem) 0.75rem;
+  pointer-events: none;
+}
+
+.pf-top > * {
+  pointer-events: auto;
+}
+
+.pf-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  justify-self: start;
+  color: inherit;
+  text-decoration: none;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.pf-back-arrow {
+  display: inline-block;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pf-back:hover .pf-back-arrow {
+  transform: translateX(-4px);
+}
+
+.pf-brand {
+  display: block;
+  width: clamp(7.5rem, 14vw, 11rem);
+}
+
+.pf-brand img {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* O wordmark é branco (feito para o hero escuro). No portfolio branco
+     invertemos para tinta. */
+  filter: invert(1);
+}
+
+.pf-top-label {
+  margin: 0;
+  justify-self: end;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.45;
+}
+
+.pf-hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 100dvh;
+  padding: clamp(6rem, 14vh, 9rem) clamp(1.2rem, 4vw, 3.5rem)
+    clamp(2rem, 5vh, 3.5rem);
+  overflow: hidden;
+}
+
+.pf-eyebrow {
+  margin: 0 0 1.1rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+
+.pf-title {
+  margin: 0;
+  max-width: 14em;
+  font-size: clamp(3.4rem, 12.5vw, 9.5rem);
+  font-weight: 700;
+  line-height: 0.88;
+  letter-spacing: -0.055em;
+  text-transform: uppercase;
+}
+
+.pf-title-line {
+  display: block;
+}
+
+/* O CSS global esconde .text-char com translateY(100%). Depois da animação
+   GSAP esta classe segura o estado revelado se o tween for revertido. */
+.pf-title.is-in .text-char,
+.pf-outro-title.is-in .text-char {
+  transform: none;
+}
+
+.pf-title .text-line,
+.pf-outro-title .text-line {
+  max-width: none;
+}
+
+.pf-lede {
+  margin: clamp(1.4rem, 3vh, 2.2rem) 0 0;
+  max-width: 28rem;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  font-weight: 300;
+  line-height: 1.55;
+  letter-spacing: 0.01em;
+  color: #3d3a36;
+}
+
+.pf-hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-top: clamp(2rem, 5vh, 3.5rem);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.pf-hero-meta-sep {
+  width: 2.4rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.35;
+}
+
+.pf-film {
+  position: absolute;
+  top: 18%;
+  right: -4%;
+  display: flex;
+  gap: 0.7rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transform: rotate(-8deg);
+  opacity: 0.9;
+  pointer-events: none;
+  mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+}
+
+.pf-film li {
+  flex: 0 0 auto;
+  width: clamp(4.8rem, 9vw, 7.2rem);
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 0.2rem;
+  background: #eceae6;
+}
+
+.pf-film li:nth-child(2n) {
+  transform: translateY(1.4rem);
+}
+
+.pf-film li:nth-child(3n) {
+  transform: translateY(-0.7rem);
+}
+
+.pf-film img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.15) contrast(1.05);
+}
+
+.pf-strip {
+  position: relative;
+  min-height: 100dvh;
+  padding-top: 0;
+}
+
+.pf-strip-hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "counter progress"
+    "rail rail";
+  align-items: end;
+  gap: 0.55rem 1.5rem;
+  padding: 1.1rem clamp(1.2rem, 3vw, 2.5rem) 0;
+  pointer-events: none;
+}
+
+.pf-strip-hud > * {
+  pointer-events: auto;
+}
+
+.pf-counter {
+  grid-area: counter;
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  font-size: clamp(2.2rem, 4.4vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.pf-counter-of {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.45;
+}
+
+.pf-rail {
+  grid-area: rail;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 0.35rem 1.25rem;
+}
+
+.pf-rail-btn {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0.2rem 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  opacity: 0.34;
+  transition: opacity 0.35s ease;
+}
+
+.pf-rail-btn.is-active,
+.pf-rail-btn:hover {
+  opacity: 1;
+}
+
+.pf-rail-num {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.pf-rail-name {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.pf-progress {
+  grid-area: progress;
+  width: min(11rem, 28vw);
+  height: 1px;
+  justify-self: end;
+  align-self: center;
+  background: rgb(14 14 13 / 0.14);
+  overflow: hidden;
+}
+
+.pf-progress-bar {
+  width: 100%;
+  height: 100%;
+  background: #0e0e0d;
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
+
+.pf-track {
+  display: flex;
+  align-items: center;
+  gap: clamp(1.8rem, 3.5vw, 3.2rem);
+  width: max-content;
+  min-height: 100dvh;
+  padding: 6.5rem max(3rem, calc((100vw - min(68vw, 52rem)) / 2)) 3.2rem;
+  will-change: transform;
+}
+
+.pf-card {
+  flex: 0 0 auto;
+  width: min(68vw, 52rem);
+}
+
+.pf-card-frame {
+  position: relative;
+  aspect-ratio: 16 / 11;
+  background: #f3f1ed;
+}
+
+.pf-card-angle {
+  position: absolute;
+  top: -7%;
+  right: -3%;
+  z-index: 2;
+  width: 18%;
+  aspect-ratio: 1;
+  border: 1px solid rgb(14 14 13 / 0.55);
+  transform: rotate(-18deg);
+  pointer-events: none;
+}
+
+.pf-card-media-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.pf-card-media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform-origin: center center;
+  will-change: transform;
+  user-select: none;
+}
+
+.pf-card-veil {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  pointer-events: none;
+  will-change: clip-path;
+}
+
+.pf-card-index {
+  position: absolute;
+  left: 0.85rem;
+  bottom: 0.55rem;
+  z-index: 3;
+  font-size: clamp(3.5rem, 8vw, 7rem);
+  font-weight: 700;
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+  color: #fff;
+  mix-blend-mode: difference;
+  pointer-events: none;
+}
+
+.pf-card-copy {
+  margin-top: 1.15rem;
+  max-width: 34rem;
+  will-change: transform, opacity;
+}
+
+.pf-card-cat {
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.48;
+}
+
+.pf-card-name {
+  margin: 0.45rem 0 0;
+  font-size: clamp(2rem, 4.2vw, 3.4rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.pf-card-blurb {
+  margin: 0.85rem 0 0;
+  max-width: 28rem;
+  font-size: clamp(0.95rem, 1.25vw, 1.08rem);
+  font-weight: 300;
+  line-height: 1.6;
+  color: #3d3a36;
+}
+
+.pf-outro {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100dvh;
+  padding: clamp(5rem, 12vh, 8rem) clamp(1.2rem, 4vw, 3.5rem)
+    clamp(6rem, 14vh, 9rem);
+  border-top: 1px solid rgb(14 14 13 / 0.08);
+}
+
+.pf-outro-title {
+  margin: 0;
+  max-width: 12em;
+  font-size: clamp(2.8rem, 8vw, 6.5rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+}
+
+.pf-outro-title .text-line {
+  max-width: none;
+}
+
+.pf-outro-body {
+  margin: clamp(1.3rem, 2.5vh, 2rem) 0 0;
+  max-width: 28rem;
+  font-size: clamp(1rem, 1.45vw, 1.18rem);
+  font-weight: 300;
+  line-height: 1.6;
+  color: #3d3a36;
+}
+
+.pf-outro-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  width: max-content;
+  margin-top: clamp(2rem, 4vh, 3rem);
+  padding: 0.95rem 1.35rem 0.95rem 1.5rem;
+  border: 1px solid #0e0e0d;
+  border-radius: 999px;
+  color: #0e0e0d;
+  text-decoration: none;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: color 0.4s ease, background-color 0.4s ease,
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pf-outro-cta-icon {
+  display: grid;
+  place-items: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 50%;
+  background: #0e0e0d;
+  color: #fff;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pf-outro-cta:hover {
+  background: #0e0e0d;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.pf-outro-cta:hover .pf-outro-cta-icon {
+  background: #fff;
+  color: #0e0e0d;
+  transform: translateX(3px);
+}
+
+.pf-outro-cta:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 900px) {
+  .pf-top {
+    grid-template-columns: 1fr auto;
+  }
+
+  .pf-top-label {
+    display: none;
+  }
+
+  .pf-brand {
+    justify-self: end;
+    width: 7.2rem;
+  }
+
+  .pf-hero {
+    min-height: 92dvh;
+    padding-top: 7rem;
+  }
+
+  .pf-title {
+    font-size: clamp(2.8rem, 15vw, 4.6rem);
+  }
+
+  .pf-film {
+    top: 12%;
+    right: -18%;
+    opacity: 0.55;
+  }
+
+  .pf-strip-hud {
+    position: sticky;
+    top: 0;
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+    padding-top: max(4.8rem, calc(env(safe-area-inset-top) + 3.6rem));
+    background: linear-gradient(#fff 55%, rgb(255 255 255 / 0));
+  }
+
+  .pf-rail {
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 0.2rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .pf-progress {
+    width: 100%;
+    justify-self: stretch;
+  }
+
+  .pf-track {
+    display: block;
+    width: 100%;
+    min-height: 0;
+    padding: 1.2rem clamp(1rem, 4vw, 1.5rem) 3rem;
+  }
+
+  .pf-card {
+    width: 100%;
+    margin-bottom: clamp(3.5rem, 12vh, 5.5rem);
+  }
+
+  .pf-card-frame {
+    aspect-ratio: 4 / 5;
+  }
+
+  .pf-card-angle {
+    width: 22%;
+  }
+
+  .pf-card-copy {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-cursor {
+    display: none;
+  }
+
+  .pf-back-arrow,
+  .pf-outro-cta,
+  .pf-outro-cta-icon {
+    transition: none;
   }
 }
