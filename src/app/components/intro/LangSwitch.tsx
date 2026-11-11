@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { useLang } from "@/app/i18n/LangProvider";
 import { DICTIONARIES, LANGS, type Lang } from "@/app/i18n/dictionary";
@@ -22,8 +23,10 @@ function Chars({ text, className }: { text: string; className: string }) {
 }
 
 export default function LangSwitch() {
+  const pathname = usePathname();
   const { lang, t } = useLang();
   const [active, setActive] = useState<Lang>(lang);
+  const [ready, setReady] = useState(false);
   const busyRef = useRef(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const knobRef = useRef<HTMLSpanElement>(null);
@@ -32,6 +35,30 @@ export default function LangSwitch() {
     pt: null,
     en: null,
   });
+
+  /* Na home o switch só aparece depois da cortina de loading. Nas outras
+     rotas não há esse loading, por isso mostra de imediato. */
+  useEffect(() => {
+    const home = pathname === "/" || pathname === "";
+    if (!home) {
+      setReady(true);
+      return;
+    }
+
+    setReady(false);
+    const curtain = document.querySelector(".intro-curtain");
+    const curtainGone =
+      !curtain || getComputedStyle(curtain).display === "none";
+    const unlocked = document.documentElement.style.overflow !== "hidden";
+    if (curtainGone && unlocked) {
+      setReady(true);
+      return;
+    }
+
+    const onOpened = () => setReady(true);
+    window.addEventListener("intro-opened", onOpened);
+    return () => window.removeEventListener("intro-opened", onOpened);
+  }, [pathname]);
 
   const origin = () => {
     const rect = rootRef.current?.getBoundingClientRect();
@@ -224,9 +251,11 @@ export default function LangSwitch() {
     <>
       <div
         ref={rootRef}
-        className="lang-switch"
+        className={`lang-switch${ready ? " is-ready" : ""}`}
         role="group"
         aria-label={t.switcher.label}
+        aria-hidden={ready ? undefined : true}
+        inert={!ready ? true : undefined}
       >
         <span ref={knobRef} className="lang-switch-knob" aria-hidden="true" />
         {LANGS.map((code) => (

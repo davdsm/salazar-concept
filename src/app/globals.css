@@ -696,6 +696,14 @@ html.has-chameleon-cursor * {
   border-radius: 999px;
   color: #fff;
   mix-blend-mode: difference;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.55s ease;
+}
+
+.lang-switch.is-ready {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .lang-switch-knob {
