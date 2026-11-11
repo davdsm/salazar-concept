@@ -1538,13 +1538,64 @@ html.is-portfolio body {
 
 .pf-hero {
   position: relative;
+  min-height: 100dvh;
+  height: 100dvh;
+  overflow: hidden;
+  color: #fff;
+  background: #0e0e0d;
+}
+
+.pf-hero-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.pf-hero-media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  transform-origin: center center;
+  will-change: transform;
+  user-select: none;
+}
+
+.pf-hero-veil {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  pointer-events: none;
+  will-change: clip-path;
+}
+
+.pf-hero-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgb(14 14 13 / 0.18) 0%,
+    rgb(14 14 13 / 0.08) 35%,
+    rgb(14 14 13 / 0.55) 100%
+  );
+  pointer-events: none;
+}
+
+.pf-hero-copy {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: 100dvh;
-  padding: clamp(6rem, 14vh, 9rem) clamp(1.2rem, 4vw, 3.5rem)
-    clamp(2rem, 5vh, 3.5rem);
-  overflow: hidden;
+  padding: clamp(5.5rem, 12vh, 8rem) clamp(1.2rem, 4vw, 3.5rem)
+    clamp(1.8rem, 4.5vh, 3rem);
+  pointer-events: none;
+}
+
+.pf-hero-copy > * {
+  pointer-events: auto;
 }
 
 .pf-eyebrow {
@@ -1553,17 +1604,18 @@ html.is-portfolio body {
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  opacity: 0.5;
+  opacity: 0.72;
 }
 
 .pf-title {
   margin: 0;
   max-width: 14em;
-  font-size: clamp(3.4rem, 12.5vw, 9.5rem);
+  font-size: clamp(3.6rem, 13vw, 10rem);
   font-weight: 700;
-  line-height: 0.88;
+  line-height: 0.86;
   letter-spacing: -0.055em;
   text-transform: uppercase;
+  color: #fff;
 }
 
 .pf-title-line {
@@ -1583,77 +1635,52 @@ html.is-portfolio body {
 }
 
 .pf-lede {
-  margin: clamp(1.4rem, 3vh, 2.2rem) 0 0;
+  margin: clamp(1.2rem, 2.4vh, 1.8rem) 0 0;
   max-width: 28rem;
-  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  font-size: clamp(1rem, 1.45vw, 1.18rem);
   font-weight: 300;
   line-height: 1.55;
   letter-spacing: 0.01em;
-  color: #3d3a36;
+  color: rgb(255 255 255 / 0.78);
 }
 
 .pf-hero-meta {
   display: flex;
   align-items: center;
   gap: 0.85rem;
-  margin-top: clamp(2rem, 5vh, 3.5rem);
+  margin-top: clamp(1.6rem, 3.5vh, 2.6rem);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
+  color: #fff;
 }
 
 .pf-hero-meta-sep {
   width: 2.4rem;
   height: 1px;
   background: currentColor;
-  opacity: 0.35;
+  opacity: 0.45;
 }
 
-.pf-film {
-  position: absolute;
-  top: 18%;
-  right: -4%;
-  display: flex;
-  gap: 0.7rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  transform: rotate(-8deg);
-  opacity: 0.9;
-  pointer-events: none;
-  mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+/* No hero escuro o chrome de cima precisa de ler a branco. */
+.portfolio .pf-back,
+.portfolio .pf-top-label {
+  color: #fff;
+  mix-blend-mode: difference;
 }
 
-.pf-film li {
-  flex: 0 0 auto;
-  width: clamp(4.8rem, 9vw, 7.2rem);
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-  border-radius: 0.2rem;
-  background: #eceae6;
-}
-
-.pf-film li:nth-child(2n) {
-  transform: translateY(1.4rem);
-}
-
-.pf-film li:nth-child(3n) {
-  transform: translateY(-0.7rem);
-}
-
-.pf-film img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: grayscale(0.15) contrast(1.05);
+.portfolio .pf-brand img {
+  filter: none;
+  mix-blend-mode: difference;
 }
 
 .pf-strip {
   position: relative;
   min-height: 100dvh;
   padding-top: 0;
+  background: #fff;
+  color: #0e0e0d;
 }
 
 .pf-strip-hud {
@@ -1758,21 +1785,21 @@ html.is-portfolio body {
 .pf-track {
   display: flex;
   align-items: center;
-  gap: clamp(1.8rem, 3.5vw, 3.2rem);
+  gap: clamp(2rem, 4vw, 3.6rem);
   width: max-content;
   min-height: 100dvh;
-  padding: 6.5rem max(3rem, calc((100vw - min(68vw, 52rem)) / 2)) 3.2rem;
+  padding: 6.5rem max(2rem, calc((100vw - min(82vw, 68rem)) / 2)) 3.2rem;
   will-change: transform;
 }
 
 .pf-card {
   flex: 0 0 auto;
-  width: min(68vw, 52rem);
+  width: min(82vw, 68rem);
 }
 
 .pf-card-frame {
   position: relative;
-  aspect-ratio: 16 / 11;
+  aspect-ratio: 16 / 10;
   background: #f3f1ed;
 }
 
@@ -1954,18 +1981,16 @@ html.is-portfolio body {
   }
 
   .pf-hero {
-    min-height: 92dvh;
+    height: 100dvh;
+    min-height: 100dvh;
+  }
+
+  .pf-hero-copy {
     padding-top: 7rem;
   }
 
   .pf-title {
-    font-size: clamp(2.8rem, 15vw, 4.6rem);
-  }
-
-  .pf-film {
-    top: 12%;
-    right: -18%;
-    opacity: 0.55;
+    font-size: clamp(3rem, 16vw, 4.8rem);
   }
 
   .pf-strip-hud {

@@ -14,6 +14,7 @@ export default function Portfolio() {
 
   const rootRef = useRef<HTMLElement>(null);
   const heroRef = useRef<HTMLElement>(null);
+  const heroMediaRef = useRef<HTMLImageElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const stripRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -33,12 +34,13 @@ export default function Portfolio() {
   useEffect(() => {
     const hero = heroRef.current;
     const title = titleRef.current;
+    const media = heroMediaRef.current;
     const outroTitle = outroTitleRef.current;
-    if (!hero || !title || !outroTitle) return;
+    if (!hero || !title || !media || !outroTitle) return;
 
     gsap.registerPlugin(ScrollTrigger);
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const tweens: gsap.core.Tween[] = [];
+    const tweens: (gsap.core.Tween | gsap.core.Timeline)[] = [];
     const triggers: ScrollTrigger[] = [];
 
     const reveal = (heading: HTMLElement, delay = 0) => {
@@ -61,7 +63,45 @@ export default function Portfolio() {
       );
     };
 
-    reveal(title, 0.1);
+    if (reduce) {
+      gsap.set(media, { scale: 1 });
+      gsap.set(hero.querySelector(".pf-hero-veil"), { autoAlpha: 0 });
+    } else {
+      gsap.set(media, { scale: 1.18 });
+      gsap.set(hero.querySelector(".pf-hero-veil"), {
+        clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+      });
+      tweens.push(
+        gsap
+          .timeline()
+          .to(hero.querySelector(".pf-hero-veil"), {
+            clipPath: "polygon(100% 0, 100% 0, 100% 100%, 100% 100%)",
+            duration: 1.35,
+            ease: "expo.inOut",
+            onComplete: () => {
+              gsap.set(hero.querySelector(".pf-hero-veil"), { autoAlpha: 0 });
+            },
+          })
+          .to(
+            media,
+            { scale: 1, duration: 1.55, ease: "power3.out" },
+            0
+          )
+      );
+      triggers.push(
+        ScrollTrigger.create({
+          trigger: hero,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+          onUpdate: (self) => {
+            gsap.set(media, { yPercent: self.progress * 12 });
+          },
+        })
+      );
+    }
+
+    reveal(title, 0.28);
     tweens.push(
       gsap.fromTo(
         hero.querySelectorAll(".pf-hero-fade"),
@@ -72,7 +112,7 @@ export default function Portfolio() {
           duration: 0.9,
           ease: "power3.out",
           stagger: 0.08,
-          delay: reduce ? 0 : 0.4,
+          delay: reduce ? 0 : 0.55,
         }
       )
     );
@@ -294,28 +334,34 @@ export default function Portfolio() {
       </header>
 
       <section ref={heroRef} className="pf-hero">
-        <p className="pf-eyebrow pf-hero-fade">{copy.eyebrow}</p>
-        <h1 ref={titleRef} className="pf-title">
-          {copy.titleLines.map((line) => (
-            <span className="pf-title-line" key={line}>
-              <MaskedLine text={line} />
-            </span>
-          ))}
-        </h1>
-        <p className="pf-lede pf-hero-fade">{copy.lede}</p>
-        <div className="pf-hero-meta pf-hero-fade">
-          <span>{String(PORTFOLIO_PROJECTS.length).padStart(2, "0")}</span>
-          <span className="pf-hero-meta-sep" aria-hidden="true" />
-          <span>{copy.scroll}</span>
+        <div className="pf-hero-stage">
+          <img
+            ref={heroMediaRef}
+            className="pf-hero-media"
+            src={PORTFOLIO_PROJECTS[0].src}
+            alt=""
+            draggable={false}
+          />
+          <div className="pf-hero-veil" aria-hidden="true" />
+          <div className="pf-hero-shade" aria-hidden="true" />
         </div>
 
-        <ul className="pf-film pf-hero-fade" aria-hidden="true">
-          {PORTFOLIO_PROJECTS.map((project) => (
-            <li key={project.id}>
-              <img src={project.src} alt="" />
-            </li>
-          ))}
-        </ul>
+        <div className="pf-hero-copy">
+          <p className="pf-eyebrow pf-hero-fade">{copy.eyebrow}</p>
+          <h1 ref={titleRef} className="pf-title">
+            {copy.titleLines.map((line) => (
+              <span className="pf-title-line" key={line}>
+                <MaskedLine text={line} />
+              </span>
+            ))}
+          </h1>
+          <p className="pf-lede pf-hero-fade">{copy.lede}</p>
+          <div className="pf-hero-meta pf-hero-fade">
+            <span>{String(PORTFOLIO_PROJECTS.length).padStart(2, "0")}</span>
+            <span className="pf-hero-meta-sep" aria-hidden="true" />
+            <span>{copy.scroll}</span>
+          </div>
+        </div>
       </section>
 
       <section ref={stripRef} className="pf-strip" aria-label={copy.eyebrow}>
