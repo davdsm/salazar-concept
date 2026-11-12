@@ -4,7 +4,10 @@ import { useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import gsap from "gsap";
 import { useLang } from "@/app/i18n/LangProvider";
-import { markPageEnter } from "@/app/components/common/page-enter";
+import {
+  markPageEnter,
+  notifyPageEntered,
+} from "@/app/components/common/page-enter";
 
 function labelFor(path: string, home: string, work: string) {
   if (path === "/work" || path.startsWith("/work/")) return work;
@@ -46,6 +49,7 @@ export default function PageTransition() {
       pendingPath.current = null;
       document.documentElement.classList.remove("is-page-transit");
       gsap.set(veil, { visibility: "hidden", clearProps: "clipPath,opacity" });
+      notifyPageEntered();
     };
 
     const enter = () => {

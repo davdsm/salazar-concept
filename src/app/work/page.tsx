@@ -16,7 +16,7 @@ function requestLang(): Lang {
 export function generateMetadata(): Metadata {
   const lang = requestLang();
   return {
-    title: "Portfolio — Salazar Concept",
+    title: "Portfolio · Salazar Concept",
     description: DICTIONARIES[lang].portfolio.meta,
   };
 }

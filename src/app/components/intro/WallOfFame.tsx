@@ -113,6 +113,7 @@ export default function WallOfFame() {
     const titleTl = gsap.timeline({ paused: true });
     if (reduce) {
       gsap.set(titleChars, { yPercent: 0 });
+      title.classList.add("is-in");
     } else {
       gsap.set(titleChars, { yPercent: 130, y: 0 });
       titleTl.to(titleChars, {
@@ -121,6 +122,7 @@ export default function WallOfFame() {
         duration: 0.9,
         ease: "power3.out",
         stagger: 0.028,
+        onComplete: () => title.classList.add("is-in"),
       });
     }
 
@@ -258,6 +260,12 @@ export default function WallOfFame() {
       reveal: 0,
     }));
 
+    /* Strict Mode remonta o efeito: sem este guarda, o onload do mount
+       anterior escrevia na textura reutilizada do mount novo e trocava
+       as fotografias de sítio. */
+    let alive = true;
+    const images: HTMLImageElement[] = [];
+
     flags.forEach((flag, i) => {
       gl.bindTexture(gl.TEXTURE_2D, flag.tex);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE,
@@ -268,7 +276,9 @@ export default function WallOfFame() {
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
 
       const img = new Image();
+      images.push(img);
       img.onload = () => {
+        if (!alive) return;
         gl.bindTexture(gl.TEXTURE_2D, flag.tex);
         gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
@@ -297,13 +307,13 @@ export default function WallOfFame() {
       const ratio = stacked ? 2.2 : 2.25;
       const gapR = 0.09;
 
+      /* Largura sempre a preencher o palco (mesma grelha da legenda).
+         Se a altura passar o teto, encurta-se o pano — nunca se centra
+         uma fila mais estreita, senão as legendas ficam desalinhadas. */
       const rowSize = (count: number, cap: number) => {
-        let rw = cssW / (count + (count - 1) * gapR);
+        const rw = cssW / (count + (count - 1) * gapR);
         let rh = rw * ratio;
-        if (rh > cap) {
-          rh = cap;
-          rw = rh / ratio;
-        }
+        if (rh > cap) rh = cap;
         return { fw: rw, fh: rh };
       };
 
@@ -518,6 +528,11 @@ export default function WallOfFame() {
     io.observe(stage);
 
     return () => {
+      alive = false;
+      images.forEach((img) => {
+        img.onload = null;
+        img.src = "";
+      });
       killTitle();
       cancelAnimationFrame(raf);
       revealTl.kill();

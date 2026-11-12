@@ -250,34 +250,41 @@ export default function LangSwitch() {
   return (
     <>
       <div
-        ref={rootRef}
-        className={`lang-switch${ready ? " is-ready" : ""}`}
-        role="group"
-        aria-label={t.switcher.label}
+        className={`site-corner${ready ? " is-ready" : ""}`}
         aria-hidden={ready ? undefined : true}
         inert={!ready ? true : undefined}
       >
-        <span ref={knobRef} className="lang-switch-knob" aria-hidden="true" />
-        {LANGS.map((code) => (
-          <button
-            key={code}
-            ref={(node) => {
-              buttonsRef.current[code] = node;
-            }}
-            type="button"
-            lang={code}
-            className="lang-switch-opt"
-            aria-pressed={active === code}
-            aria-label={NAMES[code]}
-            onClick={() => choose(code)}
-            onPointerEnter={() => nudge(code, true)}
-            onPointerLeave={() => nudge(code, false)}
-          >
-            <span className="lang-switch-word">
-              <Chars text={LABELS[code]} className="lang-switch-char" />
-            </span>
-          </button>
-        ))}
+        <a className="site-showroom" href="/work">
+          {t.switcher.showroom}
+        </a>
+        <div
+          ref={rootRef}
+          className="lang-switch"
+          role="group"
+          aria-label={t.switcher.label}
+        >
+          <span ref={knobRef} className="lang-switch-knob" aria-hidden="true" />
+          {LANGS.map((code) => (
+            <button
+              key={code}
+              ref={(node) => {
+                buttonsRef.current[code] = node;
+              }}
+              type="button"
+              lang={code}
+              className="lang-switch-opt"
+              aria-pressed={active === code}
+              aria-label={NAMES[code]}
+              onClick={() => choose(code)}
+              onPointerEnter={() => nudge(code, true)}
+              onPointerLeave={() => nudge(code, false)}
+            >
+              <span className="lang-switch-word">
+                <Chars text={LABELS[code]} className="lang-switch-char" />
+              </span>
+            </button>
+          ))}
+        </div>
       </div>
 
       <div ref={veilRef} className="lang-veil" aria-hidden="true">

@@ -160,7 +160,10 @@ export default function LegacySection() {
       );
     }, section);
 
-    const titleTl = gsap.timeline({ paused: true });
+    const titleTl = gsap.timeline({
+      paused: true,
+      onComplete: () => title.classList.add("is-in"),
+    });
     title.querySelectorAll(".legacy-title-line").forEach((line, index) => {
       titleTl.to(
         line.querySelectorAll(".text-char"),

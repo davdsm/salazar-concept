@@ -93,7 +93,7 @@ export default function InquiryCard() {
     const m = t.mail;
     const body = `${m.name}: ${name}\n${m.email}: ${email}\n${m.phone}: ${phone}\n\n${m.idea}:\n${idea}\n`;
     const href = `mailto:${STUDIO_MAIL}?subject=${encodeURIComponent(
-      `${t.subject} — ${name}`
+      `${t.subject} · ${name}`
     )}&body=${encodeURIComponent(body)}`;
 
     try {
